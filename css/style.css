@@ -1,0 +1,24 @@
+* {
+  box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: black; }
+
+.container {
+  width: 800px;
+  margin: 2em auto; }
+
+.game-area {
+  position: relative;
+  width: 800px;
+  height: 800px;
+  background: #444448;
+  font-family: 'Monaco', 'Courier new', monospace; }
+
+canvas {
+  width: 800px;
+  height: 800px;
+  position: absolute;
+  top: 0;
+  left: 0; }
