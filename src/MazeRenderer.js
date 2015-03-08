@@ -1,10 +1,11 @@
 export default class {
 
-	constructor(data, size) {
+	constructor(data, size, height) {
 		this.canvas = document.getElementById('mazeArea')
 		this.ctx = this.canvas.getContext('2d')
 		this.mazeData = data
 		this.size = size
+		this.height = height
 	}
 
 	draw() {
@@ -13,20 +14,22 @@ export default class {
 	}
 
 	moveMaze(dir) {
-		var move = dir === 'up' ? ~(Math.round(this.canvas.width / this.size)) : Math.round(this.canvas.width / this.size)
+		var move = Math.floor((this.canvas.width / this.size) * 0.5)
+		//if(dir === 'down') move = move - (move * 2)
 		this.ctx.translate(0, move)
 	}
 
 	setInitialPosition() {
-		this.ctx.translate(0, -(this.canvas.height))
+		let top = ~(Math.floor(this.canvas.width / this.size) * this.height)
+		this.ctx.translate(0, top)
 	}
 
 	renderMaze() {
 		var cellWidth = Math.round(this.canvas.width / this.size)
-		this.ctx.beginPath()
 
 		for (var i = 0; i < this.mazeData.length; i++) {
 			for (var j = 0; j < this.mazeData[i].length; j++) {
+				this.ctx.beginPath()
 
 				if (this.mazeData[i][j][0] === 0 && j !== 0 && i !== 0) { // top
 					let startY = i * cellWidth

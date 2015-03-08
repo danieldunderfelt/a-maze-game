@@ -1,25 +1,21 @@
-import Maze from './Maze'
 import Input from './Input'
-import Player from './Player'
+import Game from './Game'
 
 class GameController {
 
 	constructor() {
-		this.maze = new Maze()
-		this.player = {}
 		this.input = new Input(this.playerEvent.bind(this))
+		this.game = {}
 	}
 
 	initialize() {
-		this.player = new Player(20)
-		this.player.draw()
-		this.maze.makeMaze(20)
+		this.game = new Game()
+		this.game.startLevel()
 		this.input.start()
 	}
 
 	playerEvent(eventData) {
-		this.maze.onPlayerEvent(eventData)
-		this.player.move(eventData.direction)
+		this.game.onPlayerEvent(eventData)
 	}
 }
 
