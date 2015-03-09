@@ -48,12 +48,12 @@ export default class {
 	}
 
 	playerMove(eventData) {
-		var toPosition = this.player.move(eventData.direction, true)
-		var mazeStatus = this.maze.validateMovement(this.player.getPosition(), toPosition, eventData.direction)
+		var toPosition = this.player.calculatePosition(eventData.direction)
+		var mazeStatus = this.maze.validateMovement(toPosition, eventData.direction)
 
 		if(mazeStatus) {
 			this.maze.move(eventData.direction)
-			this.player.move(eventData.direction, false)
+			this.player.move(toPosition, eventData.direction)
 		}
 	}
 }

@@ -29,6 +29,11 @@ export default class {
 
 		for (var i = 0; i < this.mazeData.length; i++) {
 			for (var j = 0; j < this.mazeData[i].length; j++) {
+				let textY = (i * cellWidth) + 15
+				let textX = j * cellWidth
+				this.ctx.font = 'italic 12pt Calibri';
+				this.ctx.fillText('' + j + 'x' + i, textX, textY);
+
 				this.ctx.beginPath()
 
 				if (this.mazeData[i][j][0] === 0 && j !== 0 && i !== 0) { // top

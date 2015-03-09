@@ -8,17 +8,18 @@ export default class {
 	initialize(gridSize) {
 		this.cellSize = this.canvas.width / gridSize
 		this.baseSize = gridSize
-		this.currentPosition = [Math.round((this.baseSize - 1) / 2), this.baseSize - 1]
+		this.currentX = Math.round((this.baseSize - 1) / 2)
+		this.currentY = this.baseSize - 1
 	}
 
 	getPosition() {
-		return this.currentPosition
+		return [this.currentX, this.currentY]
 	}
 
 	draw() {
 		var size = this.cellSize / 2
-		var posX = (this.currentPosition[0] * this.cellSize) + (size * 1.5)
-		var posY = (this.currentPosition[1] * this.cellSize) + (size * 1.5)
+		var posX = (this.currentX * this.cellSize) + (size * 1.5)
+		var posY = (this.currentY * this.cellSize) + (size * 1.5)
 
 		this.clearCanvas()
 		this.ctx.beginPath()
@@ -27,22 +28,37 @@ export default class {
 		this.ctx.fill()
 	}
 
-	move(dir, dryrun = false) {
-		let newPos = this.currentPosition
+	move(position, direction) {
+		this.currentX = position[0]
+		this.currentY = position[1]
+		this.draw()
+	}
 
-		if(dir === 'up') newPos = [this.currentPosition[0], this.currentPosition[1] - 0.5]
-		else if(dir === 'down') newPos = [this.currentPosition[0], this.currentPosition[1] + 1]
-		else if(dir === 'left') newPos = [this.currentPosition[0] - 1, this.currentPosition[1]]
-		else if(dir === 'right') newPos = [this.currentPosition[0] + 1, this.currentPosition[1]]
+	calculatePosition(dir) {
+		var newPos
 
-		if((newPos[0] > this.baseSize - 1 || newPos[0] < 0) || (newPos[1] > this.baseSize - 0.5 || newPos[1] < 0)) {
-			return false
+		if(dir === 'up') {
+			let proposal = this.currentY - 0.5
+			if(proposal < 0) return [this.currentX, this.currentY]
+			newPos = [this.currentX, proposal]
+		}
+		else if(dir === 'down') {
+			let proposal = this.currentY + 1
+			if(proposal > this.baseSize) return [this.currentX, this.currentY]
+			newPos = [this.currentX, proposal]
+		}
+		else if(dir === 'left') {
+			let proposal = this.currentX - 1
+			if(proposal < 0) return [this.currentX, this.currentY]
+			newPos = [proposal, this.currentY]
+		}
+		else if(dir === 'right') {
+			let proposal = this.currentX + 1
+			if(proposal > this.baseSize) [this.currentX, this.currentY]
+			newPos = [proposal, this.currentY]
 		}
 
-		if(dryrun) return newPos
-
-		this.currentPosition = newPos
-		this.draw()
+		return newPos
 	}
 
 	clearCanvas() {

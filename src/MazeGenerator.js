@@ -8,7 +8,9 @@ export function newMaze(x, y) {
         cells[i] = []
         unvis[i] = []
         for (var j = 0; j < x; j++) {
-            cells[i][j] = [0,0,0,0]
+            var top = i === 0 ? 1 : 0
+            var bottom = i === y - 1 ? 1 : 0
+            cells[i][j] = [top,0,bottom,0]
             unvis[i][j] = true
         }
     }

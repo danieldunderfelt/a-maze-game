@@ -34,48 +34,42 @@ export default class {
 		}
 	}
 
-	validateMovement(fromPosition, toPosition, dir) {
-		if(toPosition === false) return false
-		if(this.verticalPosition - 1 < toPosition[1]) return true
+	validateMovement(toPosition, dir) {
+		if(this.verticalPosition < toPosition[1]) return true
 
-		var relativeMazePosition = this.viewportCoordsToMaze(toPosition[1], dir)
+		var relativeY = this.viewportCoordsToMaze(toPosition[1], dir)
 
-		var relativePosition = [
-			toPosition[0] - 1,
-			relativeMazePosition
-		]
+		console.log(relativeY)
+		return true
+		if(relativeY > 9) return true
 
-		console.log(relativePosition)
+		var cellX = toPosition[0]
+		var cellY = relativeY
 
-		var cell = this.mazeData[relativePosition[1]][relativePosition[0]]
+		var cell = this.mazeData[cellY][cellX]
 
 		if(dir === 'up') {
-			return cell[0] === 1
-		}
-		if(dir === 'down') {
 			return cell[2] === 1
 		}
+		if(dir === 'down') {
+			return cell[0] === 1
+		}
+
 		if(dir === 'left') {
-			return cell[3] === 1
+			return cell[1] === 1
 		}
 		if(dir === 'right') {
-			return cell[1] === 1
+			return cell[3] === 1
 		}
 	}
 
-	viewportCoordsToMaze(viewport, dir) {
-		var roundedCoordPlayer = parseInt(viewport, 10)
+	viewportCoordsToMaze(player, dir) {
+		var mazePos = this.verticalPosition
 
-		if(dir === 'down' && parseInt(viewport) !== viewport) {
-			roundedCoordPlayer = viewport + 0.5
-		}
+		var relativeMazePos = Math.abs(Math.abs(mazePos - this.mazeHeight) - this.mazeHeight)
 
-		var roundedCoordMaze = parseInt(this.verticalPosition)
+		var playerRelativeMazePos = Math.round(relativeMazePos - player)
 
-		if(parseInt(this.verticalPosition) !== this.verticalPosition) {
-			roundedCoordMaze = this.verticalPosition + 0.5
-		}
-
-		return Math.abs(Math.abs(roundedCoordPlayer - roundedCoordMaze) - this.mazeHeight)
+		return Math.abs(playerRelativeMazePos - this.mazeHeight)
 	}
 }
