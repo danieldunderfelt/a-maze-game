@@ -13,9 +13,8 @@ export default class {
 		this.renderMaze()
 	}
 
-	moveMaze(dir) {
-		var move = Math.floor((this.canvas.width / this.size) * 0.5)
-		//if(dir === 'down') move = move - (move * 2)
+	moveMaze(increment) {
+		var move = (this.canvas.width / this.size) * increment
 		this.ctx.translate(0, move)
 	}
 

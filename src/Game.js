@@ -33,7 +33,7 @@ export default class {
 	}
 
 	setWorld() {
-		this.maze = new Maze()
+		this.maze = new Maze(this)
 		this.maze.makeMaze(this.gridSize, this.mazeHeight)
 	}
 
@@ -45,15 +45,25 @@ export default class {
 		if(eventData.type === "move") {
 			this.playerMove(eventData)
 		}
+		if(eventData.type === 'maze') {
+			this.playerStatus(eventData)
+		}
+	}
+
+	playerStatus(data) {
+		console.log(data)
 	}
 
 	playerMove(eventData) {
 		var toPosition = this.player.calculatePosition(eventData.direction)
-		var mazeStatus = this.maze.validateMovement(toPosition, eventData.direction)
+		var mazeStatus = this.maze.checkMovement(toPosition, eventData.direction)
 
-		if(mazeStatus) {
-			this.maze.move(eventData.direction)
-			this.player.move(toPosition, eventData.direction)
+		if(mazeStatus.maze !== false) {
+			this.maze.move(mazeStatus.maze)
+		}
+
+		if(mazeStatus.player !== false) {
+			this.player.move(mazeStatus.player)
 		}
 	}
 }

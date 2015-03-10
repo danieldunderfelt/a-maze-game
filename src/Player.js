@@ -28,37 +28,42 @@ export default class {
 		this.ctx.fill()
 	}
 
-	move(position, direction) {
+	move(position) {
 		this.currentX = position[0]
 		this.currentY = position[1]
 		this.draw()
 	}
 
 	calculatePosition(dir) {
-		var newPos
+		var proposal
 
 		if(dir === 'up') {
-			let proposal = this.currentY - 0.5
-			if(proposal < 0) return [this.currentX, this.currentY]
-			newPos = [this.currentX, proposal]
-		}
-		else if(dir === 'down') {
-			let proposal = this.currentY + 1
-			if(proposal > this.baseSize) return [this.currentX, this.currentY]
-			newPos = [this.currentX, proposal]
-		}
-		else if(dir === 'left') {
-			let proposal = this.currentX - 1
-			if(proposal < 0) return [this.currentX, this.currentY]
-			newPos = [proposal, this.currentY]
-		}
-		else if(dir === 'right') {
-			let proposal = this.currentX + 1
-			if(proposal > this.baseSize) [this.currentX, this.currentY]
-			newPos = [proposal, this.currentY]
+			proposal = this.currentY - 0.5
+
+			if(proposal < 0) return false
+			else return [this.currentX, proposal]
 		}
 
-		return newPos
+		if(dir === 'down') {
+			proposal = this.currentY + 1
+
+			if(proposal > this.baseSize - 0.5) return false
+			else return [this.currentX, proposal]
+		}
+
+		if(dir === 'left') {
+			proposal = this.currentX - 1
+
+			if(proposal < 0) return false
+			else return [proposal, this.currentY]
+		}
+
+		if(dir === 'right') {
+			proposal = this.currentX + 1
+
+			if(proposal > this.baseSize - 1) return false
+			else return [proposal, this.currentY]
+		}
 	}
 
 	clearCanvas() {
