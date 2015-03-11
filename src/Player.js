@@ -40,7 +40,7 @@ export default class {
 		if(dir === 'up') {
 			nextStep = this.currentY - 0.5
 
-			if(nextStep < 0) return false
+			if(nextStep < 1) return [this.currentX, 0]
 			else return [this.currentX, nextStep]
 		}
 

@@ -9,7 +9,7 @@ export default class {
 
 		this.level = 0
 		this.gridSize = 10
-		this.mazeHeight = this.gridSize * 2
+		this.mazeHeight = this.gridSize * 4
 	}
 
 	startLevel() {

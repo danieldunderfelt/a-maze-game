@@ -12,6 +12,7 @@ export default class {
 		this.mazeState = {
 			cleared: false,
 			started: false
+
 		}
 	}
 
@@ -38,6 +39,7 @@ export default class {
 	}
 
 	onMazeCleared() {
+		this.mazeState.cleared = true
 		this.game.onPlayerEvent({
 			type: 'maze',
 			mazeStatus: true
@@ -58,7 +60,6 @@ export default class {
 	}
 
 	checkMovement(toPosition, dir) {
-		console.log(toPosition)
 
 		var mazeStatus = {
 			player: false,
@@ -69,8 +70,8 @@ export default class {
 
 		if(dir === 'up') mazeStatus.maze = 0.5 // By default, if going up, move the maze
 
-		// If the player is still outside the maze, all is well
-		if(this.verticalPosition <= toPosition[1]) {
+		// If the player is outside the maze, all is well
+		if(this.verticalPosition <= toPosition[1] || this.mazeState.cleared) {
 			mazeStatus.player = toPosition
 			return mazeStatus
 		}
@@ -86,7 +87,14 @@ export default class {
 
 		// Check what the collision detector said
 		if(canTraverse) {
-			mazeStatus.player = toPosition
+
+			if(toPosition[1] === 0) {
+				mazeStatus.player = false
+				mazeStatus.maze = parseInt(this.verticalPosition) === this.verticalPosition ? 1 : 0.5
+			}
+			else {
+				mazeStatus.player = toPosition
+			}
 		}
 		else {
 			mazeStatus.maze = false
