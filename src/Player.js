@@ -8,12 +8,17 @@ export default class {
 	initialize(gridSize) {
 		this.cellSize = this.canvas.width / gridSize
 		this.baseSize = gridSize
-		this.currentX = Math.round((this.baseSize - 1) / 2)
-		this.currentY = this.baseSize - 1
+		this.currentX = 0
+		this.currentY = 0
 	}
 
 	getPosition() {
 		return [this.currentX, this.currentY]
+	}
+
+	setInitialPosition() {
+		this.currentX = Math.round((this.baseSize - 1) / 2)
+		this.currentY = this.baseSize - 1
 	}
 
 	draw() {
@@ -29,6 +34,7 @@ export default class {
 	}
 
 	move(position) {
+		console.log("move")
 		this.currentX = position[0]
 		this.currentY = position[1]
 		this.draw()

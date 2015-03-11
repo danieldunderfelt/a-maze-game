@@ -5,6 +5,7 @@ export default class {
 	constructor(callback) {
 		this.callback = callback
 		this.register = true
+		this.enabled = true
 	}
 
 	start() {
@@ -12,8 +13,16 @@ export default class {
 		$(window).on('keyup', (e) => this.register = true )
 	}
 
+	enable() {
+		this.enabled = true
+	}
+
+	disable() {
+		this.enabled = false
+	}
+
 	handleKeyboardInput(e) {
-		if(!this.register) return
+		if(!this.register || !this.enabled) return
 		this.register = false
 
 		var dir

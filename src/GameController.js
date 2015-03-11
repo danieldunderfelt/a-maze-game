@@ -9,7 +9,7 @@ class GameController {
 	}
 
 	initialize() {
-		this.game = new Game()
+		this.game = new Game(this)
 		this.game.startLevel()
 		this.input.start()
 	}

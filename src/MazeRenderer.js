@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 export default class {
 
 	constructor(data, size, height) {
@@ -19,6 +21,8 @@ export default class {
 	}
 
 	setInitialPosition() {
+		console.log(this.size, this.height)
+		this.ctx.setTransform(1, 0, 0, 1, 0, 0)
 		let top = ~(Math.floor(this.canvas.width / this.size) * this.height)
 		this.ctx.translate(0, top)
 	}

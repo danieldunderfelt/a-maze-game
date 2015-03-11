@@ -4,7 +4,7 @@ import MazeRenderer from './MazeRenderer'
 export default class {
 
 	constructor(game) {
-		this.game = game
+		this.level = game
 		this.mazeData = []
 		this.renderer = {}
 		this.processor = {}
@@ -12,7 +12,6 @@ export default class {
 		this.mazeState = {
 			cleared: false,
 			started: false
-
 		}
 	}
 
@@ -40,7 +39,7 @@ export default class {
 
 	onMazeCleared() {
 		this.mazeState.cleared = true
-		this.game.onPlayerEvent({
+		this.level.game.onPlayerEvent({
 			type: 'maze',
 			mazeStatus: true
 		})
@@ -53,7 +52,6 @@ export default class {
 	checkPlayer(verticalPosition) {
 		if(verticalPosition > 0) {
 			this.onMazeCleared()
-			return true
 		}
 
 		return false
@@ -71,7 +69,7 @@ export default class {
 		if(dir === 'up') mazeStatus.maze = 0.5 // By default, if going up, move the maze
 
 		// If the player is outside the maze, all is well
-		if(this.verticalPosition <= toPosition[1] || this.mazeState.cleared) {
+		if(this.verticalPosition <= toPosition[1]) {
 			mazeStatus.player = toPosition
 			return mazeStatus
 		}
