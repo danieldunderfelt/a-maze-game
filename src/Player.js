@@ -35,34 +35,36 @@ export default class {
 	}
 
 	calculatePosition(dir) {
-		var proposal
+		var nextStep
 
 		if(dir === 'up') {
-			proposal = this.currentY - 0.5
+			nextStep = this.currentY - 0.5
 
-			if(proposal < 0) return false
-			else return [this.currentX, proposal]
+			if(nextStep < 0) return false
+			else return [this.currentX, nextStep]
 		}
 
 		if(dir === 'down') {
-			proposal = this.currentY + 1
+			nextStep = this.currentY + 1
 
-			if(proposal > this.baseSize - 0.5) return false
-			else return [this.currentX, proposal]
+			if(nextStep > this.baseSize - 0.5) return false
+			else return [this.currentX, nextStep]
 		}
 
 		if(dir === 'left') {
-			proposal = this.currentX - 1
+			nextStep = this.currentX - 1
 
-			if(proposal < 0) return false
-			else return [proposal, this.currentY]
+			if(nextStep < 0) nextStep = this.baseSize - 1
+
+			return [nextStep, this.currentY]
 		}
 
 		if(dir === 'right') {
-			proposal = this.currentX + 1
+			nextStep = this.currentX + 1
 
-			if(proposal > this.baseSize - 1) return false
-			else return [proposal, this.currentY]
+			if(nextStep > this.baseSize - 1) nextStep = 0
+
+			return [nextStep, this.currentY]
 		}
 	}
 

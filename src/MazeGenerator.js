@@ -1,4 +1,4 @@
-export function newMaze(x, y) {
+export function newMaze(x, y, cellCallback) {
 
     // Establish variables and starting grid
     var totalCells = x * y
@@ -8,9 +8,11 @@ export function newMaze(x, y) {
         cells[i] = []
         unvis[i] = []
         for (var j = 0; j < x; j++) {
-            var top = i === 0 ? 1 : 0
-            var bottom = i === y - 1 ? 1 : 0
-            cells[i][j] = [top,0,bottom,0]
+            let top = i === 0 ? 1 : 0
+            let bottom = i === y - 1 ? 1 : 0
+            let left = j === 0 ? 1 : 0
+            let right = j === x - 1 ? 1 : 0
+            cells[i][j] = [top, right, bottom, left]
             unvis[i][j] = true
         }
     }
@@ -47,6 +49,9 @@ export function newMaze(x, y) {
             // Mark the neighbor as visited, and set it as the current cell
             unvis[next[0]][next[1]] = false
             visited++
+
+            cellCallback(currentCell, cells[currentCell[0]][currentCell[1]])
+
             currentCell = [next[0], next[1]]
             path.push(currentCell)
         }

@@ -28,14 +28,10 @@ export default class {
 
 		for (var i = 0; i < this.mazeData.length; i++) {
 			for (var j = 0; j < this.mazeData[i].length; j++) {
-				let textY = (i * cellWidth) + 15
-				let textX = j * cellWidth
-				this.ctx.font = 'italic 12pt Calibri';
-				this.ctx.fillText('' + j + 'x' + i, textX, textY);
 
 				this.ctx.beginPath()
 
-				if (this.mazeData[i][j][0] === 0 && j !== 0 && i !== 0) { // top
+				if (this.mazeData[i][j][0] === 0) { // top
 					let startY = i * cellWidth
 					let startX = j * cellWidth
 					let endY = i * cellWidth
@@ -44,7 +40,7 @@ export default class {
 					this.ctx.moveTo(startX, startY)
 					this.ctx.lineTo(endX, endY)
 				}
-				if (this.mazeData[i][j][1] === 0 && i !== 0 && j < this.size - 1) { // right
+				if (this.mazeData[i][j][1] === 0) { // right
 					let startY = i * cellWidth
 					let startX = (j + 1) * cellWidth
 					let endY = (i + 1) * cellWidth
@@ -53,7 +49,7 @@ export default class {
 					this.ctx.moveTo(startX, startY)
 					this.ctx.lineTo(endX, endY)
 				}
-				if (this.mazeData[i][j][2] === 0 && j < this.size - 1 && i < this.size - 1) { // bottom
+				if (this.mazeData[i][j][2] === 0) { // bottom
 					let startY = (i + 1) * cellWidth
 					let startX = j * cellWidth
 					let endY = (i + 1) * cellWidth
@@ -62,7 +58,7 @@ export default class {
 					this.ctx.moveTo(startX, startY)
 					this.ctx.lineTo(endX, endY)
 				}
-				if (this.mazeData[i][j][3] === 0 && i < this.size - 1 && j !== 0) { // left
+				if (this.mazeData[i][j][3] === 0) { // left
 					let startY = i * cellWidth
 					let startX = j * cellWidth
 					let endY = (i + 1) * cellWidth
