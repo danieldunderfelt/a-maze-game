@@ -1,45 +1,45 @@
 import Player from './Player'
 import Level from './Level'
+import Maze from './Maze'
+import { GameData } from '../data/GameData'
 
 export default class {
 
 	constructor(controller) {
 		this.controller = controller
 		this.player = new Player()
-		this.maze = {}
-		this.level = 0
+		this.maze = new Maze(this)
 		this.currentLevel = false
+		this.lastLevelData = {
+			size: GameData.baseMazeSize,
+			height: GameData.baseMazeSize,
+			level: 0,
+			cleared: false,
+			started: false
+		}
+
+		this.controller.renderer.addToRenderLoop(this.player.draw, this.player)
+		this.controller.renderer.addToRenderLoop(this.maze.renderer.draw, this.maze.renderer)
 	}
 
 	startLevel() {
-		if(this.currentLevel !== false) this.currentLevel.dispose()
-		this.currentLevel = new Level(this, this.level)
+		if(this.currentLevel !== false)
+			this.lastlevelData = this.currentLevel.exit()
+
+		this.currentLevel = new Level(this, this.lastLevelData)
 	}
 
 	nextLevel() {
-		this.level++
+		this.lastLevelData.level++
 		this.startLevel()
-	}
-
-	onPlayerEvent(eventData) {
-		if(eventData.type === "move" && !this.currentLevel.maze.mazeState.cleared) {
-			this.playerMove(eventData)
-		}
-		if(eventData.type === 'maze') {
-			this.playerStatus(eventData)
-		}
-	}
-
-	playerStatus(data) {
-		this.nextLevel()
 	}
 
 	playerMove(eventData) {
 		var toPosition = this.player.calculatePosition(eventData.direction)
-		var mazeStatus = this.currentLevel.maze.checkMovement(toPosition, eventData.direction)
+		var mazeStatus = this.maze.checkMovement(toPosition, eventData.direction)
 
 		if(mazeStatus.maze !== false) {
-			this.currentLevel.maze.move(mazeStatus.maze)
+			this.maze.move(mazeStatus.maze)
 		}
 
 		if(mazeStatus.player !== false) {

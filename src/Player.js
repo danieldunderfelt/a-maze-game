@@ -3,22 +3,22 @@ export default class {
 	constructor() {
 		this.canvas = document.getElementById('playerArea')
 		this.ctx = this.canvas.getContext('2d')
-	}
-
-	initialize(gridSize) {
-		this.cellSize = this.canvas.width / gridSize
-		this.baseSize = gridSize
 		this.currentX = 0
 		this.currentY = 0
 	}
 
-	getPosition() {
-		return [this.currentX, this.currentY]
+	setGrid(gridSize) {
+		this.cellSize = this.canvas.width / gridSize
+		this.baseSize = gridSize
 	}
 
-	setInitialPosition() {
+	resetPosition() {
 		this.currentX = Math.round((this.baseSize - 1) / 2)
 		this.currentY = this.baseSize - 1
+	}
+
+	getPosition() {
+		return [this.currentX, this.currentY]
 	}
 
 	draw() {
@@ -34,10 +34,8 @@ export default class {
 	}
 
 	move(position) {
-		console.log("move")
 		this.currentX = position[0]
 		this.currentY = position[1]
-		this.draw()
 	}
 
 	calculatePosition(dir) {

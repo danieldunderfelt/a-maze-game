@@ -2,13 +2,18 @@ import $ from 'jquery'
 
 export default class {
 
-	constructor(callback) {
-		this.callback = callback
+	constructor() {
+		this.callback = function() {}
 		this.register = true
-		this.enabled = true
+		this.enabled = false
+	}
+
+	registerCallback(callback) {
+		this.callback = callback
 	}
 
 	start() {
+		this.enable()
 		$(window).on('keydown', this.handleKeyboardInput.bind(this))
 		$(window).on('keyup', (e) => this.register = true )
 	}
@@ -22,7 +27,7 @@ export default class {
 	}
 
 	handleKeyboardInput(e) {
-		if(!this.register || !this.enabled) return
+		if(!this.register || !this.enabled) return false
 		this.register = false
 
 		var dir

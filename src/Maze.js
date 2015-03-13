@@ -4,14 +4,12 @@ import MazeRenderer from './MazeRenderer'
 export default class {
 
 	constructor(game) {
-		this.level = game
+		this.game = game
 		this.mazeData = []
-		this.renderer = {}
-		this.processor = {}
+		this.renderer = new MazeRenderer()
 		this.verticalPosition = 0
 		this.mazeState = {
-			cleared: false,
-			started: false
+			cleared: false
 		}
 	}
 
@@ -21,28 +19,18 @@ export default class {
 
 	makeMaze(width, height) {
 		this.mazeHeight = height
-		this.mazeData = newMaze(width, height, this.onCellTraverse)
-		this.renderer = new MazeRenderer(this.mazeData, width, height)
-		this.renderer.setInitialPosition()
-		this.draw()
-	}
-
-	draw() {
-		this.renderer.draw()
+		this.gridSize = width
+		this.mazeData = newMaze(width, height, this.onCellTraverse.bind(this))
+		this.renderer.setState(this.mazeData, width, height)
 	}
 
 	move(increment) {
 		this.verticalPosition = this.verticalPosition + increment
 		this.renderer.moveMaze(increment)
-		this.renderer.draw()
 	}
 
 	onMazeCleared() {
 		this.mazeState.cleared = true
-		this.level.game.onPlayerEvent({
-			type: 'maze',
-			mazeStatus: true
-		})
 	}
 
 	onCellTraverse(cell, walls) {
@@ -127,5 +115,3 @@ export default class {
 		return playerMazePos
 	}
 }
-
-// relMazePos = Math.floor(Math.abs(Math.abs(mazePos - this.mazeHeight) - this.mazeHeight))

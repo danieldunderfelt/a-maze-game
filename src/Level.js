@@ -1,17 +1,13 @@
-import Maze from './Maze'
-import { GameData }from '../data/GameData'
-
 export default class {
 
-	constructor(game, level, data = null) {
-
-		this.maze = new Maze(this)
-		this.level = level
-		this.gridSize = GameData.baseMazeSize
-		this.mazeHeight = GameData.baseMazeSize
-		this.data = data
+	constructor(game, data) {
+		this.level = data.level
+		this.gridSize = data.size
+		this.mazeHeight = data.height
 		this.game = game
+		this.data = data
 		this.cleared = false
+		this.started = false
 
 		this.start()
 	}
@@ -20,32 +16,42 @@ export default class {
 		this.setState()
 		this.setPlayer()
 		this.setWorld()
-
-		console.log(this.gridSize, this.mazeHeight)
+		this.started = true
 	}
 
 	setState() {
-		if(this.level & 1 && this.level > GameData.baseMazeSize) { // Odd
-			this.gridSize = this.level + 1
-			this.mazeHeight = this.level
+		if(this.data.level > 0 && this.data.level & 1) {
+			this.gridSize++
 		}
-		else if(this.level > GameData.baseMazeSize) { // Even
-			this.gridSize = this.level
-			this.mazeHeight = this.level + 1
+		else if(this.data.level > 0) {
+			this.mazeHeight++
 		}
 	}
 
 	setPlayer() {
-		this.game.player.initialize(this.gridSize)
-		this.game.player.setInitialPosition()
-		this.game.player.draw()
+		this.game.player.setGrid(this.gridSize)
+		this.game.player.resetPosition()
 	}
 
 	setWorld() {
-		this.maze.makeMaze(this.gridSize, this.mazeHeight)
+		this.game.maze.makeMaze(this.gridSize, this.mazeHeight)
 	}
 
-	dispose() {
-		delete this
+	onLevelComplete() {
+		this.cleared = true
+	}
+
+	getLevelData() {
+		return {
+			size: this.gridSize,
+			height: this.gridHeight,
+			level: this.level,
+			cleared: this.cleared,
+			started: this.started
+		}
+	}
+
+	exit() {
+		return this.getLevelData()
 	}
 }
