@@ -12,7 +12,7 @@ export default class {
 		this.lastVp = 1
 	}
 
-	setState(data, size, height) {
+	setInitialState(data, size, height) {
 		this.mazeData = data
 		this.size = size
 		this.height = height

@@ -6,6 +6,7 @@ import { GameData } from '../data/GameData'
 export default class {
 
 	constructor(controller) {
+		console.log("hey")
 		this.controller = controller
 		this.player = new Player()
 		this.maze = new Maze(this)
@@ -23,13 +24,11 @@ export default class {
 	}
 
 	startLevel() {
-		if(this.currentLevel !== false)
-			this.lastlevelData = this.currentLevel.exit()
-
 		this.currentLevel = new Level(this, this.lastLevelData)
 	}
 
 	nextLevel() {
+		this.lastLevelData = this.currentLevel.getLevelData()
 		this.lastLevelData.level++
 		this.startLevel()
 	}
@@ -44,6 +43,11 @@ export default class {
 
 		if(mazeStatus.player !== false) {
 			this.player.move(mazeStatus.player)
+		}
+
+		if(this.maze.mazeState.cleared) {
+			this.currentLevel.cleared = true
+			this.nextLevel()
 		}
 	}
 }

@@ -8,7 +8,7 @@ export default class {
 		this.data = data
 		this.cleared = false
 		this.started = false
-
+		console.log(data)
 		this.start()
 	}
 
@@ -44,14 +44,10 @@ export default class {
 	getLevelData() {
 		return {
 			size: this.gridSize,
-			height: this.gridHeight,
+			height: this.mazeHeight,
 			level: this.level,
 			cleared: this.cleared,
 			started: this.started
 		}
-	}
-
-	exit() {
-		return this.getLevelData()
 	}
 }

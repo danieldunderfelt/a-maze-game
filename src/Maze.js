@@ -18,10 +18,12 @@ export default class {
 	}
 
 	makeMaze(width, height) {
+		this.verticalPosition = 0
+		this.mazeState.cleared = false
 		this.mazeHeight = height
 		this.gridSize = width
 		this.mazeData = newMaze(width, height, this.onCellTraverse.bind(this))
-		this.renderer.setState(this.mazeData, width, height)
+		this.renderer.setInitialState(this.mazeData, width, height)
 	}
 
 	move(increment) {
@@ -40,6 +42,7 @@ export default class {
 	checkPlayer(verticalPosition) {
 		if(verticalPosition > 0) {
 			this.onMazeCleared()
+			return true
 		}
 
 		return false
@@ -63,27 +66,29 @@ export default class {
 		}
 
 		var playerMazeVerticalPos = this.calcPlayerRelativeCoords(toPosition[1]) // Get a sensible array key for the vertical position
-		var canTraverse = this.checkCollision(toPosition[0], Math.abs(playerMazeVerticalPos), dir) // Do collision check
 
 		// Check if the player made it out of the maze. If so, no reason to continue here.
-		if(this.checkPlayer(playerMazeVerticalPos)) {
+		if(this.checkPlayer(playerMazeVerticalPos) || this.mazeState.cleared) {
 			mazeStatus.player = toPosition
 			return mazeStatus
 		}
+		else {
+			var canTraverse = this.checkCollision(toPosition[0], Math.abs(playerMazeVerticalPos), dir) // Do collision check
 
-		// Check what the collision detector said
-		if(canTraverse) {
+			// Check what the collision detector said
+			if(canTraverse) {
 
-			if(toPosition[1] === 0) {
-				mazeStatus.player = false
-				mazeStatus.maze = parseInt(this.verticalPosition) === this.verticalPosition ? 1 : 0.5
+				if(toPosition[1] === 0) {
+					mazeStatus.player = false
+					mazeStatus.maze = parseInt(this.verticalPosition) === this.verticalPosition ? 1 : 0.5
+				}
+				else {
+					mazeStatus.player = toPosition
+				}
 			}
 			else {
-				mazeStatus.player = toPosition
+				mazeStatus.maze = false
 			}
-		}
-		else {
-			mazeStatus.maze = false
 		}
 
 		return mazeStatus
