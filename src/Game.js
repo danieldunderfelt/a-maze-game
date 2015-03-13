@@ -6,14 +6,13 @@ import { GameData } from '../data/GameData'
 export default class {
 
 	constructor(controller) {
-		console.log("hey")
 		this.controller = controller
 		this.player = new Player()
 		this.maze = new Maze(this)
 		this.currentLevel = false
 		this.lastLevelData = {
 			size: GameData.baseMazeSize,
-			height: GameData.baseMazeSize,
+			height: GameData.baseMazeSize * GameData.initialHeightMultiplier,
 			level: 0,
 			cleared: false,
 			started: false

@@ -1,3 +1,5 @@
+import { GameData } from '../data/GameData'
+
 export default class {
 
 	constructor(game, data) {
@@ -20,11 +22,11 @@ export default class {
 	}
 
 	setState() {
-		if(this.data.level > 0 && this.data.level & 1) {
+		if(this.data.level > 0 && this.data.level & 1 && this.gridSize < 20) {
 			this.gridSize++
 		}
 		else if(this.data.level > 0) {
-			this.mazeHeight++
+			this.mazeHeight = this.mazeHeight + GameData.heightExpansion
 		}
 	}
 
