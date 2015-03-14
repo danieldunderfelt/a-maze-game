@@ -1,3 +1,5 @@
+import GameRenderer from './GameRenderer'
+
 export default class {
 
 	constructor() {
@@ -5,6 +7,8 @@ export default class {
 		this.ctx = this.canvas.getContext('2d')
 		this.currentX = 0
 		this.currentY = 0
+
+		GameRenderer.pushRenderer(this.draw, this, "player")
 	}
 
 	setGrid(gridSize) {

@@ -5,8 +5,9 @@ export default class {
 
 	constructor(game) {
 		this.game = game
+		this.renderer = false
+		this.theme = {}
 		this.mazeData = []
-		this.renderer = new MazeRenderer()
 		this.verticalPosition = 0
 		this.mazeState = {
 			cleared: false
@@ -17,13 +18,19 @@ export default class {
 		return this.verticalPosition
 	}
 
+	setTheme(theme) {
+		this.theme = theme
+	}
+
 	makeMaze(width, height) {
+		if(this.renderer !== false) this.renderer.dispose()
+
 		this.verticalPosition = 0
 		this.mazeState.cleared = false
 		this.mazeHeight = height
 		this.gridSize = width
 		this.mazeData = newMaze(width, height, this.onCellTraverse.bind(this))
-		this.renderer.setInitialState(this.mazeData, width, height)
+		this.renderer = new MazeRenderer(this.theme, this.mazeData, width, height)
 	}
 
 	move(increment) {
@@ -40,7 +47,7 @@ export default class {
 	}
 
 	checkPlayer(verticalPosition) {
-		if(verticalPosition > 0) {
+		if(verticalPosition > 1) {
 			this.onMazeCleared()
 			return true
 		}

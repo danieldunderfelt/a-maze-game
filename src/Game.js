@@ -1,7 +1,7 @@
 import Player from './Player'
-import Level from './Level'
 import Maze from './Maze'
-import { GameData } from '../data/GameData'
+import LevelLoader from './LevelLoader'
+import GameRenderer from './GameRenderer'
 
 export default class {
 
@@ -9,26 +9,18 @@ export default class {
 		this.controller = controller
 		this.player = new Player()
 		this.maze = new Maze(this)
-		this.currentLevel = false
-		this.lastLevelData = {
-			size: GameData.baseMazeSize,
-			height: GameData.baseMazeSize * GameData.initialHeightMultiplier,
-			level: 0,
-			cleared: false,
-			started: false
-		}
+		this.level = 0
 
-		this.controller.renderer.addToRenderLoop(this.player.draw, this.player)
-		this.controller.renderer.addToRenderLoop(this.maze.renderer.draw, this.maze.renderer)
+		LevelLoader.setController(this)
 	}
 
 	startLevel() {
-		this.currentLevel = new Level(this, this.lastLevelData)
+		this.currentLevel = LevelLoader.load(this.level)
 	}
 
 	nextLevel() {
-		this.lastLevelData = this.currentLevel.getLevelData()
-		this.lastLevelData.level++
+		this.level++
+		this.levelLoader.setupLevel(this.level)
 		this.startLevel()
 	}
 

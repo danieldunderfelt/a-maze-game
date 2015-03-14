@@ -2,12 +2,13 @@ import { GameData } from '../data/GameData'
 
 export default class {
 
-	constructor(game, data) {
+	constructor(game, data, theme) {
 		this.level = data.level
 		this.gridSize = data.size
 		this.mazeHeight = data.height
 		this.game = game
 		this.data = data
+		this.theme = theme
 		this.cleared = false
 		this.started = false
 
@@ -36,6 +37,7 @@ export default class {
 	}
 
 	setWorld() {
+		this.game.maze.setTheme(this.theme)
 		this.game.maze.makeMaze(this.gridSize, this.mazeHeight)
 	}
 

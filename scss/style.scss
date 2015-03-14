@@ -6,15 +6,11 @@ $canvas-size: 1000px;
 
 body {
 	margin: 0;
-	background: url('../textures/floor.jpg') 10% 10%;
-	background-size: 10% 10%;
 }
 
 .container {
 	width: $canvas-size;
 	margin: 2em auto;
-	background: url('../textures/tree.png');
-	background-size: 66px 66px;
 }
 
 .game-area {
@@ -23,6 +19,7 @@ body {
 	height: $canvas-size;
 	//background: #444448;
 	font-family: 'Monaco', 'Courier new', monospace;
+	border: 1px solid black;
 }
 
 canvas {
