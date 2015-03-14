@@ -72,7 +72,7 @@ export default class {
 			}
 		}
 
-		this.ctx.lineWidth = 3
+		this.ctx.lineWidth = 2
 		this.ctx.strokeStyle = '#ffffff'
 		this.ctx.stroke()
 	}

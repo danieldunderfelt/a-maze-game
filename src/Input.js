@@ -27,10 +27,8 @@ export default class {
 	}
 
 	handleKeyboardInput(e) {
-		if(!this.register || !this.enabled) return false
-		this.register = false
 
-		var dir
+		var dir = null
 
 		if(e.keyCode === 40) dir = 'down'
 		if(e.keyCode === 38) dir = 'up'
@@ -42,7 +40,13 @@ export default class {
 			direction: dir
 		}
 
-		this.callback(eventData)
+		if(dir !== null) {
+
+			if(!this.register || !this.enabled) return false
+			this.register = false
+
+			this.callback(eventData)
+		}
 	}
 
 

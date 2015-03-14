@@ -22,9 +22,9 @@ export default class {
 	}
 
 	draw() {
-		var size = this.cellSize / 2
-		var posX = (this.currentX * this.cellSize) + (size * 1.5)
-		var posY = (this.currentY * this.cellSize) + (size * 1.5)
+		var size = this.cellSize / 4
+		var posX = (this.currentX * this.cellSize) + (size * 2.5)
+		var posY = (this.currentY * this.cellSize) + (size * 2.5)
 
 		this.clearCanvas()
 		this.ctx.beginPath()

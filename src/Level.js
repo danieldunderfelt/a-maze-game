@@ -10,7 +10,7 @@ export default class {
 		this.data = data
 		this.cleared = false
 		this.started = false
-		console.log(data)
+
 		this.start()
 	}
 
