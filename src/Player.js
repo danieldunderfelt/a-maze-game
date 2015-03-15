@@ -14,6 +14,7 @@ export default class {
 	setGrid(gridSize) {
 		this.cellSize = this.canvas.width / gridSize
 		this.baseSize = gridSize
+		this.step = gridSize / 100
 	}
 
 	resetPosition() {
@@ -46,32 +47,30 @@ export default class {
 		var nextStep
 
 		if(dir === 'up') {
-			nextStep = this.currentY - 0.5
+			nextStep = this.currentY - this.step
 
-			if(nextStep < 1) return [this.currentX, 0]
+			if(nextStep < -(this.step * 10)) return [this.currentX, -(this.step * 10)]
 			else return [this.currentX, nextStep]
 		}
 
 		if(dir === 'down') {
-			nextStep = this.currentY + 1
+			nextStep = this.currentY + this.step
 
-			if(nextStep > this.baseSize - 0.5) return false
+			if(nextStep > this.baseSize - this.step * 10) return false
 			else return [this.currentX, nextStep]
 		}
 
 		if(dir === 'left') {
-			nextStep = this.currentX - 1
+			nextStep = this.currentX - this.step
 
 			if(nextStep < 0) nextStep = this.baseSize - 1
-
 			return [nextStep, this.currentY]
 		}
 
 		if(dir === 'right') {
-			nextStep = this.currentX + 1
+			nextStep = this.currentX + this.step
 
 			if(nextStep > this.baseSize - 1) nextStep = 0
-
 			return [nextStep, this.currentY]
 		}
 	}

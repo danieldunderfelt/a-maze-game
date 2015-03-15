@@ -1,6 +1,11 @@
+import { assetRegistry } from '../../data/assetRegistry'
+import GameRenderer from '../GameRenderer'
+
 export default class {
 
 	constructor() {
+		this.id = guid()
+		this.context = false
 		this.isAnimated = false
 		this.x = 0
 		this.y = 0
@@ -9,9 +14,9 @@ export default class {
 
 		this.spriteWidth = 32
 		this.spriteHeight = 32
-		this.spriteUrl = location.href + 'animation_sprites/default.gif'
-		this.spriteImage = new Image()
-		this.spriteLoaded = false
+		this.sprite = assetRegistry.default_sprite
+
+		GameRenderer.pushRenderer(this.draw, this, this.id)
 	}
 
 	setPosition(x, y) {
@@ -19,22 +24,34 @@ export default class {
 		this.y = y
 	}
 
-	setRenderSize(width, height) {
+	setRenderProperties(x, y, width, height) {
+		this.x = x
+		this.y = y
 		this.width = width
 		this.height = height
 	}
 
-	loadSprite(resolve, reject) {
-		this.spriteImage.onload = () => {
-			this.spriteLoaded = true
-			resolve(this.spriteImage)
-		}
-
-		img.src = this.spriteUrl
+	setContext(context) {
+		this.context = context
 	}
 
-	draw(context, x, y) {
-		this.setPosition(x, y)
-		context.drawImage(this.spriteImage, x, y, imgWidth, imgHeight)
+	draw() {
+		if(this.context === false) return false
+		this.context.drawImage(this.sprite, this.x, this.y, this.width, this.height)
 	}
+
+	dispose() {
+		GameRenderer.removeRenderer(this.id)
+		delete this
+	}
+}
+
+function guid() {
+	function s4() {
+		return Math.floor((1 + Math.random()) * 0x10000)
+			  .toString(16)
+			  .substring(1);
+	}
+	return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+		   s4() + '-' + s4() + s4() + s4();
 }

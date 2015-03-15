@@ -9,8 +9,6 @@ export default class {
 		this.game = game
 		this.data = data
 		this.theme = theme
-		this.cleared = false
-		this.started = false
 
 		this.start()
 	}
@@ -19,7 +17,6 @@ export default class {
 		this.setState()
 		this.setPlayer()
 		this.setWorld()
-		this.started = true
 	}
 
 	setState() {
@@ -41,17 +38,11 @@ export default class {
 		this.game.maze.makeMaze(this.gridSize, this.mazeHeight)
 	}
 
-	onLevelComplete() {
-		this.cleared = true
-	}
-
 	getLevelData() {
 		return {
 			size: this.gridSize,
 			height: this.mazeHeight,
-			level: this.level,
-			cleared: this.cleared,
-			started: this.started
+			level: this.level
 		}
 	}
 }

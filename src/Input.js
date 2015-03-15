@@ -4,7 +4,6 @@ export default class {
 
 	constructor() {
 		this.callback = function() {}
-		this.register = true
 		this.enabled = false
 	}
 
@@ -15,7 +14,6 @@ export default class {
 	start() {
 		this.enable()
 		$(window).on('keydown', this.handleKeyboardInput.bind(this))
-		$(window).on('keyup', (e) => this.register = true )
 	}
 
 	enable() {
@@ -41,10 +39,6 @@ export default class {
 		}
 
 		if(dir !== null) {
-
-			if(!this.register || !this.enabled) return false
-			this.register = false
-
 			this.callback(eventData)
 		}
 	}

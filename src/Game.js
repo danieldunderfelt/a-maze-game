@@ -3,10 +3,9 @@ import Maze from './Maze'
 import LevelLoader from './LevelLoader'
 import GameRenderer from './GameRenderer'
 
-export default class {
+export class Game {
 
-	constructor(controller) {
-		this.controller = controller
+	constructor() {
 		this.player = new Player()
 		this.maze = new Maze(this)
 		this.level = 0
@@ -20,7 +19,7 @@ export default class {
 
 	nextLevel() {
 		this.level++
-		this.levelLoader.setupLevel(this.level)
+		LevelLoader.setupLevel(this.level)
 		this.startLevel()
 	}
 
@@ -37,7 +36,6 @@ export default class {
 		}
 
 		if(this.maze.mazeState.cleared) {
-			this.currentLevel.cleared = true
 			this.nextLevel()
 		}
 	}

@@ -9,6 +9,8 @@ export default class {
 		this.theme = {}
 		this.mazeData = []
 		this.verticalPosition = 0
+		this.playerPrevDir = 'up'
+		this.playerPrevHorzDir = 'left'
 		this.mazeState = {
 			cleared: false
 		}
@@ -26,9 +28,11 @@ export default class {
 		if(this.renderer !== false) this.renderer.dispose()
 
 		this.verticalPosition = 0
+		this.playerPrevPos = [0, 0]
 		this.mazeState.cleared = false
 		this.mazeHeight = height
 		this.gridSize = width
+		this.mazeStep = width / 100
 		this.mazeData = newMaze(width, height, this.onCellTraverse.bind(this))
 		this.renderer = new MazeRenderer(this.theme, this.mazeData, width, height)
 	}
@@ -64,7 +68,12 @@ export default class {
 
 		if(!toPosition) return mazeStatus // If player would go out of bounds, stop them
 
-		if(dir === 'up') mazeStatus.maze = 0.5 // By default, if going up, move the maze
+		var playerMazePos = this.getCurrentCell(toPosition, dir) // Get sensible array keys
+
+		if(dir === 'up' || dir === 'down') this.playerPrevDir = dir
+		if(dir === 'left' || dir === 'right') this.playerPrevHorzDir = dir
+
+		if(dir === 'up') mazeStatus.maze = this.mazeStep // By default, if going up, move the maze
 
 		// If the player is outside the maze, all is well
 		if(this.verticalPosition <= toPosition[1]) {
@@ -72,22 +81,21 @@ export default class {
 			return mazeStatus
 		}
 
-		var playerMazeVerticalPos = this.calcPlayerRelativeCoords(toPosition[1]) // Get a sensible array key for the vertical position
-
 		// Check if the player made it out of the maze. If so, no reason to continue here.
-		if(this.checkPlayer(playerMazeVerticalPos) || this.mazeState.cleared) {
+		if(this.checkPlayer(playerMazePos[1]) || this.mazeState.cleared) {
 			mazeStatus.player = toPosition
 			return mazeStatus
 		}
+
 		else {
-			var canTraverse = this.checkCollision(toPosition[0], Math.abs(playerMazeVerticalPos), dir) // Do collision check
+			var canTraverse = this.checkCollision(playerMazePos[0], Math.abs(playerMazePos[1]), dir) // Do collision check
 
 			// Check what the collision detector said
 			if(canTraverse) {
 
 				if(toPosition[1] === 0) {
 					mazeStatus.player = false
-					mazeStatus.maze = parseInt(this.verticalPosition) === this.verticalPosition ? 1 : 0.5
+					mazeStatus.maze = parseInt(this.verticalPosition) === this.verticalPosition ? this.mazeStep * 2 : this.mazeStep
 				}
 				else {
 					mazeStatus.player = toPosition
@@ -102,6 +110,8 @@ export default class {
 	}
 
 	checkCollision(x, y, dir) {
+		if(y > this.mazeData.length - 1 || x > this.mazeData[y].length - 1) return true
+
 		var cell = this.mazeData[y][x]
 
 		if(dir === 'up') {
@@ -120,10 +130,29 @@ export default class {
 		return false
 	}
 
-	calcPlayerRelativeCoords(player) {
-		var mazePos = this.verticalPosition
-		var playerMazePos = Math.round(mazePos - player) - this.mazeHeight
+	getCurrentCell(player, dir) {
+		var rounding, horzRounding
+		var vertDir = dir === 'up' || dir === 'down' ? dir : this.playerPrevDir
+		var horzDir = dir === 'left' || dir === 'right' ? dir : this.playerPrevHorzDir
 
-		return playerMazePos
+		if(vertDir === 'up') {
+			rounding = 'floor'
+		}
+		if(vertDir === 'down') {
+			rounding = 'floor'
+		}
+		if(horzDir === 'left') {
+			horzRounding = 'floor'
+		}
+		if(horzDir === 'right') {
+			horzRounding = 'ceil'
+		}
+
+		var mazePos = Math[rounding](this.verticalPosition)
+		var playerX = Math[horzRounding](player[0])
+		var playerY = Math.round(mazePos - player[1]) - this.mazeHeight
+
+		console.log(playerX, playerY)
+		return [playerX, playerY]
 	}
 }
