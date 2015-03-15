@@ -1,4 +1,4 @@
-export function newMaze(x, y, cellCallback) {
+export function generateMaze(x, y, cellCallback) {
 
     // Establish variables and starting grid
     var totalCells = x * y

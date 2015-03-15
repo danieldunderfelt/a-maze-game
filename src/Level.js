@@ -35,7 +35,7 @@ export default class {
 
 	setWorld() {
 		this.game.maze.setTheme(this.theme)
-		this.game.maze.makeMaze(this.gridSize, this.mazeHeight)
+		this.game.maze.makeMaze(5, 5) //this.gridSize, this.mazeHeight)
 	}
 
 	getLevelData() {

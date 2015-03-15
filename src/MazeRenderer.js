@@ -16,6 +16,9 @@ export default class {
 		this.occupatedPlaces = []
 		this.initialDraw = true
 
+		this.mazePixelHeight = this.cellWidth * this.height
+		this.vOffset = 1
+
 		GameRenderer.pushRenderer(this.draw, this, "maze")
 	}
 
@@ -28,48 +31,51 @@ export default class {
 	}
 
 	moveMaze(increment) {
+		if(this.vOffset <= 0.1) return false
 		this.verticalPosition = this.verticalPosition + increment
+		return true
 	}
 
 	renderMaze() {
-		var mazePixelHeight = this.cellWidth * this.height
-		var vOffset = (mazePixelHeight - (this.verticalPosition * this.cellWidth))
-
+		this.vOffset = ((this.mazePixelHeight - (this.mazePixelHeight / 3)) - (this.verticalPosition * this.cellWidth))
 		this.drawOuterWalls()
 
 		for (var i = 0; i < this.mazeData.length; i++) {
 			for (var j = 0; j < this.mazeData[i].length; j++) {
 
 				var currentCell = this.mazeData[i][j]
-				this.drawMazeCell(currentCell, j, i, vOffset)
+				this.drawMazeCell(currentCell, j, i)
 			}
 		}
 
 		this.initialDraw = false
 	}
 
-	drawMazeCell(walls, x, y, vOffset) {
+	drawMazeCell(walls, x, y) {
 		var cellX = x * this.cellWidth
 		var cellY = y * this.cellWidth
 
-		this.drawFloor(cellX, cellY, vOffset)
+		this.drawFloor(cellX, cellY)
 
 		var objectProcessor = this.initialDraw ? this.placeThemeObject.bind(this) : this.updateMazeObjects.bind(this)
-		this.setMazeObjects(objectProcessor, x, y, walls, cellX, cellY, vOffset)
+		this.setMazeObjects(objectProcessor, x, y, walls, cellX, cellY)
 
-		this.drawDebug(cellX, cellY, vOffset)
+		this.drawDebug(cellX, cellY, x, y)
 	}
 
-	drawDebug(cellX, cellY, vOffset) {
+	drawDebug(cellX, cellY, x, y) {
 		this.ctx.beginPath()
-		this.ctx.moveTo(cellX, cellY - vOffset)
-		this.ctx.lineTo(cellX + this.cellWidth, cellY - vOffset)
-		this.ctx.moveTo(cellX, cellY - vOffset)
-		this.ctx.lineTo(cellX, (cellY + this.cellWidth) - vOffset)
+		this.ctx.moveTo(cellX, cellY - this.vOffset)
+		this.ctx.lineTo(cellX + this.cellWidth, cellY - this.vOffset)
+		this.ctx.moveTo(cellX, cellY - this.vOffset)
+		this.ctx.lineTo(cellX, (cellY + this.cellWidth) - this.vOffset)
 		this.ctx.stroke()
+
+		this.ctx.font = '24pt Calibri';
+		this.ctx.fillText(x + ', ' + y, cellX + (this.cellWidth / 3), (cellY - this.vOffset) + (this.cellWidth / 2));
 	}
 
-	setMazeObjects(objectProcessor, x, y, walls, cellX, cellY, vOffset) {
+	setMazeObjects(objectProcessor, x, y, walls, cellX, cellY) {
 		var tileSizeModifier = 3
 		var size = Math.round((this.canvas.width / this.size) / tileSizeModifier)
 
@@ -80,27 +86,27 @@ export default class {
 			if(cw === 0 && wall === 0) {
 				absX = cellX + size
 				absY = cellY
-				objectProcessor("top", absX, absY, size, vOffset)
+				objectProcessor("top", absX, absY, size)
 			}
 			if(cw === 1 && wall === 0) {
 				absX = cellX + (this.cellWidth - size)
 				absY = cellY + size
-				objectProcessor("right", absX, absY, size, vOffset)
+				objectProcessor("right", absX, absY, size)
 			}
 			if(cw === 2 && wall === 0) {
 				absX = cellX + size
 				absY = cellY + (this.cellWidth - size)
-				objectProcessor("bottom", absX, absY, size, vOffset)
+				objectProcessor("bottom", absX, absY, size)
 			}
 			if(cw === 3 && wall === 0) {
 				absX = cellX
 				absY = cellY + size
-				objectProcessor("left", absX, absY, size, vOffset)
+				objectProcessor("left", absX, absY, size)
 			}
 		}
 	}
 
-	placeThemeObject(wall, cellX, cellY, size, vOffset) {
+	placeThemeObject(wall, cellX, cellY, size) {
 
 		var vacant = this.checkExisting(cellX, cellY)
 
@@ -109,7 +115,7 @@ export default class {
 		this.occupatedPlaces.push([cellX, cellY])
 		var mazeObject = this.getThemeObject()
 
-		mazeObject.setRenderProperties(cellX, cellY - vOffset, size, size)
+		mazeObject.setRenderProperties(cellX, cellY - this.vOffset, size, size)
 
 		this.objectsInMaze["obj" + cellX + cellY] = {
 			obj: mazeObject,
@@ -135,9 +141,9 @@ export default class {
 		return vacant
 	}
 
-	updateMazeObjects(wall, cellX, cellY, size, vOffset) {
+	updateMazeObjects(wall, cellX, cellY, size) {
 		var ele = this.objectsInMaze["obj" + cellX + cellY]
-		ele.obj.setPosition(cellX, cellY - vOffset)
+		ele.obj.setPosition(cellX, cellY - this.vOffset)
 	}
 
 	drawOuterWalls() {
@@ -153,7 +159,7 @@ export default class {
 		return pickedObject
 	}
 
-	drawFloor(x, y, vOffset) {
+	drawFloor(x, y) {
 		var width = Math.round(this.canvas.width / this.size)
 		var floorTexture = this.theme.textures.floor
 		var row = 0
@@ -167,7 +173,7 @@ export default class {
 			if(i !== 0 && col === 0) row++
 
 			let relX = x + (col * size)
-			let relY = (y - vOffset) + (row * size)
+			let relY = (y - this.vOffset) + (row * size)
 
 			this.ctx.drawImage(floorTexture, relX, relY, size, size)
 		}

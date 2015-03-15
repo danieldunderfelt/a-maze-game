@@ -1,5 +1,6 @@
-import { newMaze } from './MazeGenerator'
+import { generateMaze } from './MazeGenerator'
 import MazeRenderer from './MazeRenderer'
+import { generateWorld } from './WorldGenerator'
 
 export default class {
 
@@ -7,8 +8,9 @@ export default class {
 		this.game = game
 		this.renderer = false
 		this.theme = {}
-		this.mazeData = []
+		this.worldData = []
 		this.verticalPosition = 0
+		this.mazeStep = 0.05
 		this.playerPrevDir = 'up'
 		this.playerPrevHorzDir = 'left'
 		this.mazeState = {
@@ -30,16 +32,22 @@ export default class {
 		this.verticalPosition = 0
 		this.playerPrevPos = [0, 0]
 		this.mazeState.cleared = false
-		this.mazeHeight = height
 		this.gridSize = width
-		this.mazeStep = width / 100
-		this.mazeData = newMaze(width, height, this.onCellTraverse.bind(this))
-		this.renderer = new MazeRenderer(this.theme, this.mazeData, width, height)
+		this.mazeStep = width / 50
+		var generatedMaze = generateMaze(width, height, this.onCellTraverse.bind(this))
+
+		this.worldData = generateWorld(generatedMaze, width, height)
+
+		this.worldHeight = height * 3
+		this.renderer = new MazeRenderer(this.theme, this.worldData, width, this.worldHeight)
 	}
 
 	move(increment) {
+		var mazeOffset = this.renderer.moveMaze(increment)
+		if(!mazeOffset) return false
+		console.log("maze move")
 		this.verticalPosition = this.verticalPosition + increment
-		this.renderer.moveMaze(increment)
+
 	}
 
 	onMazeCleared() {
@@ -110,9 +118,9 @@ export default class {
 	}
 
 	checkCollision(x, y, dir) {
-		if(y > this.mazeData.length - 1 || x > this.mazeData[y].length - 1) return true
-
-		var cell = this.mazeData[y][x]
+		if(y > this.worldData.length - 1 || x > this.worldData[y].length - 1) return true
+		return true
+		var cell = this.worldData[y][x]
 
 		if(dir === 'up') {
 			return cell[2] === 1
@@ -131,28 +139,19 @@ export default class {
 	}
 
 	getCurrentCell(player, dir) {
-		var rounding, horzRounding
 		var vertDir = dir === 'up' || dir === 'down' ? dir : this.playerPrevDir
 		var horzDir = dir === 'left' || dir === 'right' ? dir : this.playerPrevHorzDir
+		var modifyVert = 0.2
+		var modifyHorz = 0.1
 
-		if(vertDir === 'up') {
-			rounding = 'floor'
-		}
-		if(vertDir === 'down') {
-			rounding = 'floor'
-		}
-		if(horzDir === 'left') {
-			horzRounding = 'floor'
-		}
-		if(horzDir === 'right') {
-			horzRounding = 'ceil'
-		}
+		var mazePos = this.verticalPosition
+		var playerX = player[0] + modifyHorz
+		var playerY = player[1] + modifyVert
 
-		var mazePos = Math[rounding](this.verticalPosition)
-		var playerX = Math[horzRounding](player[0])
-		var playerY = Math.round(mazePos - player[1]) - this.mazeHeight
+		var mazePlayerY = Math.round((mazePos - playerY) - this.worldHeight)
 
-		console.log(playerX, playerY)
-		return [playerX, playerY]
+		var pos = [Math.round(playerX), mazePlayerY]
+		//console.log(pos)
+		return pos
 	}
 }
