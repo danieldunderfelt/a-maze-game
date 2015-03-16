@@ -29,7 +29,7 @@ export default class {
 		var mazeData = this.maze
 		mazeData = this.setOpenSpace(mazeData)
 		mazeData = this.divideCells(mazeData)
-		console.log(mazeData)
+
 		return mazeData
 	}
 

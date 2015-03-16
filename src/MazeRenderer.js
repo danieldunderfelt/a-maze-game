@@ -10,11 +10,7 @@ export default class {
 		this.cellWidth = Math.round(this.canvas.width / this.size)
 		this.height = height
 		this.verticalPosition = 0
-		this.lastVp = 1
 		this.theme = theme
-		this.objectsInMaze = {}
-		this.occupatedPlaces = []
-		this.initialDraw = true
 
 		this.mazePixelHeight = this.cellWidth * this.height
 		this.vOffset = 1
@@ -29,12 +25,12 @@ export default class {
 
 	moveMaze(increment) {
 		if(this.vOffset <= 0.1) return false
-		this.verticalPosition = this.verticalPosition + increment
+		this.verticalPosition += increment
 		return true
 	}
 
 	renderMaze() {
-		this.vOffset = ((this.mazePixelHeight - (this.mazePixelHeight / 3)) - (this.verticalPosition * this.cellWidth))
+		this.vOffset = (( this.mazePixelHeight - (this.size * this.cellWidth) ) - (this.verticalPosition * this.cellWidth))
 
 		var subcellSize = Math.round((this.canvas.width / this.size) / 3)
 
@@ -47,8 +43,6 @@ export default class {
 				this.drawMazeCell(currentCell, j, i, subcellSize)
 			}
 		}
-
-		this.initialDraw = false
 	}
 
 	drawMazeCell(cell, x, y, subcellSize) {

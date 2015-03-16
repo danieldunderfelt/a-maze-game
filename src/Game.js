@@ -24,19 +24,6 @@ export class Game {
 	}
 
 	playerMove(eventData) {
-		var toPosition = this.player.calculatePosition(eventData.direction)
-		var mazeStatus = this.maze.checkMovement(toPosition, eventData.direction)
-
-		if(mazeStatus.maze !== false) {
-			this.maze.move(mazeStatus.maze)
-		}
-
-		if(mazeStatus.player !== false) {
-			this.player.move(mazeStatus.player)
-		}
-
-		if(this.maze.mazeState.cleared) {
-			this.nextLevel()
-		}
+		this.maze.move()
 	}
 }

@@ -15,7 +15,6 @@ export default class {
 
 	start() {
 		this.setState()
-		this.setPlayer()
 		this.setWorld()
 	}
 
@@ -28,14 +27,14 @@ export default class {
 		}
 	}
 
-	setPlayer() {
-		this.game.player.setGrid(this.gridSize)
+	setPlayer(worldData) {
+		this.game.player.setGrid(this.gridSize, worldData)
 		this.game.player.resetPosition()
 	}
 
 	setWorld() {
 		this.game.maze.setTheme(this.theme)
-		this.game.maze.makeMaze(5, 5) //this.gridSize, this.mazeHeight)
+		this.game.maze.makeMaze(this.gridSize, this.mazeHeight)
 	}
 
 	getLevelData() {

@@ -1,17 +1,14 @@
 import GameRenderer from './GameRenderer'
+import DefaultObject from '../../src/GameObjects/DefaultObject'
 
 export default class {
 
 	constructor() {
-		this.canvas = document.getElementById('playerArea')
-		this.ctx = this.canvas.getContext('2d')
-		this.currentX = 0
-		this.currentY = 0
-
-		GameRenderer.pushRenderer(this.draw, this, "player")
+		this.world = []
+		this.playerObject = new DefaultObject()
 	}
 
-	setGrid(gridSize) {
+	setGrid(gridSize, world) {
 		this.cellSize = this.canvas.width / gridSize
 		this.baseSize = gridSize
 		this.step = gridSize / 50
@@ -27,15 +24,7 @@ export default class {
 	}
 
 	draw() {
-		var size = this.cellSize / 4
-		var posX = (this.currentX * this.cellSize) + (size * 2.5)
-		var posY = (this.currentY * this.cellSize) + (size * 2.5)
 
-		this.clearCanvas()
-		this.ctx.beginPath()
-		this.ctx.rect(posX - size, posY - size, size, size)
-		this.ctx.fillStyle = 'green'
-		this.ctx.fill()
 	}
 
 	move(position) {
@@ -73,12 +62,5 @@ export default class {
 			if(nextStep > this.baseSize - (this.step * 5)) nextStep = -(this.step * 5)
 			return [nextStep, this.currentY]
 		}
-	}
-
-	clearCanvas() {
-		this.ctx.save();
-		this.ctx.setTransform(1,0,0,1,0,0);
-		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-		this.ctx.restore();
 	}
 }

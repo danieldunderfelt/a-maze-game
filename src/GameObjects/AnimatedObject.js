@@ -58,6 +58,7 @@ export default class extends BaseObject {
 	}
 
 	render() {
+		// What an absolute bitch this is to wrap ones head around
 		let sourceX = this.currentFrame * this.spriteWidth / this.totalFrames
 		let sourceWidth = this.spriteWidth / this.totalFrames
 		let destX = this.x - this.width / this.totalFrames
