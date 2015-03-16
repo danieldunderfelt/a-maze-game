@@ -19,13 +19,10 @@ export default class {
 		this.mazePixelHeight = this.cellWidth * this.height
 		this.vOffset = 1
 
-		GameRenderer.pushRenderer(this.draw, this, "maze")
+		GameRenderer.pushRenderer(this.draw, this, "maze", 0)
 	}
 
 	draw() {
-		if(this.verticalPosition === this.lastVp) return false
-		this.lastVp = this.verticalPosition
-
 		this.clearCanvas()
 		this.renderMaze()
 	}
@@ -38,29 +35,29 @@ export default class {
 
 	renderMaze() {
 		this.vOffset = ((this.mazePixelHeight - (this.mazePixelHeight / 3)) - (this.verticalPosition * this.cellWidth))
+
+		var subcellSize = Math.round((this.canvas.width / this.size) / 3)
+
 		this.drawOuterWalls()
 
 		for (var i = 0; i < this.mazeData.length; i++) {
 			for (var j = 0; j < this.mazeData[i].length; j++) {
 
 				var currentCell = this.mazeData[i][j]
-				this.drawMazeCell(currentCell, j, i)
+				this.drawMazeCell(currentCell, j, i, subcellSize)
 			}
 		}
 
 		this.initialDraw = false
 	}
 
-	drawMazeCell(walls, x, y) {
+	drawMazeCell(cell, x, y, subcellSize) {
 		var cellX = x * this.cellWidth
 		var cellY = y * this.cellWidth
 
 		this.drawFloor(cellX, cellY)
-
-		var objectProcessor = this.initialDraw ? this.placeThemeObject.bind(this) : this.updateMazeObjects.bind(this)
-		this.setMazeObjects(objectProcessor, x, y, walls, cellX, cellY)
-
 		this.drawDebug(cellX, cellY, x, y)
+		this.setMazeObjects(cell, cellX, cellY, subcellSize)
 	}
 
 	drawDebug(cellX, cellY, x, y) {
@@ -75,88 +72,23 @@ export default class {
 		this.ctx.fillText(x + ', ' + y, cellX + (this.cellWidth / 3), (cellY - this.vOffset) + (this.cellWidth / 2));
 	}
 
-	setMazeObjects(objectProcessor, x, y, walls, cellX, cellY) {
-		var tileSizeModifier = 3
-		var size = Math.round((this.canvas.width / this.size) / tileSizeModifier)
+	setMazeObjects(cell, cellX, cellY, size) {
 
-		for(var cw = 0; cw < walls.length; cw++) {
-			let wall = walls[cw]
-			var absX, absY
+		for(var c = 0; c < cell.length; c++) {
+			var props = cell[c]
 
-			if(cw === 0 && wall === 0) {
-				absX = cellX + size
-				absY = cellY
-				objectProcessor("top", absX, absY, size)
-			}
-			if(cw === 1 && wall === 0) {
-				absX = cellX + (this.cellWidth - size)
-				absY = cellY + size
-				objectProcessor("right", absX, absY, size)
-			}
-			if(cw === 2 && wall === 0) {
-				absX = cellX + size
-				absY = cellY + (this.cellWidth - size)
-				objectProcessor("bottom", absX, absY, size)
-			}
-			if(cw === 3 && wall === 0) {
-				absX = cellX
-				absY = cellY + size
-				objectProcessor("left", absX, absY, size)
-			}
+			if(props.obj === false) continue
+
+			let absX = cellX + (props.loc[0] * size)
+			let absY = (cellY + (props.loc[1] * size)) - this.vOffset
+
+			if(props.obj.context === false) props.obj.setContext(this.ctx)
+			props.obj.setRenderProperties(absX, absY, size, size)
 		}
-	}
-
-	placeThemeObject(wall, cellX, cellY, size) {
-
-		var vacant = this.checkExisting(cellX, cellY)
-
-		if(!vacant) return
-
-		this.occupatedPlaces.push([cellX, cellY])
-		var mazeObject = this.getThemeObject()
-
-		mazeObject.setRenderProperties(cellX, cellY - this.vOffset, size, size)
-
-		this.objectsInMaze["obj" + cellX + cellY] = {
-			obj: mazeObject,
-			x: cellX,
-			y: cellY,
-			size: size,
-			pos: wall
-		}
-	}
-
-	checkExisting(x, y) {
-		var vacant = true
-
-		for(let occ = 0; occ < this.occupatedPlaces.length; occ++) {
-			let ele = this.occupatedPlaces[occ]
-
-			if(ele[0] === x && ele[1] === y) {
-				vacant = false
-				break
-			}
-		}
-
-		return vacant
-	}
-
-	updateMazeObjects(wall, cellX, cellY, size) {
-		var ele = this.objectsInMaze["obj" + cellX + cellY]
-		ele.obj.setPosition(cellX, cellY - this.vOffset)
 	}
 
 	drawOuterWalls() {
 
-	}
-
-	getThemeObject() {
-		let availableObjects = this.theme.objects
-		let amount = availableObjects.length
-		let randomIndex = getRandomInt(0, amount - 1)
-		let pickedObject = new availableObjects[randomIndex]()
-		pickedObject.setContext(this.ctx)
-		return pickedObject
 	}
 
 	drawFloor(x, y) {
@@ -190,8 +122,4 @@ export default class {
 		GameRenderer.removeRenderer("maze")
 		delete this
 	}
-}
-
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
 }

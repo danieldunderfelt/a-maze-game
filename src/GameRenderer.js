@@ -5,8 +5,13 @@ class GameRenderer {
 		this.enabled = false
 	}
 
-	pushRenderer(drawFunction, context, bindingName) {
-		this.renderLoop.push({ name: bindingName, fn: drawFunction, context: context})
+	pushRenderer(drawFunction, context, bindingName, position = false) {
+		var renderData = { name: bindingName, fn: drawFunction, context: context }
+
+		if(position !== false)
+			this.renderLoop.splice(position, 0, renderData)
+		else
+			this.renderLoop.push(renderData)
 	}
 
 	removeRenderer(bindingName) {

@@ -1,4 +1,5 @@
 import { assetRegistry } from '../assetRegistry'
+import AnimTest from '../../src/GameObjects/AnimTest'
 import DefaultObject from '../../src/GameObjects/DefaultObject'
 
 export var FirstLevel = {
@@ -6,16 +7,7 @@ export var FirstLevel = {
 		floor: assetRegistry['hardwood_grey']
 	},
 	objects: [
-		DefaultObject,
-		DefaultObject,
-		DefaultObject,
-		DefaultObject,
-		DefaultObject,
-		DefaultObject,
-		DefaultObject,
-		DefaultObject,
-		DefaultObject,
-		DefaultObject,
+		AnimTest,
 		DefaultObject
 	]
 }

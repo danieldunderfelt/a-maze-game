@@ -1,6 +1,6 @@
 import { generateMaze } from './MazeGenerator'
 import MazeRenderer from './MazeRenderer'
-import { generateWorld } from './WorldGenerator'
+import WorldGenerator from './WorldGenerator'
 
 export default class {
 
@@ -36,7 +36,7 @@ export default class {
 		this.mazeStep = width / 50
 		var generatedMaze = generateMaze(width, height, this.onCellTraverse.bind(this))
 
-		this.worldData = generateWorld(generatedMaze, width, height)
+		this.worldData = new WorldGenerator(this.theme, generatedMaze, width, height)
 
 		this.worldHeight = height * 3
 		this.renderer = new MazeRenderer(this.theme, this.worldData, width, this.worldHeight)
@@ -45,7 +45,6 @@ export default class {
 	move(increment) {
 		var mazeOffset = this.renderer.moveMaze(increment)
 		if(!mazeOffset) return false
-		console.log("maze move")
 		this.verticalPosition = this.verticalPosition + increment
 
 	}

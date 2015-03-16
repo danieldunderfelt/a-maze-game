@@ -11,6 +11,9 @@ export default class {
 		this.y = 0
 		this.width = 0
 		this.height = 0
+		this.subcell = 0
+		this.mazeCell = [0, 0]
+		this.againstWall = 0
 
 		this.spriteWidth = 32
 		this.spriteHeight = 32
@@ -22,6 +25,12 @@ export default class {
 	setPosition(x, y) {
 		this.x = x
 		this.y = y
+	}
+
+	setLocationData(subcellPosition, mazeLocation, mazeCellWall) {
+		this.subcell = subcellPosition
+		this.mazeCell = mazeLocation
+		this.againstWall = mazeCellWall
 	}
 
 	setRenderProperties(x, y, width, height) {
