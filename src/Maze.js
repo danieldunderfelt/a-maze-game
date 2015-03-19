@@ -6,6 +6,7 @@ export default class {
 
 	constructor(game) {
 		this.game = game
+		this.player = {}
 		this.renderer = false
 		this.theme = {}
 		this.worldData = []
@@ -22,6 +23,10 @@ export default class {
 
 	setTheme(theme) {
 		this.theme = theme
+	}
+
+	setPlayer(playerObject) {
+		this.player = playerObject
 	}
 
 	makeMaze(width, height) {

@@ -1,11 +1,16 @@
 import GameRenderer from './GameRenderer'
 import DefaultObject from '../../src/GameObjects/DefaultObject'
+import PlayerObject from './GameObjects/PlayerObject'
 
 export default class {
 
 	constructor() {
 		this.world = []
-		this.playerObject = new DefaultObject()
+		this.avatar = {}
+	}
+
+	initAvatar() {
+		this.avatar = new PlayerObject(this)
 	}
 
 	setGrid(gridSize, world) {

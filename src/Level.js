@@ -27,14 +27,11 @@ export default class {
 		}
 	}
 
-	setPlayer(worldData) {
-		this.game.player.setGrid(this.gridSize, worldData)
-		this.game.player.resetPosition()
-	}
-
 	setWorld() {
 		this.game.maze.setTheme(this.theme)
 		this.game.maze.makeMaze(this.gridSize, this.mazeHeight)
+		var player = this.game.player.initAvatar()
+		this.game.maze.setPlayer(player)
 	}
 
 	getLevelData() {
