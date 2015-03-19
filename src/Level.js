@@ -1,4 +1,5 @@
 import { GameData } from '../data/GameData'
+import WorldController from './WorldController'
 
 export default class {
 
@@ -28,10 +29,9 @@ export default class {
 	}
 
 	setWorld() {
-		this.game.maze.setTheme(this.theme)
-		this.game.maze.makeMaze(this.gridSize, this.mazeHeight)
-		var player = this.game.player.initAvatar()
-		this.game.maze.setPlayer(player)
+		WorldController.newWorld()
+		let world = WorldController.generateWorld(this.theme, this.gridSize, this.mazeHeight)
+		this.game.maze.initialize()
 	}
 
 	getLevelData() {

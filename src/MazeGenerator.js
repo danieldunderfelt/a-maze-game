@@ -1,4 +1,4 @@
-export function generateMaze(x, y, cellCallback) {
+export function generateMaze(x, y) {
 
     // Establish variables and starting grid
     var totalCells = x * y
@@ -49,8 +49,6 @@ export function generateMaze(x, y, cellCallback) {
             // Mark the neighbor as visited, and set it as the current cell
             unvis[next[0]][next[1]] = false
             visited++
-
-            cellCallback(currentCell, cells[currentCell[0]][currentCell[1]])
 
             currentCell = [next[0], next[1]]
             path.push(currentCell)

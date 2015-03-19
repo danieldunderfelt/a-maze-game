@@ -26,11 +26,8 @@ export default class {
 	}
 
 	generate() {
-		var mazeData = this.maze
-		mazeData = this.setOpenSpace(mazeData)
-		mazeData = this.divideCells(mazeData)
-
-		return mazeData
+		let worldData = this.maze
+		return this.divideCells(this.setOpenSpace(worldData))
 	}
 
 	divideCells(mazeData) {
