@@ -5,6 +5,7 @@ export default class {
 	constructor() {
 		this.callback = function() {}
 		this.enabled = false
+		this.register = true
 	}
 
 	registerCallback(callback) {
@@ -14,6 +15,9 @@ export default class {
 	start() {
 		this.enable()
 		$(window).on('keydown', this.handleKeyboardInput.bind(this))
+		$(window).on('keyup', (e) => {
+			this.register = true
+		})
 	}
 
 	enable() {
@@ -25,8 +29,10 @@ export default class {
 	}
 
 	handleKeyboardInput(e) {
+		if(!this.register) return false
+		this.register = false
 
-		var dir = null
+		var dir = false
 
 		if(e.keyCode === 40) dir = 'down'
 		if(e.keyCode === 38) dir = 'up'
@@ -38,7 +44,7 @@ export default class {
 			direction: dir
 		}
 
-		if(dir !== null) {
+		if(dir !== false) {
 			this.callback(eventData)
 		}
 	}

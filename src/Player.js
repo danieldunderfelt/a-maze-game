@@ -1,71 +1,46 @@
 import GameRenderer from './GameRenderer'
 import DefaultObject from '../../src/GameObjects/DefaultObject'
 import PlayerObject from './GameObjects/PlayerObject'
+import WorldController from './WorldController'
 
 export default class {
 
 	constructor() {
-		this.world = []
 		this.avatar = {}
+		this.x = 0
+		this.y = 0
+		this.currentSubcell = null
+		this.currentSubcellIndex = null
+		this.worldData = {}
 	}
 
-	initAvatar() {
+	initLevel() {
 		this.avatar = new PlayerObject(this)
+		this.worldData = WorldController.getCurrentWorldData()
+		this.setInitialPosition()
 	}
 
-	setGrid(gridSize, world) {
-		this.cellSize = this.canvas.width / gridSize
-		this.baseSize = gridSize
-		this.step = gridSize / 50
-	}
+	setInitialPosition() {
+		this.x = Math.round((this.worldData.width - 1) / 2)
+		this.y = Math.round(this.worldData.height - 1)
+		this.currentSubcellIndex = 8
 
-	resetPosition() {
-		this.currentX = Math.round((this.baseSize - 1) / 2)
-		this.currentY = this.baseSize - 1
+		this.currentSubcell = WorldController.insert(this.avatar, this.x, this.y, this.currentSubcellIndex)
 	}
 
 	getPosition() {
-		return [this.currentX, this.currentY]
+		return {
+			x: this.x,
+			y: this.y,
+			subcell: this.currentSubcell
+		}
 	}
 
-	draw() {
+	move(dir) {
+		var nextPos = WorldController.getPosition(this.x, this.y, this.currentSubcellIndex, dir)
+		var move = WorldController.moveObject(this.avatar, this.x, this.y, this.currentSubcellIndex - 1)
+		if(!move) return false
 
-	}
-
-	move(position) {
-		this.currentX = position[0]
-		this.currentY = position[1]
-	}
-
-	calculatePosition(dir) {
-		var nextStep
-
-		if(dir === 'up') {
-			nextStep = this.currentY - this.step
-
-			if(nextStep < -(this.step * 5)) return [this.currentX, -(this.step * 5)]
-			else return [this.currentX, nextStep]
-		}
-
-		if(dir === 'down') {
-			nextStep = this.currentY + this.step
-
-			if(nextStep > this.baseSize - this.step * 5) return false
-			else return [this.currentX, nextStep]
-		}
-
-		if(dir === 'left') {
-			nextStep = this.currentX - this.step
-
-			if(nextStep < -(this.step * 5)) nextStep = this.baseSize - (this.step * 5)
-			return [nextStep, this.currentY]
-		}
-
-		if(dir === 'right') {
-			nextStep = this.currentX + this.step
-
-			if(nextStep > this.baseSize - (this.step * 5)) nextStep = -(this.step * 5)
-			return [nextStep, this.currentY]
-		}
+		move()
 	}
 }

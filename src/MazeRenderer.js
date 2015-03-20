@@ -10,9 +10,7 @@ export default class {
 		this.height = world.height
 		this.verticalPosition = 0
 		this.theme = world.theme
-		this.layoutGenerator = layoutGenerator()
-
-		console.log(this.layoutGenerator)
+		this.layoutGenerator = layoutGenerator
 
 		this.mazePixelHeight = this.cellWidth * this.height
 		this.vOffset = 1
@@ -38,16 +36,21 @@ export default class {
 
 		this.drawOuterWalls()
 
-		for (var i = 0; i < this.worldData.layout.length; i++) {
-			for (var j = 0; j < this.worldData.layout[i].length; j++) {
+		var i = 0
 
-				var currentCell = this.worldData.layout[i][j]
+		for (var col of this.layoutGenerator()) {
+
+			for (var j = 0; j < col.length; j++) {
+				var currentCell = col[j]
 				this.drawMazeCell(currentCell, j, i, subcellSize)
 			}
+
+			i++
 		}
 	}
 
 	drawMazeCell(cell, x, y, subcellSize) {
+
 		var cellX = x * this.cellWidth
 		var cellY = y * this.cellWidth
 

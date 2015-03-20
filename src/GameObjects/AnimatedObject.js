@@ -38,6 +38,7 @@ export default class extends BaseObject {
 	}
 
 	draw() {
+		if(this.context === false) return false
 		this.update()
 		this.render()
 	}

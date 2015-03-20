@@ -15,11 +15,12 @@ var scLocationMap = [
 
 export default class {
 
-	constructor(theme, maze, width, height) {
+	constructor(theme, maze, width, height, callback) {
 		this.theme = theme
 		this.maze = maze
 		this.width = width
 		this.height = height
+		this.callback = callback
 		this.world = this.generate()
 
 		return this.world
@@ -51,6 +52,7 @@ export default class {
 
 		for(var sc = 0; sc < 9; sc++) {
 			if(sc === 8) occupied = false
+
 			else {
 				var currentWall = Math.round((sc * 4) / 9)
 				var occupied = cell[currentWall] === 0
@@ -68,10 +70,12 @@ export default class {
 			var subcell = {
 				occupied: occupied,
 				obj: obj,
-				walls: cell,
 				loc: location,
-				mazeLoc: [mazeX, mazeY]
+				mazeLoc: [mazeX, mazeY],
+				index: sc
 			}
+
+			this.callback(subcell)
 
 			subcells.push(subcell)
 		}

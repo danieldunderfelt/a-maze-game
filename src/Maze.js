@@ -20,16 +20,15 @@ export default class {
 
 		let world = WorldController.getCurrentWorldData()
 		this.worldHeight = world.height
-		this.verticalPosition = 0
 		this.gridSize = world.width
 		this.mazeStep = world.width / 50
 
 		this.renderer = new MazeRenderer(world, WorldController.getLayoutGenerator())
 	}
 
-	move() {
-		var mazeOffset = this.renderer.moveMaze(this.mazeStep)
-		if(!mazeOffset) return false
-		this.verticalPosition = this.verticalPosition + this.mazeStep
+	move(direction) {
+		if(direction === "up") {
+			this.renderer.moveMaze(this.mazeStep, direction)
+		}
 	}
 }

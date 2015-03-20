@@ -22,8 +22,4 @@ export class Game {
 		LevelLoader.setupLevel(this.level)
 		this.startLevel()
 	}
-
-	playerMove(eventData) {
-		this.maze.move()
-	}
 }

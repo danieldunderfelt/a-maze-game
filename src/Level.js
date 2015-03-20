@@ -17,6 +17,7 @@ export default class {
 	start() {
 		this.setState()
 		this.setWorld()
+		this.setPlayer()
 	}
 
 	setState() {
@@ -30,8 +31,12 @@ export default class {
 
 	setWorld() {
 		WorldController.newWorld()
-		let world = WorldController.generateWorld(this.theme, this.gridSize, this.mazeHeight)
+		WorldController.generateWorld(this.theme, this.gridSize, this.mazeHeight)
 		this.game.maze.initialize()
+	}
+
+	setPlayer() {
+		this.game.player.initLevel()
 	}
 
 	getLevelData() {

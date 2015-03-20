@@ -19,6 +19,8 @@ export default class {
 		this.spriteHeight = 32
 		this.sprite = assetRegistry.default_sprite
 
+		this.assets = assetRegistry
+
 		GameRenderer.pushRenderer(this.draw, this, this.id)
 	}
 
