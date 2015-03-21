@@ -9,8 +9,8 @@ export default class {
 		this.avatar = {}
 		this.x = 0
 		this.y = 0
-		this.currentSubcell = null
-		this.currentSubcellIndex = null
+		this.subcell = null
+		this.subcellIndex = null
 		this.worldData = {}
 	}
 
@@ -23,24 +23,35 @@ export default class {
 	setInitialPosition() {
 		this.x = Math.round((this.worldData.width - 1) / 2)
 		this.y = Math.round(this.worldData.height - 1)
-		this.currentSubcellIndex = 8
+		this.subcellIndex = 8
 
-		this.currentSubcell = WorldController.insert(this.avatar, this.x, this.y, this.currentSubcellIndex)
+		this.subcell = WorldController.insert(this.avatar, this.x, this.y, this.subcellIndex)
 	}
 
 	getPosition() {
 		return {
 			x: this.x,
 			y: this.y,
-			subcell: this.currentSubcell
+			subcell: this.subcell
 		}
 	}
 
 	move(dir) {
-		var nextPos = WorldController.getPosition(this.x, this.y, this.currentSubcellIndex, dir)
-		var move = WorldController.moveObject(this.avatar, this.x, this.y, this.currentSubcellIndex - 1)
+		var nextPos = WorldController.getPosition(this.x, this.y, this.subcellIndex, dir)
+
+		if(!nextPos) return false
+
+		var move = WorldController.moveObject(this.avatar, nextPos.x, nextPos.y, nextPos.index)
+
 		if(!move) return false
 
-		move()
+		var newSubcell = move()
+
+		this.subcell = newSubcell
+		this.x = newSubcell.mazeLoc[0],
+		this.y = newSubcell.mazeLoc[1],
+		this.subcellIndex = newSubcell.index
+
+		return true
 	}
 }

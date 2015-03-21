@@ -8,7 +8,7 @@ export default class {
 		this.player = {}
 		this.renderer = false
 		this.verticalPosition = 0
-		this.mazeStep = 0.05
+		this.mazeStep = 0.11
 	}
 
 	getPosition() {
@@ -21,7 +21,7 @@ export default class {
 		let world = WorldController.getCurrentWorldData()
 		this.worldHeight = world.height
 		this.gridSize = world.width
-		this.mazeStep = world.width / 50
+		this.mazeStep = world.width / 18
 
 		this.renderer = new MazeRenderer(world, WorldController.getLayoutGenerator())
 	}

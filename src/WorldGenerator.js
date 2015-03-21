@@ -32,14 +32,15 @@ export default class {
 	}
 
 	divideCells(mazeData) {
-		var dividedCells = mazeData
+		var dividedCells = []
 
 		// Go through the cells and divide into subcells
-		for(var my = 0; my < dividedCells.length; my++) {
-			var curRow = dividedCells[my]
+		for(var my = 0; my < mazeData.length; my++) {
+			var curRow = mazeData[my]
+			dividedCells.push([])
 
 			for(var mx = 0; mx < curRow.length; mx++) {
-				curRow[mx] = this.makeSubcell(curRow[mx], mx, my)
+				dividedCells[my].push(this.makeSubcell(curRow[mx], mx, my))
 			}
 		}
 
@@ -87,7 +88,7 @@ export default class {
 		var maze = mazeData
 
 		// Fill the start and end of the maze with some empty cells
-		for(let h = 0; h < this.width; h++) {
+		for(let h = 0; h < GameData.emptyCellPadding; h++) {
 			var openRows = []
 
 			for(let w = 0; w < this.width; w++) {

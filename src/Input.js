@@ -30,7 +30,6 @@ export default class {
 
 	handleKeyboardInput(e) {
 		if(!this.register) return false
-		this.register = false
 
 		var dir = false
 
@@ -45,6 +44,7 @@ export default class {
 		}
 
 		if(dir !== false) {
+			this.register = false
 			this.callback(eventData)
 		}
 	}

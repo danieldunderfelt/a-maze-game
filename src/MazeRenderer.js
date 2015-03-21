@@ -1,3 +1,4 @@
+import { GameData} from '../data/GameData'
 import GameRenderer from './GameRenderer'
 
 export default class {
@@ -30,7 +31,7 @@ export default class {
 	}
 
 	renderMaze() {
-		this.vOffset = (( this.mazePixelHeight - (this.size * this.cellWidth) ) - (this.verticalPosition * this.cellWidth))
+		this.vOffset = ( this.mazePixelHeight - (this.size * this.cellWidth) ) - (this.verticalPosition * this.cellWidth)
 
 		var subcellSize = Math.round((this.canvas.width / this.size) / 3)
 
@@ -55,7 +56,7 @@ export default class {
 		var cellY = y * this.cellWidth
 
 		this.drawFloor(cellX, cellY)
-		this.drawDebug(cellX, cellY, x, y)
+		//this.drawDebug(cellX, cellY, x, y)
 		this.setMazeObjects(cell, cellX, cellY, subcellSize)
 	}
 
@@ -76,10 +77,10 @@ export default class {
 		for(var c = 0; c < cell.length; c++) {
 			var props = cell[c]
 
-			if(props.obj === false) continue
-
 			let absX = cellX + (props.loc[0] * size)
 			let absY = (cellY + (props.loc[1] * size)) - this.vOffset
+
+			if(props.obj === false) continue
 
 			if(props.obj.context === false) props.obj.setContext(this.ctx)
 			props.obj.setRenderProperties(absX, absY, size, size)

@@ -1,3 +1,5 @@
+import { GameData } from '../data/GameData'
+import { scDirectionMap } from '../data/subcellDirectionMap'
 import { generateMaze } from './MazeGenerator'
 import WorldGenerator from './WorldGenerator'
 
@@ -20,7 +22,7 @@ class WorldController {
 
 		this.currentWorld.theme = theme
 		this.layout = new WorldGenerator(theme, generatedMaze, width, height, this.cellCallback.bind(this))
-		this.currentWorld.height = height + (width * 2)
+		this.currentWorld.height = this.layout.length
 		this.currentWorld.width = width
 	}
 
@@ -47,6 +49,24 @@ class WorldController {
 
 	saveWorld() {
 
+	}
+
+	getPosition(x, y, index, dir) {
+		var newCoords = scDirectionMap[index][dir]
+		var newX = x + newCoords.x
+		var newY = y + newCoords.y
+
+		if(newX > this.currentWorld.width - 1 || newX < 0 || newY > this.currentWorld.height - 1 || newY < 0) return false
+
+		var nextSubcell = this.getSubcell(newX, newY, newCoords.index)
+
+		if(!nextSubcell) return false
+
+		return {
+			x: nextSubcell.mazeLoc[0],
+			y: nextSubcell.mazeLoc[1],
+			index: nextSubcell.index
+		}
 	}
 
 	insert(obj, x, y, index) {
@@ -94,6 +114,8 @@ class WorldController {
 			this.layout[y][x][index] = newSubcell
 			this.removeObject(obj.id)
 			this.objects[obj.id] = newSubcell
+
+			return newSubcell
 		}
 
 		if(!instantCommit) return moveCommitter
@@ -108,10 +130,6 @@ class WorldController {
 	getSubcellByObject(objId) {
 		var obj = this.objects[objId]
 		return typeof obj === "undefined" ? false : obj
-	}
-
-	getPosition(x, y, index, dir) {
-
 	}
 }
 
