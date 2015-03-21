@@ -56,7 +56,7 @@ export default class {
 		var cellY = y * this.cellWidth
 
 		this.drawFloor(cellX, cellY)
-		this.drawDebug(cellX, cellY, x, y)
+		//this.drawDebug(cellX, cellY, x, y)
 		this.setMazeObjects(cell, cellX, cellY, subcellSize)
 	}
 
@@ -80,8 +80,8 @@ export default class {
 			let absX = cellX + (props.loc[0] * size)
 			let absY = (cellY + (props.loc[1] * size)) - this.vOffset
 
-			this.ctx.font = '16pt Calibri';
-			this.ctx.fillText(props.loc[2], absX + (size / 3), absY + (size / 3));
+			/*this.ctx.font = '16pt Calibri';
+			this.ctx.fillText(props.loc[2], absX + (size / 3), absY + (size / 3));*/
 
 			if(props.obj === false) continue
 

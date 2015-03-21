@@ -7,7 +7,8 @@ var assetUrls = {
 	'hardwood_white': textures + 'floor/hardwood_white.png',
 	'default_sprite': sprites + 'default.gif',
 	'anim_test': sprites + 'anim_test.png',
-	'high_object': sprites + '3d_test.png',
+	'high_object': sprites + 'hovering_tubes.png',
+	'hovering_anim': sprites + 'hovering_tubes_anim.png',
 }
 
 export var assetRegistry = {}

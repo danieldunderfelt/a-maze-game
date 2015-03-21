@@ -5,13 +5,12 @@ export default class extends AnimatedObject {
 	constructor() {
 		super()
 
-		this.sprite = this.assets.hovering_anim
-		this.totalFrames = 5
-		this.spriteWidth = 160
-		this.spriteHeight = 64
+		this.sprite = this.assets.anim_test
+		this.totalFrames = 17
+		this.spriteWidth = 544
+		this.spriteHeight = 32
 		this.frameWidth = 32
-		this.frameHeight = 64
-		this.animationSpeed = 20
+		this.frameHeight = 32
 
 		this.animate()
 		this.loop(true)

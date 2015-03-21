@@ -26,15 +26,6 @@ class GameRenderer {
 		}
 	}
 
-	moveRenderer(bindingName, toPosition) {
-		for(var r = 0; r < this.renderLoop.length; r++) {
-			if(bindingName === this.renderLoop[r].name) {
-				var from = this.renderLoop[r].position
-				this.renderLoop.splice(toPosition, 0, this.renderLoop.splice(from, 1)[0])
-			}
-		}
-	}
-
 	start() {
 		this.enabled = true
 		this.render()

@@ -21,9 +21,9 @@ export default class extends BaseObject {
 		this.animationSpeed = speed
 	}
 
-	setRenderProperties(x, y, width, height, stackPosition) {
-		this.height = (this.frameHeight / this.frameWidth) * height
-		this.x = x
+	setRenderProperties(x, y, width, height) {
+		this.height = (this.frameHeight / this.frameWidth) * width
+		this.x = x + 12
 		this.y = y - ((this.height / width) - 1) * width
 		this.width = width
 	}
@@ -65,8 +65,8 @@ export default class extends BaseObject {
 		// What an absolute bitch this is to wrap ones head around
 		let sourceX = this.currentFrame * this.spriteWidth / this.totalFrames
 		let sourceWidth = this.spriteWidth / this.totalFrames
-		let destX = this.x - this.width / this.totalFrames
-		let destY = this.y - this.height / this.totalFrames
+		let destX = this.x - (this.width / this.totalFrames)
+		let destY = this.y
 
 		this.context.drawImage(
 			this.sprite,

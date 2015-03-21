@@ -56,8 +56,6 @@ class WorldController {
 		var newX = x + newCoords.x
 		var newY = y + newCoords.y
 
-		console.log(newCoords)
-
 		if(newX > this.currentWorld.width - 1 || newX < 0 || newY > this.currentWorld.height - 1 || newY < 0) return false
 		var nextSubcell = this.getSubcell(newX, newY, newCoords.index)
 

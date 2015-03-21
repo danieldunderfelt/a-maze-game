@@ -1,6 +1,5 @@
 import GameRenderer from './GameRenderer'
-import DefaultObject from '../../src/GameObjects/DefaultObject'
-import PlayerObject from './GameObjects/BaseObject'
+import PlayerObject from './GameObjects/DefaultObject'
 import WorldController from './WorldController'
 
 export default class {
