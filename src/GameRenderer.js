@@ -6,18 +6,31 @@ class GameRenderer {
 	}
 
 	pushRenderer(drawFunction, context, bindingName, position = false) {
-		var renderData = { name: bindingName, fn: drawFunction, context: context }
+		var renderData = { name: bindingName, fn: drawFunction, context: context, position: position }
 
 		if(position !== false)
 			this.renderLoop.splice(position, 0, renderData)
-		else
+		else {
+			renderData.position = this.renderLoop.length
 			this.renderLoop.push(renderData)
+		}
+
+		return renderData.position
 	}
 
 	removeRenderer(bindingName) {
 		for(var r = 0; r < this.renderLoop.length; r++) {
 			if(bindingName === this.renderLoop[r].name) {
 				this.renderLoop.splice(r, 1)
+			}
+		}
+	}
+
+	moveRenderer(bindingName, toPosition) {
+		for(var r = 0; r < this.renderLoop.length; r++) {
+			if(bindingName === this.renderLoop[r].name) {
+				var from = this.renderLoop[r].position
+				this.renderLoop.splice(toPosition, 0, this.renderLoop.splice(from, 1)[0])
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 import GameRenderer from './GameRenderer'
 import DefaultObject from '../../src/GameObjects/DefaultObject'
-import PlayerObject from './GameObjects/PlayerObject'
+import PlayerObject from './GameObjects/BaseObject'
 import WorldController from './WorldController'
 
 export default class {
@@ -23,7 +23,7 @@ export default class {
 	setInitialPosition() {
 		this.x = Math.round((this.worldData.width - 1) / 2)
 		this.y = Math.round(this.worldData.height - 1)
-		this.subcellIndex = 8
+		this.subcellIndex = 4
 
 		this.subcell = WorldController.insert(this.avatar, this.x, this.y, this.subcellIndex)
 	}

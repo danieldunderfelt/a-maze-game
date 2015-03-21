@@ -20,8 +20,6 @@ export default class {
 		this.sprite = assetRegistry.default_sprite
 
 		this.assets = assetRegistry
-
-		GameRenderer.pushRenderer(this.draw, this, this.id)
 	}
 
 	setPosition(x, y) {
@@ -36,10 +34,10 @@ export default class {
 	}
 
 	setRenderProperties(x, y, width, height) {
+		this.height = (this.spriteHeight / this.spriteWidth) * height
 		this.x = x
-		this.y = y
+		this.y = y - ((this.height / width) - 1) * width
 		this.width = width
-		this.height = height
 	}
 
 	setContext(context) {

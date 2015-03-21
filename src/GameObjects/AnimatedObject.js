@@ -1,4 +1,5 @@
 import BaseObject from './BaseObject'
+import GameRenderer from '../GameRenderer'
 
 export default class extends BaseObject {
 
@@ -12,17 +13,19 @@ export default class extends BaseObject {
 		this.totalFrames = 1
 		this.animationSpeed = 60 // higher = slower, OBVIOUSLY
 		this.ticks = 0
+		this.frameWidth = 32
+		this.frameHeight = 32
 	}
 
 	setSpeed(speed) {
 		this.animationSpeed = speed
 	}
 
-	setRenderProperties(x, y, width, height) {
+	setRenderProperties(x, y, width, height, stackPosition) {
+		this.height = (this.frameHeight / this.frameWidth) * height
 		this.x = x
-		this.y = y
+		this.y = y - ((this.height / width) - 1) * width
 		this.width = width
-		this.height = height
 	}
 
 	animate() {

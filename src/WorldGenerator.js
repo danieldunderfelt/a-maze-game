@@ -2,15 +2,15 @@ import { GameData } from '../data/GameData'
 
 // Multiply the x, y coords of this subcell by this many subcell sizes when rendering
 var scLocationMap = [
-	[0, 0], // top left
-	[1, 0], // top center
-	[2, 0], // top right
-	[2, 1], // middle right
-	[2, 2], // bottom right
-	[1, 2], // bottom center
-	[0, 2], // bottom left
-	[0, 1], // middle left
-	[1, 1], // center
+	[0, 0, 0], // top left
+	[1, 0, 1], // top center
+	[2, 0, 2], // top right
+	[2, 1, 5], // middle right
+	[2, 2, 8], // bottom right
+	[1, 2, 7], // bottom center
+	[0, 2, 6], // bottom left
+	[0, 1, 3], // middle left
+	[1, 1, 4], // center
 ]
 
 export default class {
@@ -48,7 +48,7 @@ export default class {
 	}
 
 	makeSubcell(cell, mazeX, mazeY) {
-		var subcells = []
+		var subcells = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 		var occupiedSubcells = 0
 
 		for(var sc = 0; sc < 9; sc++) {
@@ -64,7 +64,7 @@ export default class {
 
 			if(occupied) {
 				occupiedSubcells++
-				obj = this.getThemeObject()
+				obj = this.populateSubcell(mazeX, mazeY, sc, currentWall)
 				obj.setLocationData(location, [mazeX, mazeY], currentWall)
 			}
 
@@ -73,12 +73,12 @@ export default class {
 				obj: obj,
 				loc: location,
 				mazeLoc: [mazeX, mazeY],
-				index: sc
+				index: location[2]
 			}
 
 			this.callback(subcell)
 
-			subcells.push(subcell)
+			subcells.splice(location[2], 1, subcell)
 		}
 
 		return subcells
@@ -102,13 +102,23 @@ export default class {
 		return maze
 	}
 
+	populateSubcell(mazeX, mazeY, index, currentWall) {
+		var obj
+
+		return this.getThemeObject()
+	}
+
 	getThemeObject() {
 		let availableObjects = this.theme.objects
 		let amount = availableObjects.length
 		let randomIndex = getRandomInt(0, amount - 1)
-		let pickedObject = new availableObjects[randomIndex]()
+		let pickedObject = new availableObjects[randomIndex](this.stack)
 
 		return pickedObject
+	}
+
+	getThemeRoomPart(type, faceDirection) {
+
 	}
 }
 

@@ -19,7 +19,7 @@ export var scDirectionMap = [
 		"down": {
 			x: 0,
 			y: 0,
-			index: 7
+			index: 3
 		},
 		"left": {
 			x: -1,
@@ -31,7 +31,7 @@ export var scDirectionMap = [
 		"up": {
 			x: 0,
 			y: -1,
-			index: 5
+			index: 7
 		},
 		"right": {
 			x: 0,
@@ -41,7 +41,7 @@ export var scDirectionMap = [
 		"down": {
 			x: 0,
 			y: 0,
-			index: 8
+			index: 4
 		},
 		"left": {
 			x: 0,
@@ -53,7 +53,7 @@ export var scDirectionMap = [
 		"up": {
 			x: 0,
 			y: -1,
-			index: 4
+			index: 8
 		},
 		"right": {
 			x: 1,
@@ -63,100 +63,12 @@ export var scDirectionMap = [
 		"down": {
 			x: 0,
 			y: 0,
-			index: 3
+			index: 5
 		},
 		"left": {
 			x: 0,
 			y: 0,
 			index: 1
-		}
-	},
-	{ // middle right
-		"up": {
-			x: 0,
-			y: 0,
-			index: 2
-		},
-		"right": {
-			x: 1,
-			y: 0,
-			index: 7
-		},
-		"down": {
-			x: 0,
-			y: 0,
-			index: 4
-		},
-		"left": {
-			x: 0,
-			y: 0,
-			index: 8
-		}
-	},
-	{ // bottom right
-		"up": {
-			x: 0,
-			y: 0,
-			index: 3
-		},
-		"right": {
-			x: 1,
-			y: 0,
-			index: 6
-		},
-		"down": {
-			x: 0,
-			y: 1,
-			index: 2
-		},
-		"left": {
-			x: 0,
-			y: 0,
-			index: 5
-		}
-	},
-	{ // bottom center
-		"up": {
-			x: 0,
-			y: 0,
-			index: 8
-		},
-		"right": {
-			x: 0,
-			y: 0,
-			index: 4
-		},
-		"down": {
-			x: 0,
-			y: 1,
-			index: 1
-		},
-		"left": {
-			x: 0,
-			y: 0,
-			index: 6
-		}
-	},
-	{ // bottom left
-		"up": {
-			x: 0,
-			y: 0,
-			index: 7
-		},
-		"right": {
-			x: 0,
-			y: 0,
-			index: 5
-		},
-		"down": {
-			x: 0,
-			y: 1,
-			index: 0
-		},
-		"left": {
-			x: -1,
-			y: 0,
-			index: 4
 		}
 	},
 	{ // middle left
@@ -168,7 +80,7 @@ export var scDirectionMap = [
 		"right": {
 			x: 0,
 			y: 0,
-			index: 8
+			index: 4
 		},
 		"down": {
 			x: 0,
@@ -178,7 +90,7 @@ export var scDirectionMap = [
 		"left": {
 			x: -1,
 			y: 0,
-			index: 3
+			index: 5
 		}
 	},
 	{ // center
@@ -190,12 +102,100 @@ export var scDirectionMap = [
 		"right": {
 			x: 0,
 			y: 0,
+			index: 5
+		},
+		"down": {
+			x: 0,
+			y: 0,
+			index: 7
+		},
+		"left": {
+			x: 0,
+			y: 0,
+			index: 3
+		}
+	},
+	{ // middle right
+		"up": {
+			x: 0,
+			y: 0,
+			index: 2
+		},
+		"right": {
+			x: 1,
+			y: 0,
 			index: 3
 		},
 		"down": {
 			x: 0,
 			y: 0,
+			index: 8
+		},
+		"left": {
+			x: 0,
+			y: 0,
+			index: 4
+		}
+	},
+	{ // bottom left
+		"up": {
+			x: 0,
+			y: 0,
+			index: 3
+		},
+		"right": {
+			x: 0,
+			y: 0,
+			index: 7
+		},
+		"down": {
+			x: 0,
+			y: 1,
+			index: 0
+		},
+		"left": {
+			x: -1,
+			y: 0,
+			index: 8
+		}
+	},
+	{ // bottom center
+		"up": {
+			x: 0,
+			y: 0,
+			index: 4
+		},
+		"right": {
+			x: 0,
+			y: 0,
+			index: 8
+		},
+		"down": {
+			x: 0,
+			y: 1,
+			index: 1
+		},
+		"left": {
+			x: 0,
+			y: 0,
+			index: 6
+		}
+	},
+	{ // bottom right
+		"up": {
+			x: 0,
+			y: 0,
 			index: 5
+		},
+		"right": {
+			x: 1,
+			y: 0,
+			index: 6
+		},
+		"down": {
+			x: 0,
+			y: 1,
+			index: 2
 		},
 		"left": {
 			x: 0,

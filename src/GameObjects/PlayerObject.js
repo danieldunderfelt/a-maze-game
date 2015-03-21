@@ -9,6 +9,8 @@ class PlayerObject extends AnimatedObject {
 		this.totalFrames = 17
 		this.spriteWidth = 544
 		this.spriteHeight = 32
+		this.frameWidth = 32
+		this.frameHeight = 32
 
 		this.animate()
 		this.loop(true)

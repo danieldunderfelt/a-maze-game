@@ -6,7 +6,8 @@ var assetUrls = {
 	'hardwood_grey': textures + 'floor/hardwood_grey.png',
 	'hardwood_white': textures + 'floor/hardwood_white.png',
 	'default_sprite': sprites + 'default.gif',
-	'anim_test': sprites + 'anim_test.png'
+	'anim_test': sprites + 'anim_test.png',
+	'high_object': sprites + '3d_test.png',
 }
 
 export var assetRegistry = {}

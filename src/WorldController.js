@@ -56,8 +56,9 @@ class WorldController {
 		var newX = x + newCoords.x
 		var newY = y + newCoords.y
 
-		if(newX > this.currentWorld.width - 1 || newX < 0 || newY > this.currentWorld.height - 1 || newY < 0) return false
+		console.log(newCoords)
 
+		if(newX > this.currentWorld.width - 1 || newX < 0 || newY > this.currentWorld.height - 1 || newY < 0) return false
 		var nextSubcell = this.getSubcell(newX, newY, newCoords.index)
 
 		if(!nextSubcell) return false
@@ -65,7 +66,7 @@ class WorldController {
 		return {
 			x: nextSubcell.mazeLoc[0],
 			y: nextSubcell.mazeLoc[1],
-			index: nextSubcell.index
+			index: nextSubcell.loc[2]
 		}
 	}
 
@@ -93,7 +94,7 @@ class WorldController {
 			index: subcell.index
 		}
 
-		this.layout[subcell.mazeLoc[1]][subcell.mazeLoc[0]][subcell.index] = newSubcell
+		this.layout[subcell.mazeLoc[1]][subcell.mazeLoc[0]][subcell.loc[2]] = newSubcell
 		delete this.objects[objId]
 	}
 
@@ -111,7 +112,7 @@ class WorldController {
 		}
 
 		var moveCommitter = () => {
-			this.layout[y][x][index] = newSubcell
+			this.layout[y][x][moveTo.loc[2]] = newSubcell
 			this.removeObject(obj.id)
 			this.objects[obj.id] = newSubcell
 

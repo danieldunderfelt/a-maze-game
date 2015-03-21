@@ -21,7 +21,7 @@ export default class {
 		let world = WorldController.getCurrentWorldData()
 		this.worldHeight = world.height
 		this.gridSize = world.width
-		this.mazeStep = world.width / 18
+		this.mazeStep = world.width / 20
 
 		this.renderer = new MazeRenderer(world, WorldController.getLayoutGenerator())
 	}
