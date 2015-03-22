@@ -1,16 +1,74 @@
 import { GameData } from '../data/GameData'
 
 // Multiply the x, y coords of this subcell by this many subcell sizes when rendering
+// Parameters = x, y, real index, applicable cell wall
 var scLocationMap = [
-	[0, 0, 0], // top left
-	[1, 0, 1], // top center
-	[2, 0, 2], // top right
-	[2, 1, 5], // middle right
-	[2, 2, 8], // bottom right
-	[1, 2, 7], // bottom center
-	[0, 2, 6], // bottom left
-	[0, 1, 3], // middle left
-	[1, 1, 4], // center
+	[0, 0, 0, 0], // top left
+	[1, 0, 1, 0], // top center
+	[2, 0, 2, 1], // top right
+	[2, 1, 5, 1], // middle right
+	[2, 2, 8, 2], // bottom right
+	[1, 2, 7, 2], // bottom center
+	[0, 2, 6, 3], // bottom left
+	[0, 1, 3, 3], // middle left
+	[1, 1, 4, false], // center
+]
+
+var wallMap = [
+	[
+		{
+			parts: ["horizontal", "side_opening"],
+			loc: [{ x: 0, y: -1.5 }, { x: 0, y: -1.5 }]
+		}
+	],
+	[
+		{
+			parts: ["horizontal"],
+			loc: [{ x: 0, y: -1.5 }]
+		}
+	],
+	[
+		{
+			parts: ["horizontal", "side_opening"],
+			loc: [{ x: 0, y: -1.5 }, { x: 1, y: -1.5 }]
+		}
+	],
+	[
+		{
+			parts: ["side"],
+			loc: [{ x: 0, y: -1 }]
+		}
+	],
+	[
+		{
+			parts: [],
+			loc: []
+		}
+	],
+	[
+		{
+			parts: ["side"],
+			loc: [{ x: 1, y: -1 }]
+		}
+	],
+	[
+		{
+			parts: ["horizontal"],
+			loc: [{ x: 0, y: -1.5 }]
+		}
+	],
+	[
+		{
+			parts: ["horizontal"],
+			loc: [{ x: 0, y: -1.5 }]
+		}
+	],
+	[
+		{
+			parts: ["horizontal"],
+			loc: [{ x: 0, y: -1.5 }]
+		}
+	],
 ]
 
 export default class {
@@ -28,43 +86,61 @@ export default class {
 
 	generate() {
 		let worldData = this.maze
-		return this.divideCells(this.setOpenSpace(worldData))
+		let populatedWorld = this.traverseWorld(this.setMazePadding(worldData), this.makeSubcell.bind(this))
+		let finalizedWorld = this.traverseWorld(populatedWorld, this.defineWorld.bind(this))
+
+		return finalizedWorld
 	}
 
-	divideCells(mazeData) {
-		var dividedCells = []
+	traverseWorld(mazeData, processor) {
+		var traversedCells = []
 
-		// Go through the cells and divide into subcells
 		for(var my = 0; my < mazeData.length; my++) {
 			var curRow = mazeData[my]
-			dividedCells.push([])
+			traversedCells.push([])
 
 			for(var mx = 0; mx < curRow.length; mx++) {
-				dividedCells[my].push(this.makeSubcell(curRow[mx], mx, my))
+				traversedCells[my].push(processor(curRow[mx], mx, my))
 			}
 		}
 
-		return dividedCells
+		return traversedCells
 	}
 
 	makeSubcell(cell, mazeX, mazeY) {
+		var cellDef = this.defineSubcells(cell, mazeX, mazeY)
+		return cellDef
+	}
+
+	defineWall(cellLoc, wall) {
+		var walls = []
+
+		if(wall === false) return walls
+
+		var definition = wallMap[cellLoc[2]]
+
+		walls.push(definition)
+
+		return walls
+	}
+
+	defineSubcells(cell, mazeX, mazeY) {
 		var subcells = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-		var occupiedSubcells = 0
 
 		for(var sc = 0; sc < 9; sc++) {
+			var location = scLocationMap[sc]
+
 			if(sc === 8) occupied = false
 
 			else {
-				var currentWall = Math.round((sc * 4) / 9)
+				var currentWall = location[3]
 				var occupied = cell[currentWall] === 0
 			}
 
 			var obj = false
-			var location = scLocationMap[sc]
 
 			if(occupied) {
-				occupiedSubcells++
-				obj = this.populateSubcell(mazeX, mazeY, sc, currentWall)
+				obj = this.getThemeObject()
 				obj.setLocationData(location, [mazeX, mazeY], currentWall)
 			}
 
@@ -73,7 +149,8 @@ export default class {
 				obj: obj,
 				loc: location,
 				mazeLoc: [mazeX, mazeY],
-				index: location[2]
+				index: location[2],
+				walls: this.defineWall(location, occupied)
 			}
 
 			this.callback(subcell)
@@ -84,28 +161,44 @@ export default class {
 		return subcells
 	}
 
-	setOpenSpace(mazeData) {
-		var maze = mazeData
+	setMazePadding(mazeData) {
+		var maze = mazeData, h, w, rowsTop, rowsBottom
 
-		// Fill the start and end of the maze with some empty cells
-		for(let h = 0; h < GameData.emptyCellPadding; h++) {
-			var openRows = []
+		// Fill the start and end of the maze with some cells
+		for(h = 0; h < GameData.cellPadding; h++) {
+			rowsTop = []
+			rowsBottom = []
+			var i = 0, w = 0
 
-			for(let w = 0; w < this.width; w++) {
-				openRows.push([1, 1, 1, 1])
+			while(w < this.width) {
+				var top, right, left, bottom
+
+				left = w === 0 ? 0 : 1
+				right = w === this.width - 1 ? 0 : 1
+
+				if(i % 2 === 0) {
+					top = h === GameData.cellPadding - 1 ? 0 : 1 // uhh, okay...
+					bottom = 1
+					rowsTop.push([top, right, bottom, left])
+				}
+				else {
+					top = 1
+					bottom = h === GameData.cellPadding - 1 ? 0 : 1
+					rowsBottom.push([top, right, bottom, left])
+
+					w++
+				}
+
+				i++
 			}
 
-			maze.unshift(openRows)
-			maze.push(openRows)
+			maze.unshift(rowsTop)
+			maze.push(rowsBottom)
 		}
 
+		this.height += GameData.cellPadding * 2
+
 		return maze
-	}
-
-	populateSubcell(mazeX, mazeY, index, currentWall) {
-		var obj
-
-		return this.getThemeObject()
 	}
 
 	getThemeObject() {
@@ -117,8 +210,8 @@ export default class {
 		return pickedObject
 	}
 
-	getThemeRoomPart(type, faceDirection) {
-
+	defineWorld(cell, x, y) {
+		return cell
 	}
 }
 

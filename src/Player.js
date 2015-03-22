@@ -1,5 +1,5 @@
 import GameRenderer from './GameRenderer'
-import PlayerObject from './GameObjects/DefaultObject'
+import PlayerObject from './GameObjects/static/HighObject'
 import WorldController from './WorldController'
 
 export default class {

@@ -3,5 +3,5 @@ export var GameData = {
 	playerCanTeleportSides: true,
 	initialHeightMultiplier: 2,
 	heightExpansion: 2,
-	emptyCellPadding: 3
+	cellPadding: 3
 }

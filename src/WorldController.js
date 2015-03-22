@@ -69,7 +69,7 @@ class WorldController {
 	}
 
 	insert(obj, x, y, index) {
-		var cell = this.layout[y][x][index]
+		var cell = this.getSubcell(x, y, index)
 
 		if(typeof cell === "undefined" || cell.occupied) return false
 
@@ -89,7 +89,8 @@ class WorldController {
 			obj: false,
 			loc: subcell.loc,
 			mazeLoc: subcell.mazeLoc,
-			index: subcell.index
+			index: subcell.index,
+			walls: subcell.walls
 		}
 
 		this.layout[subcell.mazeLoc[1]][subcell.mazeLoc[0]][subcell.loc[2]] = newSubcell
@@ -106,7 +107,8 @@ class WorldController {
 			obj: obj,
 			loc: moveTo.loc,
 			mazeLoc: moveTo.mazeLoc,
-			index: moveTo.index
+			index: moveTo.index,
+			walls: moveTo.walls
 		}
 
 		var moveCommitter = () => {

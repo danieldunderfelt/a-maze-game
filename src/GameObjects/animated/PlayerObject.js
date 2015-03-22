@@ -1,4 +1,4 @@
-import AnimatedObject from './AnimatedObject'
+import AnimatedObject from '../AnimatedObject'
 
 class PlayerObject extends AnimatedObject {
 

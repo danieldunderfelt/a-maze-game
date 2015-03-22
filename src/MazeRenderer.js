@@ -35,8 +35,6 @@ export default class {
 
 		var subcellSize = Math.round((this.canvas.width / this.size) / 3)
 
-		this.drawOuterWalls()
-
 		var i = 0
 
 		for (var col of this.layoutGenerator()) {
@@ -56,8 +54,8 @@ export default class {
 		var cellY = y * this.cellWidth
 
 		this.drawFloor(cellX, cellY)
-		//this.drawDebug(cellX, cellY, x, y)
-		this.setMazeObjects(cell, cellX, cellY, subcellSize)
+		this.drawDebug(cellX, cellY, x, y)
+		this.drawMazeObjects(cell, cellX, cellY, subcellSize)
 	}
 
 	drawDebug(cellX, cellY, x, y) {
@@ -68,31 +66,48 @@ export default class {
 		this.ctx.lineTo(cellX, (cellY + this.cellWidth) - this.vOffset)
 		this.ctx.stroke()
 
-		this.ctx.font = '24pt Calibri';
-		this.ctx.fillText(x + ', ' + y, cellX + (this.cellWidth / 3), (cellY - this.vOffset) + (this.cellWidth / 2));
+		/*this.ctx.font = '24pt Calibri'
+		this.ctx.fillText(x + ', ' + y, cellX + (this.cellWidth / 3), (cellY - this.vOffset) + (this.cellWidth / 2))*/
 	}
 
-	setMazeObjects(cell, cellX, cellY, size) {
+	drawMazeObjects(cell, cellX, cellY, size) {
+		var wallsDrawn = []
 
 		for(var c = 0; c < cell.length; c++) {
 			var props = cell[c]
 
-			let absX = cellX + (props.loc[0] * size)
-			let absY = (cellY + (props.loc[1] * size)) - this.vOffset
+			let absX = (cellX) + (props.loc[0] * size)
+			let absY = ((cellY) + (props.loc[1] * size)) - this.vOffset
 
-			/*this.ctx.font = '16pt Calibri';
-			this.ctx.fillText(props.loc[2], absX + (size / 3), absY + (size / 3));*/
-
-			if(props.obj === false) continue
-
-			if(props.obj.context === false) props.obj.setContext(this.ctx)
-			props.obj.setRenderProperties(absX, absY, size, size)
-			props.obj.draw()
+			if(props.obj !== false) {
+				if(props.obj.context === false) props.obj.setContext(this.ctx)
+				props.obj.setRenderProperties(absX, absY, size, size)
+				props.obj.draw()
+			}
 		}
 	}
 
-	drawOuterWalls() {
+	drawWall(wall, x, y, size) {
+		if(wall.closed !== true) return false
 
+		let coords = wall.coords[0]
+		let dimensions = wall.coords[1]
+
+		let wallX = x + (coords.x * size)
+		let wallY = (y + (coords.y * size)) - this.vOffset
+
+		let wallWidth = dimensions.w * size
+		let wallHeight = dimensions.h * size
+
+		this.ctx.beginPath()
+		this.ctx.rect(wallX, wallY, wallWidth, wallHeight)
+		this.ctx.fillStyle = 'grey'
+		this.ctx.fill()
+		this.ctx.lineWidth = 2
+		this.ctx.strokeStyle = 'black'
+		this.ctx.stroke()
+
+		return wall.side
 	}
 
 	drawFloor(x, y) {

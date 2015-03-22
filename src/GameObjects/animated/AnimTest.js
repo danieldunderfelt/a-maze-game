@@ -1,4 +1,4 @@
-import AnimatedObject from './AnimatedObject'
+import AnimatedObject from '../AnimatedObject'
 
 export default class extends AnimatedObject {
 
