@@ -15,61 +15,49 @@ var scLocationMap = [
 ]
 
 var wallMap = [
-	[
-		{
-			parts: ["horizontal", "side_opening"],
-			loc: [{ x: 0, y: -1.5 }, { x: 0, y: -1.5 }]
-		}
-	],
-	[
-		{
-			parts: ["horizontal"],
-			loc: [{ x: 0, y: -1.5 }]
-		}
-	],
-	[
-		{
-			parts: ["horizontal", "side_opening"],
-			loc: [{ x: 0, y: -1.5 }, { x: 1, y: -1.5 }]
-		}
-	],
-	[
-		{
-			parts: ["side"],
-			loc: [{ x: 0, y: -1 }]
-		}
-	],
-	[
-		{
-			parts: [],
-			loc: []
-		}
-	],
-	[
-		{
-			parts: ["side"],
-			loc: [{ x: 1, y: -1 }]
-		}
-	],
-	[
-		{
-			parts: ["horizontal"],
-			loc: [{ x: 0, y: -1.5 }]
-		}
-	],
-	[
-		{
-			parts: ["horizontal"],
-			loc: [{ x: 0, y: -1.5 }]
-		}
-	],
-	[
-		{
-			parts: ["horizontal"],
-			loc: [{ x: 0, y: -1.5 }]
-		}
-	],
+	{
+		parts: ["horizontal", "side_opening"],
+		loc: [{ x: 0, y: -1.5 }, { x: 0, y: -1.5 }],
+		cache: [false, false]
+	},
+	{
+		parts: ["horizontal"],
+		loc: [{ x: 0, y: -1.5 }],
+		cache: [false]
+	},
+	{
+		parts: ["horizontal", "side_opening"],
+		loc: [{ x: 0, y: -1.5 }, { x: 1, y: -1.5 }],
+		cache: [false, false]
+	},
+	{
+		parts: ["side"],
+		loc: [{ x: 0, y: -2.5 }],
+		cache: [false]
+	},
+	false,
+	{
+		parts: ["side"],
+		loc: [{ x: 0.9, y: -2.5 }],
+		cache: [false]
+	},
+	{
+		parts: ["horizontal"],
+		loc: [{ x: 0, y: -0.5 }],
+		cache: [false]
+	},
+	{
+		parts: ["horizontal"],
+		loc: [{ x: 0, y: -0.5 }],
+		cache: [false]
+	},
+	{
+		parts: ["horizontal"],
+		loc: [{ x: 0, y: -0.5 }],
+		cache: [false]
+	}
 ]
+
 
 export default class {
 
@@ -112,18 +100,6 @@ export default class {
 		return cellDef
 	}
 
-	defineWall(cellLoc, wall) {
-		var walls = []
-
-		if(wall === false) return walls
-
-		var definition = wallMap[cellLoc[2]]
-
-		walls.push(definition)
-
-		return walls
-	}
-
 	defineSubcells(cell, mazeX, mazeY) {
 		var subcells = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
@@ -159,6 +135,11 @@ export default class {
 		}
 
 		return subcells
+	}
+
+	defineWall(cellLoc, wall) {
+		if(wall === false) return false
+		return wallMap[cellLoc[2]]
 	}
 
 	setMazePadding(mazeData) {

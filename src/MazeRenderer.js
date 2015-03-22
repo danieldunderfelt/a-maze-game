@@ -1,5 +1,7 @@
 import { GameData} from '../data/GameData'
 import GameRenderer from './GameRenderer'
+import Walls from './GameObjects/static/walls/Walls'
+import utils from './utils'
 
 export default class {
 
@@ -54,7 +56,7 @@ export default class {
 		var cellY = y * this.cellWidth
 
 		this.drawFloor(cellX, cellY)
-		this.drawDebug(cellX, cellY, x, y)
+		//this.drawDebug(cellX, cellY, x, y)
 		this.drawMazeObjects(cell, cellX, cellY, subcellSize)
 	}
 
@@ -71,7 +73,6 @@ export default class {
 	}
 
 	drawMazeObjects(cell, cellX, cellY, size) {
-		var wallsDrawn = []
 
 		for(var c = 0; c < cell.length; c++) {
 			var props = cell[c]
@@ -79,35 +80,54 @@ export default class {
 			let absX = (cellX) + (props.loc[0] * size)
 			let absY = ((cellY) + (props.loc[1] * size)) - this.vOffset
 
+			var walls
+
+			if(props.walls !== false) {
+				walls = this.prepareWall(props.walls, absX, absY, size)
+			}
+			else walls = false
+
+			if(props.loc[1] < 1 && walls) {
+				walls.forEach((ele) => { ele.draw(this.ctx) })
+			}
+
 			if(props.obj !== false) {
 				if(props.obj.context === false) props.obj.setContext(this.ctx)
-				props.obj.setRenderProperties(absX, absY, size, size)
+				props.obj.setRenderProperties(absX + (size * 0.1), absY + (size * 0.1), size - (size * 0.05), size- (size * 0.05))
 				props.obj.draw()
+			}
+
+			if(props.loc[1] > 0 && walls) {
+				walls.forEach((ele) => { ele.draw(this.ctx) })
 			}
 		}
 	}
 
-	drawWall(wall, x, y, size) {
-		if(wall.closed !== true) return false
+	prepareWall(walls, x, y, size) {
+		var p, wallObjects = []
 
-		let coords = wall.coords[0]
-		let dimensions = wall.coords[1]
+		for(p = 0; p < walls.parts.length; p++) {
+			let part = walls.parts[p]
+			let loc = walls.loc[p]
 
-		let wallX = x + (coords.x * size)
-		let wallY = (y + (coords.y * size)) - this.vOffset
+			let wallX = x + (loc.x * size)
+			let wallY = y + (loc.y * size)
 
-		let wallWidth = dimensions.w * size
-		let wallHeight = dimensions.h * size
+			var wallObj
 
-		this.ctx.beginPath()
-		this.ctx.rect(wallX, wallY, wallWidth, wallHeight)
-		this.ctx.fillStyle = 'grey'
-		this.ctx.fill()
-		this.ctx.lineWidth = 2
-		this.ctx.strokeStyle = 'black'
-		this.ctx.stroke()
+			if(!walls.cache[p]) {
+				wallObj = new Walls[part]()
+				walls.cache.splice(p, 1, wallObj)
+			}
+			else {
+				wallObj = walls.cache[p]
+			}
 
-		return wall.side
+			wallObj.setRenderProperties(size, wallX, wallY)
+			wallObjects.push(wallObj)
+		}
+
+		return wallObjects
 	}
 
 	drawFloor(x, y) {

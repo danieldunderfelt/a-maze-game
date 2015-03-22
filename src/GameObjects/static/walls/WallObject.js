@@ -2,16 +2,19 @@ import BaseObject from '../../BaseObject'
 
 export default class extends BaseObject {
 
-	constructor(position) {
+	constructor() {
 		super()
+	}
 
-		var sprite
+	setRenderProperties(size, x, y) {
+		this.size = size
+		this.x = Math.round(x)
+		this.y = Math.round(y)
+		this.width = Math.round(this.wallWidth * size)
+		this.height = Math.round(this.wallHeight * size)
+	}
 
-		if(position === "left") sprite = this.assets.vertical_wall_left
-		if(position === "right") sprite = this.assets.vertical_wall_left
-		if(position === "top") sprite = this.assets.vertical_wall_left
-		if(position === "bottom") sprite = this.assets.vertical_wall_left
-
-		this.sprite = sprite
+	draw(ctx) {
+		ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height)
 	}
 }

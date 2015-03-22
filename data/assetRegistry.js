@@ -9,6 +9,9 @@ var assetUrls = {
 	'anim_test': sprites + 'anim_test.png',
 	'high_object': sprites + 'hovering_tubes.png',
 	'hovering_anim': sprites + 'hovering_tubes_anim.png',
+	'horizontal_wall_tile': sprites + 'horizontal_wall_tile.png',
+	'side_wall_opening': sprites + 'side_wall_opening.png',
+	'side_wall': sprites + 'side_wall.png',
 }
 
 export var assetRegistry = {}
