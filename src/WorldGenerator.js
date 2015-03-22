@@ -14,50 +14,6 @@ var scLocationMap = [
 	[1, 1, 4, false], // center
 ]
 
-var wallMap = [
-	{
-		parts: ["horizontal", "side_opening"],
-		loc: [{ x: 0, y: -1.5 }, { x: 0, y: -1.5 }],
-		cache: [false, false]
-	},
-	{
-		parts: ["horizontal"],
-		loc: [{ x: 0, y: -1.5 }],
-		cache: [false]
-	},
-	{
-		parts: ["horizontal", "side_opening"],
-		loc: [{ x: 0, y: -1.5 }, { x: 1, y: -1.5 }],
-		cache: [false, false]
-	},
-	{
-		parts: ["side"],
-		loc: [{ x: 0, y: -2.5 }],
-		cache: [false]
-	},
-	false,
-	{
-		parts: ["side"],
-		loc: [{ x: 0.9, y: -2.5 }],
-		cache: [false]
-	},
-	{
-		parts: ["horizontal"],
-		loc: [{ x: 0, y: -0.5 }],
-		cache: [false]
-	},
-	{
-		parts: ["horizontal"],
-		loc: [{ x: 0, y: -0.5 }],
-		cache: [false]
-	},
-	{
-		parts: ["horizontal"],
-		loc: [{ x: 0, y: -0.5 }],
-		cache: [false]
-	}
-]
-
 
 export default class {
 
@@ -102,6 +58,7 @@ export default class {
 
 	defineSubcells(cell, mazeX, mazeY) {
 		var subcells = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+		var walls = this.defineWalls(cell, mazeX, mazeY)
 
 		for(var sc = 0; sc < 9; sc++) {
 			var location = scLocationMap[sc]
@@ -126,7 +83,7 @@ export default class {
 				loc: location,
 				mazeLoc: [mazeX, mazeY],
 				index: location[2],
-				walls: this.defineWall(location, occupied)
+				walls: walls[location[2]]
 			}
 
 			this.callback(subcell)
@@ -137,9 +94,8 @@ export default class {
 		return subcells
 	}
 
-	defineWall(cellLoc, wall) {
-		if(wall === false) return false
-		return wallMap[cellLoc[2]]
+	defineWalls(cell, x, y) {
+		return []
 	}
 
 	setMazePadding(mazeData) {

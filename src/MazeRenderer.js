@@ -80,7 +80,7 @@ export default class {
 			let absX = (cellX) + (props.loc[0] * size)
 			let absY = ((cellY) + (props.loc[1] * size)) - this.vOffset
 
-			var walls
+			/*var walls
 
 			if(props.walls !== false) {
 				walls = this.prepareWall(props.walls, absX, absY, size)
@@ -89,17 +89,18 @@ export default class {
 
 			if(props.loc[1] < 1 && walls) {
 				walls.forEach((ele) => { ele.draw(this.ctx) })
-			}
+			}*/
 
 			if(props.obj !== false) {
 				if(props.obj.context === false) props.obj.setContext(this.ctx)
-				props.obj.setRenderProperties(absX + (size * 0.1), absY + (size * 0.1), size - (size * 0.05), size- (size * 0.05))
+				props.obj.setRenderProperties(absX + (size * 0.1), absY - (size * 0.1), size - (size * 0.05), size + (size * 0.05))
 				props.obj.draw()
 			}
 
+			/*
 			if(props.loc[1] > 0 && walls) {
 				walls.forEach((ele) => { ele.draw(this.ctx) })
-			}
+			}*/
 		}
 	}
 
