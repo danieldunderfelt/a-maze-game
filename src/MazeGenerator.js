@@ -8,8 +8,8 @@ export function generateMaze(x, y) {
         cells[i] = []
         unvis[i] = []
         for (var j = 0; j < x; j++) {
-            let top = i === 0 ? coin() : 0
-            let bottom = i === y - 1 ? coin() : 0
+            let top = i === 0 ? 1: 0
+            let bottom = i === y - 1 ? 1 : 0
             let left = j === 0 ? coin() : 0
             let right = j === x - 1 ? coin() : 0
             cells[i][j] = [top, right, bottom, left]

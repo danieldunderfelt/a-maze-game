@@ -1,17 +1,20 @@
-import BaseObject from '../../BaseObject'
+export default class {
 
-export default class extends BaseObject {
+	constructor(closed, part) {
+		var wallPart = part
 
-	constructor() {
-		super()
+		if(part === "c") {
+			wallPart = closed ? "closed" : "open"
+		}
+
+		this.sprite = this.sprites[wallPart]
 	}
 
-	setRenderProperties(size, x, y) {
-		this.size = size
-		this.x = Math.round(x)
-		this.y = Math.round(y)
-		this.width = Math.round(this.wallWidth * size)
-		this.height = Math.round(this.wallHeight * size)
+	setRenderProperties(x, y, size) {
+		this.width = size
+		this.height = this.wallHeight * size
+		this.x = x
+		this.y = this.type === "horizontal" ? y - (this.height - size) : y
 	}
 
 	draw(ctx) {

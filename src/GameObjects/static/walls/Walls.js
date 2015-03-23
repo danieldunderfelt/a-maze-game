@@ -1,49 +1,73 @@
 import WallObject from './WallObject'
+import { assetRegistry } from '../../../../data/assetRegistry'
 
-class HorizontalWall extends WallObject {
+class TopWall extends WallObject {
 
-	constructor() {
-		super()
+	constructor(closed, part) {
 		this.type = "horizontal"
-		this.sprite = this.assets.horizontal_wall_tile
+		this.sprites = {
+			a: assetRegistry.top_wall_left,
+			b: assetRegistry.top_wall_right,
+			open: assetRegistry.horz_wall_open,
+			closed: assetRegistry.horz_wall_closed
+		},
 		this.wallHeight = 1.5
-		this.wallWidth = 1
-		this.fill = '#332223'
-		this.strokeWidth = 0
-		this.stroke = '#222222'
+
+		super(closed, part)
 	}
 }
 
-class SideWall extends WallObject {
+class RightWall extends WallObject {
 
-	constructor() {
-		super()
-		this.type = "side"
-		this.sprite = this.assets.side_wall
-		this.wallHeight = 3
-		this.wallWidth = 0.1
-		this.fill = '#111111'
-		this.strokeWidth = 2
-		this.stroke = '#4c4c4c'
+	constructor(closed, part) {
+		this.type = "vertical"
+		this.sprites = {
+			a: false,
+			b: false,
+			open: assetRegistry.right_wall_open,
+			closed: assetRegistry.right_wall_closed
+		},
+		this.wallHeight = 1
+
+		super(closed, part)
 	}
 }
 
-class SideOpeningWall extends WallObject {
+class BottomWall extends WallObject {
 
-	constructor() {
-		super()
-		this.type = "side_opening"
-		this.sprite = this.assets.side_wall_opening
-		this.wallHeight = 2.5
-		this.wallWidth = 0.1
-		this.fill = '#111111'
-		this.strokeWidth = 2
-		this.stroke = '#4c4c4c'
+	constructor(closed, part) {
+		this.type = "horizontal"
+		this.sprites = {
+			a: assetRegistry.bottom_wall_left,
+			b: assetRegistry.bottom_wall_right,
+			open: assetRegistry.horz_wall_open,
+			closed: assetRegistry.horz_wall_closed
+		},
+		this.wallHeight = 1.5
+
+		super(closed, part)
 	}
 }
 
-export default {
-	"horizontal": HorizontalWall,
-	"side": SideWall,
-	"side_opening": SideOpeningWall
+class LeftWall extends WallObject {
+
+	constructor(closed, part) {
+		this.type = "vertical"
+		this.sprites = {
+			a: false,
+			b: false,
+			open: assetRegistry.right_wall_open,
+			closed: assetRegistry.right_wall_closed
+		},
+		this.wallHeight = 1
+
+		super(closed, part)
+	}
 }
+
+export default [
+	TopWall,
+	RightWall,
+	BottomWall,
+	LeftWall
+]

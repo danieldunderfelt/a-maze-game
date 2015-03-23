@@ -90,7 +90,7 @@ class WorldController {
 			loc: subcell.loc,
 			mazeLoc: subcell.mazeLoc,
 			index: subcell.index,
-			walls: subcell.walls
+			wall: subcell.wall
 		}
 
 		this.layout[subcell.mazeLoc[1]][subcell.mazeLoc[0]][subcell.loc[2]] = newSubcell
@@ -108,7 +108,7 @@ class WorldController {
 			loc: moveTo.loc,
 			mazeLoc: moveTo.mazeLoc,
 			index: moveTo.index,
-			walls: moveTo.walls
+			wall: moveTo.wall
 		}
 
 		var moveCommitter = () => {

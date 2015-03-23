@@ -1,6 +1,6 @@
 import { GameData} from '../data/GameData'
 import GameRenderer from './GameRenderer'
-import Walls from './GameObjects/static/walls/Walls'
+import WallGenerator from './WallGenerator'
 import utils from './utils'
 
 export default class {
@@ -56,7 +56,7 @@ export default class {
 		var cellY = y * this.cellWidth
 
 		this.drawFloor(cellX, cellY)
-		//this.drawDebug(cellX, cellY, x, y)
+		this.drawDebug(cellX, cellY, x, y)
 		this.drawMazeObjects(cell, cellX, cellY, subcellSize)
 	}
 
@@ -80,16 +80,15 @@ export default class {
 			let absX = (cellX) + (props.loc[0] * size)
 			let absY = ((cellY) + (props.loc[1] * size)) - this.vOffset
 
-			/*var walls
+			var wall = false
 
-			if(props.walls !== false) {
-				walls = this.prepareWall(props.walls, absX, absY, size)
+			if(props.wall !== false && props.occupied) {
+				wall = this.getWall(props.occupied, props.wall, absX, absY, size)
 			}
-			else walls = false
 
-			if(props.loc[1] < 1 && walls) {
-				walls.forEach((ele) => { ele.draw(this.ctx) })
-			}*/
+			if(props.loc[1] < 1 && wall) {
+				wall.draw(this.ctx)
+			}
 
 			if(props.obj !== false) {
 				if(props.obj.context === false) props.obj.setContext(this.ctx)
@@ -97,38 +96,17 @@ export default class {
 				props.obj.draw()
 			}
 
-			/*
-			if(props.loc[1] > 0 && walls) {
-				walls.forEach((ele) => { ele.draw(this.ctx) })
-			}*/
+			if(props.loc[1] > 0 && wall) {
+				wall.draw(this.ctx)
+			}
 		}
 	}
 
-	prepareWall(walls, x, y, size) {
-		var p, wallObjects = []
+	getWall(isClosed, wall, x, y, size) {
+		var wall = WallGenerator.make(isClosed, wall[0], wall[1])
+		wall.setRenderProperties(x, y, size)
 
-		for(p = 0; p < walls.parts.length; p++) {
-			let part = walls.parts[p]
-			let loc = walls.loc[p]
-
-			let wallX = x + (loc.x * size)
-			let wallY = y + (loc.y * size)
-
-			var wallObj
-
-			if(!walls.cache[p]) {
-				wallObj = new Walls[part]()
-				walls.cache.splice(p, 1, wallObj)
-			}
-			else {
-				wallObj = walls.cache[p]
-			}
-
-			wallObj.setRenderProperties(size, wallX, wallY)
-			wallObjects.push(wallObj)
-		}
-
-		return wallObjects
+		return wall
 	}
 
 	drawFloor(x, y) {
