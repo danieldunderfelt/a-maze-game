@@ -2,9 +2,13 @@ import Walls from './GameObjects/static/walls/Walls'
 
 class WallGenerator {
 
-	make(isClosed, position, part) {
+	make(isClosed, position) {
 		var wallClass = Walls[position]
-		return new wallClass(isClosed, part)
+
+		if(wallClass !== false)
+			return new wallClass(isClosed)
+
+		return false
 	}
 
 }

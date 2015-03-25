@@ -3,27 +3,15 @@ import { GameData } from '../data/GameData'
 // Multiply the x, y coords of this subcell by this many subcell sizes when rendering
 // Parameters = x, y, real index
 var scLocationMap = [
-	[0, 0, 0], // top left
-	[1, 0, 1], // top center
-	[2, 0, 2], // top right
-	[2, 1, 5], // middle right
-	[2, 2, 8], // bottom right
-	[1, 2, 7], // bottom center
-	[0, 2, 6], // bottom left
-	[0, 1, 3], // middle left
-	[1, 1, 4], // center
-]
-
-var wallMap = [
-	[0, "a"],
-	[0, "c"],
-	[0, "b"],
-	[1, "c"],
-	[2, "a"],
-	[2, "c"],
-	[2, "b"],
-	[3, "c"],
-	false,
+	[0, 0, 0, 0], // top left
+	[1, 0, 1, 0], // top center
+	[2, 0, 2, 0], // top right
+	[2, 1, 5, 1], // middle right
+	[2, 2, 8, 2], // bottom right
+	[1, 2, 7, 2], // bottom center
+	[0, 2, 6, 2], // bottom left
+	[0, 1, 3, 3], // middle left
+	[1, 1, 4, false], // center
 ]
 
 
@@ -73,11 +61,12 @@ export default class {
 
 		for(var sc = 0; sc < 9; sc++) {
 			var location = scLocationMap[sc]
-			var wall = wallMap[sc]
 
-			if(sc === 8) occupied = false
+			if(location[2] === 4) {
+				occupied = false
+			}
 			else {
-				var currentWall = wall[0]
+				var currentWall = location[3]
 				var occupied = cell[currentWall] === 0
 			}
 
@@ -94,7 +83,7 @@ export default class {
 				loc: location,
 				mazeLoc: [mazeX, mazeY],
 				index: location[2],
-				wall: wall
+				wall: [location[3], occupied]
 			}
 
 			this.callback(subcell)

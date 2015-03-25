@@ -1,20 +1,14 @@
 export default class {
 
-	constructor(closed, part) {
-		var wallPart = part
-
-		if(part === "c") {
-			wallPart = closed ? "closed" : "open"
-		}
-
-		this.sprite = this.sprites[wallPart]
+	constructor(closed) {
+		this.sprite = !closed && this.spriteOpen ? this.spriteOpen : this.spriteClosed
 	}
 
 	setRenderProperties(x, y, size) {
 		this.width = size
 		this.height = this.wallHeight * size
-		this.x = x
-		this.y = this.type === "horizontal" ? y - (this.height - size) : y
+		this.x = x + (this.wallX * size)
+		this.y = y + (this.wallY * size)
 	}
 
 	draw(ctx) {

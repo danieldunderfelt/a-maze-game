@@ -80,13 +80,9 @@ export default class {
 			let absX = (cellX) + (props.loc[0] * size)
 			let absY = ((cellY) + (props.loc[1] * size)) - this.vOffset
 
-			var wall = false
+			var wall = this.getWall(props.loc[2], props.wall, absX, absY, size)
 
-			if(props.wall !== false && props.occupied) {
-				wall = this.getWall(props.occupied, props.wall, absX, absY, size)
-			}
-
-			if(props.loc[1] < 1 && wall) {
+			if(props.loc[1] < 2 && wall) {
 				wall.draw(this.ctx)
 			}
 
@@ -96,14 +92,16 @@ export default class {
 				props.obj.draw()
 			}
 
-			if(props.loc[1] > 0 && wall) {
+			if(props.loc[1] > 1 && wall) {
 				wall.draw(this.ctx)
 			}
 		}
 	}
 
-	getWall(isClosed, wall, x, y, size) {
-		var wall = WallGenerator.make(isClosed, wall[0], wall[1])
+	getWall(index, wall, x, y, size) {
+		if(wall[0] === false) return false
+
+		var wall = WallGenerator.make(wall[1], index)
 		wall.setRenderProperties(x, y, size)
 
 		return wall

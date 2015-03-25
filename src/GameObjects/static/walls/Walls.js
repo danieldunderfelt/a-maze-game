@@ -1,73 +1,126 @@
 import WallObject from './WallObject'
 import { assetRegistry } from '../../../../data/assetRegistry'
 
-class TopWall extends WallObject {
+class TopLeftWall extends WallObject {
 
-	constructor(closed, part) {
+	constructor(closed) {
 		this.type = "horizontal"
-		this.sprites = {
-			a: assetRegistry.top_wall_left,
-			b: assetRegistry.top_wall_right,
-			open: assetRegistry.horz_wall_open,
-			closed: assetRegistry.horz_wall_closed
-		},
+		this.spriteClosed = assetRegistry.top_wall_left
+		this.spriteOpen = false
 		this.wallHeight = 1.5
+		this.wallX = 0
+		this.wallY = -1.5
 
-		super(closed, part)
+		super(true)
+	}
+}
+
+class TopCenterWall extends WallObject {
+
+	constructor(closed) {
+		this.type = "horizontal"
+		this.spriteClosed = assetRegistry.horz_wall_closed
+		this.spriteOpen = assetRegistry.horz_wall_open
+		this.wallHeight = 1.5
+		this.wallX = 1
+		this.wallY = -1.5
+
+		super(closed)
+	}
+}
+
+class TopRightWall extends WallObject {
+
+	constructor(closed) {
+		this.type = "horizontal"
+		this.spriteClosed = assetRegistry.top_wall_right
+		this.spriteOpen = false
+		this.wallHeight = 1.5
+		this.wallX = 2
+		this.wallY = -1.5
+
+		super(false)
 	}
 }
 
 class RightWall extends WallObject {
 
-	constructor(closed, part) {
-		this.type = "vertical"
-		this.sprites = {
-			a: false,
-			b: false,
-			open: assetRegistry.right_wall_open,
-			closed: assetRegistry.right_wall_closed
-		},
+	constructor(closed) {
+		this.type = "horizontal"
+		this.spriteClosed = assetRegistry.right_wall_closed
+		this.spriteOpen = assetRegistry.right_wall_open
 		this.wallHeight = 1
+		this.wallX = 2
+		this.wallY = 0
 
-		super(closed, part)
+		super(closed)
 	}
 }
 
-class BottomWall extends WallObject {
+class BottomLeftWall extends WallObject {
 
-	constructor(closed, part) {
+	constructor(closed) {
 		this.type = "horizontal"
-		this.sprites = {
-			a: assetRegistry.bottom_wall_left,
-			b: assetRegistry.bottom_wall_right,
-			open: assetRegistry.horz_wall_open,
-			closed: assetRegistry.horz_wall_closed
-		},
+		this.spriteClosed = assetRegistry.bottom_wall_left
+		this.spriteOpen = false
 		this.wallHeight = 1.5
+		this.wallX = 0
+		this.wallY = -1.5
 
-		super(closed, part)
+		super(true)
+	}
+}
+
+class BottomCenterWall extends WallObject {
+
+	constructor(closed) {
+		this.type = "horizontal"
+		this.spriteClosed = assetRegistry.horz_wall_closed
+		this.spriteOpen = assetRegistry.horz_wall_open
+		this.wallHeight = 1.5
+		this.wallX = 1
+		this.wallY = -1.5
+
+		super(closed)
+	}
+}
+
+class BottomRightWall extends WallObject {
+
+	constructor(closed) {
+		this.type = "horizontal"
+		this.spriteClosed = assetRegistry.bottom_wall_right
+		this.spriteOpen = false
+		this.wallHeight = 1.5
+		this.wallX = 2
+		this.wallY = -1.5
+
+		super(false)
 	}
 }
 
 class LeftWall extends WallObject {
 
-	constructor(closed, part) {
-		this.type = "vertical"
-		this.sprites = {
-			a: false,
-			b: false,
-			open: assetRegistry.right_wall_open,
-			closed: assetRegistry.right_wall_closed
-		},
+	constructor(closed) {
+		this.type = "horizontal"
+		this.spriteClosed = assetRegistry.right_wall_closed
+		this.spriteOpen = assetRegistry.right_wall_open
 		this.wallHeight = 1
+		this.wallX = 0
+		this.wallY = 0
 
-		super(closed, part)
+		super(closed)
 	}
 }
 
 export default [
-	TopWall,
+	TopLeftWall,
+	TopCenterWall,
+	TopRightWall,
+	LeftWall,
+	false,
 	RightWall,
-	BottomWall,
-	LeftWall
+	BottomLeftWall,
+	BottomCenterWall,
+	BottomRightWall
 ]
