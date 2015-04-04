@@ -14,7 +14,7 @@ export default class {
 	}
 
 	initLevel() {
-		this.avatar = new PlayerObject(this)
+		this.avatar = new PlayerObject({controller: this})
 		this.worldData = WorldController.getCurrentWorldData()
 		this.setInitialPosition()
 	}
@@ -40,7 +40,7 @@ export default class {
 
 		if(!nextPos) return false
 
-		var move = WorldController.moveObject(this.avatar, nextPos.x, nextPos.y, nextPos.index)
+		var move = WorldController.moveObject(this.avatar, nextPos.x, nextPos.y, nextPos.index, dir)
 
 		if(!move) return false
 

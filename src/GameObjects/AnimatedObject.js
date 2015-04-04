@@ -3,8 +3,8 @@ import GameRenderer from '../GameRenderer'
 
 export default class extends BaseObject {
 
-	constructor() {
-		super()
+	constructor(options) {
+		super(options)
 
 		this.isAnimated = true
 		this.animationPlay = false

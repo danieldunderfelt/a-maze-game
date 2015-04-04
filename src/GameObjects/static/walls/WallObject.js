@@ -1,9 +1,5 @@
 export default class {
 
-	initialize(closed) {
-		this.sprite = !closed && this.spriteOpen ? this.spriteOpen : this.spriteClosed
-	}
-
 	setRenderProperties(x, y, size) {
 		this.width = size
 		this.height = this.wallHeight * size

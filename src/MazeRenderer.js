@@ -80,13 +80,13 @@ export default class {
 			let absY = ((cellY) + (props.loc[1] * size)) - this.vOffset
 
 			var wall = props.wall
-			var walls = []
+			var walls = false
 
 			if(wall[1] !== false) {
 				walls = this.createWall(wall[1], cellX, cellY - this.vOffset, size)
 			}
 
-			if(props.loc[1] < 2 && walls[0] !== false) {
+			if(props.loc[1] < 1 && walls !== false) {
 				this.drawWalls(walls)
 			}
 
@@ -96,27 +96,23 @@ export default class {
 				props.obj.draw()
 			}
 
-			if(props.loc[1] > 1 && walls[0] !== false) {
+			if(props.loc[1] > 0 && walls !== false) {
 				this.drawWalls(walls)
 			}
 		}
 	}
 
-	drawWalls(walls) {
-		walls.forEach(el => el.draw(this.ctx))
+	drawWalls(wall) {
+		wall.draw(this.ctx)
 	}
 
-	createWall(walls, x, y, size, occupied) {
-		var wallCollection = walls.map(el => {
-			if(el === false) return false
+	createWall(walls, x, y, size) {
+		if(walls[0] === false) return false
 
-			var wallObj = new el(occupied)
-			wallObj.setRenderProperties(x, y, size)
+		var wallObj = new walls[0]()
+		wallObj.setRenderProperties(x, y, size)
 
-			return wallObj
-		})
-
-		return wallCollection
+		return wallObj
 	}
 
 	drawFloor(x, y) {

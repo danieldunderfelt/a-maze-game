@@ -7,6 +7,6 @@ export var FirstLevel = {
 		floor: assetRegistry['hardwood_grey']
 	},
 	objects: [
-		HighObject
+		AnimTest
 	]
 }

@@ -97,10 +97,11 @@ class WorldController {
 		delete this.objects[objId]
 	}
 
-	moveObject(obj, x, y, index, instantCommit = false) {
+	moveObject(obj, x, y, index, dir, instantCommit = false) {
 		var moveTo = this.getSubcell(x, y, index)
 
-		if(!moveTo || moveTo.occupied) return false
+		if(!moveTo || moveTo.occupied) return false
+		if(this.checkWallCollision(obj, dir)) return false
 
 		var newSubcell = {
 			occupied: true,
@@ -121,6 +122,17 @@ class WorldController {
 
 		if(!instantCommit) return moveCommitter
 		return moveCommitter()
+	}
+
+	checkWallCollision(obj, dir) {
+		var subcell = obj.controller.subcell
+
+		if(!subcell.wall[0] && !subcell.wall[1]) return false
+
+		var wallObj = new subcell.wall[1][0]()
+		if(wallObj.direction === dir) return true
+
+		return false
 	}
 
 	getSubcell(x, y, index) {

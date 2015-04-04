@@ -16,15 +16,15 @@ var scLocationMap = [
 ]
 
 var wallMap = [
-	['topLeft'],
-	['topCenter'],
-	['topRight'],
-	['topLeft', 'left', 'bottomLeft'],
+	['topLeft', 3],
+	['topCenter', false],
+	['topRight', 1],
+	['left', false],
 	[false],
-	['topLeft', 'left', 'bottomLeft'],
-	['bottomLeft'],
-	['bottomCenter'],
-	['bottomRight'],
+	['right', false],
+	['bottomLeft', 3],
+	['bottomCenter', false],
+	['bottomRight', 1],
 ]
 
 
@@ -74,30 +74,33 @@ export default class {
 
 		for(var sc = 0; sc < 9; sc++) {
 			var location = scLocationMap[sc]
+			var wallClosed = false,
+				occupied = false
 
 			if(location[2] === 4) {
-				occupied = false
+				wallClosed = false
 			}
 			else {
 				var currentWall = location[3]
-				var occupied = cell[currentWall] === 0
+				wallClosed = cell[currentWall] === 0
 			}
 
 			var obj = false
+			var wall = false
 
-			var wall = wallMap[location[2]].map( el => {
-				var wallName = el
+			if(wallClosed) {
+				var wallName = wallMap[location[2]][0]
 
 				if(wallName !== false) {
-					return location[3] !== false ? Walls[wallName] : false
+					wall = location[3] !== false ? [ Walls[wallName], wallMap[ location[2] ][1] ] : false // What have I done...
 				}
 
-				return false
-			})
+				obj = this.defineCellItem()
 
-			if(occupied) {
-				obj = this.getThemeObject()
-				obj.setLocationData(location, [mazeX, mazeY], currentWall)
+				if(obj) {
+					occupied = true
+					obj.setLocationData(location, [mazeX, mazeY], currentWall)
+				}
 			}
 
 			var subcell = {
@@ -106,7 +109,7 @@ export default class {
 				loc: location,
 				mazeLoc: [mazeX, mazeY],
 				index: location[2],
-				wall: [location[3], wall]
+				wall: [wallClosed, wall]
 			}
 
 			this.callback(subcell)
@@ -157,13 +160,18 @@ export default class {
 		return maze
 	}
 
-	getThemeObject() {
+	defineCellItem() {
 		let availableObjects = this.theme.objects
 		let amount = availableObjects.length
-		let randomIndex = getRandomInt(0, amount - 1)
-		let pickedObject = new availableObjects[randomIndex](this.stack)
 
-		return pickedObject
+		if(amount > 0 && getRandomInt(1, 10) > 4) {
+			let randomIndex = getRandomInt(0, amount - 1)
+			let pickedObject = new availableObjects[randomIndex](this.stack)
+
+			return pickedObject
+		}
+
+		return false
 	}
 
 	defineWorld(cell, x, y) {
@@ -172,5 +180,5 @@ export default class {
 }
 
 function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 }

@@ -3,7 +3,8 @@ import GameRenderer from '../GameRenderer'
 
 export default class {
 
-	constructor() {
+	constructor(options) {
+		this.controller = typeof options !== "undefined" ? options.controller || false : false
 		this.id = guid()
 		this.context = false
 		this.isAnimated = false

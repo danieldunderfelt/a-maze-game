@@ -2,9 +2,10 @@ import AnimatedObject from '../AnimatedObject'
 
 class PlayerObject extends AnimatedObject {
 
-	constructor() {
+	constructor(playerController) {
 		super()
 
+		this.controller = playerController
 		this.sprite = this.assets.anim_test
 		this.totalFrames = 17
 		this.spriteWidth = 544
