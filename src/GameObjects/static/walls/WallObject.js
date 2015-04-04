@@ -1,6 +1,6 @@
 export default class {
 
-	constructor(closed) {
+	initialize(closed) {
 		this.sprite = !closed && this.spriteOpen ? this.spriteOpen : this.spriteClosed
 	}
 

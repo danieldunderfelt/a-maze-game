@@ -1,5 +1,10 @@
 System.config({
   "transpiler": "babel",
+  "babelOptions": {
+    "optional": [
+      "runtime"
+    ]
+  },
   "paths": {
     "*": "*.js",
     "something/*": "src/*.js",
@@ -9,22 +14,14 @@ System.config({
 });
 
 System.config({
-  "meta": {
-    "jspm_packages/babel-polyfill": {
-      "format": "global"
-    }
-  }
-});
-
-System.config({
   "map": {
+    "babel": "npm:babel@4.7.16",
+    "babel-runtime": "npm:babel-runtime@4.7.16",
     "jquery": "github:components/jquery@2.1.3",
-    "nlp_compromise": "npm:nlp_compromise@0.3.1",
     "github:jspm/nodelibs-process@0.1.1": {
       "process": "npm:process@0.10.1"
     },
-    "npm:nlp_compromise@0.3.1": {
-      "fs": "github:jspm/nodelibs-fs@0.1.1",
+    "npm:babel-runtime@4.7.16": {
       "process": "github:jspm/nodelibs-process@0.1.1"
     }
   }

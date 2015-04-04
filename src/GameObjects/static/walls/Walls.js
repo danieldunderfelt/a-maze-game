@@ -4,6 +4,7 @@ import { assetRegistry } from '../../../../data/assetRegistry'
 class TopLeftWall extends WallObject {
 
 	constructor(closed) {
+		super()
 		this.type = "horizontal"
 		this.spriteClosed = assetRegistry.top_wall_left
 		this.spriteOpen = false
@@ -11,13 +12,15 @@ class TopLeftWall extends WallObject {
 		this.wallX = 0
 		this.wallY = -1.5
 
-		super(true)
+		this.initialize(true)
 	}
 }
 
 class TopCenterWall extends WallObject {
 
 	constructor(closed) {
+		super()
+
 		this.type = "horizontal"
 		this.spriteClosed = assetRegistry.horz_wall_closed
 		this.spriteOpen = assetRegistry.horz_wall_open
@@ -25,13 +28,14 @@ class TopCenterWall extends WallObject {
 		this.wallX = 1
 		this.wallY = -1.5
 
-		super(closed)
+		this.initialize(closed)
 	}
 }
 
 class TopRightWall extends WallObject {
 
 	constructor(closed) {
+		super()
 		this.type = "horizontal"
 		this.spriteClosed = assetRegistry.top_wall_right
 		this.spriteOpen = false
@@ -39,13 +43,15 @@ class TopRightWall extends WallObject {
 		this.wallX = 2
 		this.wallY = -1.5
 
-		super(false)
+		this.initialize(false)
 	}
 }
 
 class RightWall extends WallObject {
 
 	constructor(closed) {
+		super()
+
 		this.type = "horizontal"
 		this.spriteClosed = assetRegistry.right_wall_closed
 		this.spriteOpen = assetRegistry.right_wall_open
@@ -53,13 +59,15 @@ class RightWall extends WallObject {
 		this.wallX = 2
 		this.wallY = 0
 
-		super(closed)
+		this.initialize(closed)
 	}
 }
 
 class BottomLeftWall extends WallObject {
 
 	constructor(closed) {
+		super()
+
 		this.type = "horizontal"
 		this.spriteClosed = assetRegistry.bottom_wall_left
 		this.spriteOpen = false
@@ -67,13 +75,15 @@ class BottomLeftWall extends WallObject {
 		this.wallX = 0
 		this.wallY = -1.5
 
-		super(true)
+		this.initialize(true)
 	}
 }
 
 class BottomCenterWall extends WallObject {
 
 	constructor(closed) {
+		super()
+
 		this.type = "horizontal"
 		this.spriteClosed = assetRegistry.horz_wall_closed
 		this.spriteOpen = assetRegistry.horz_wall_open
@@ -81,13 +91,15 @@ class BottomCenterWall extends WallObject {
 		this.wallX = 1
 		this.wallY = -1.5
 
-		super(closed)
+		this.initialize(closed)
 	}
 }
 
 class BottomRightWall extends WallObject {
 
 	constructor(closed) {
+		super()
+
 		this.type = "horizontal"
 		this.spriteClosed = assetRegistry.bottom_wall_right
 		this.spriteOpen = false
@@ -95,13 +107,15 @@ class BottomRightWall extends WallObject {
 		this.wallX = 2
 		this.wallY = -1.5
 
-		super(false)
+		this.initialize(false)
 	}
 }
 
 class LeftWall extends WallObject {
 
 	constructor(closed) {
+		super()
+
 		this.type = "horizontal"
 		this.spriteClosed = assetRegistry.right_wall_closed
 		this.spriteOpen = assetRegistry.right_wall_open
@@ -109,18 +123,17 @@ class LeftWall extends WallObject {
 		this.wallX = 0
 		this.wallY = 0
 
-		super(closed)
+		this.initialize(closed)
 	}
 }
 
-export default [
-	TopLeftWall,
-	TopCenterWall,
-	TopRightWall,
-	LeftWall,
-	false,
-	RightWall,
-	BottomLeftWall,
-	BottomCenterWall,
-	BottomRightWall
-]
+export default {
+	topLeft: TopLeftWall,
+	topCenter: TopCenterWall,
+	topRight: TopRightWall,
+	left: LeftWall,
+	right: RightWall,
+	bottomLeft: BottomLeftWall,
+	bottomCenter: BottomCenterWall,
+	bottomRight: BottomRightWall
+}

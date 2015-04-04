@@ -1,4 +1,5 @@
 import { GameData } from '../data/GameData'
+import Walls from './GameObjects/static/walls/Walls'
 
 // Multiply the x, y coords of this subcell by this many subcell sizes when rendering
 // Parameters = x, y, real index
@@ -12,6 +13,18 @@ var scLocationMap = [
 	[0, 2, 6, 2], // bottom left
 	[0, 1, 3, 3], // middle left
 	[1, 1, 4, false], // center
+]
+
+var wallMap = [
+	['topLeft'],
+	['topCenter'],
+	['topRight'],
+	['topLeft', 'left', 'bottomLeft'],
+	[false],
+	['topLeft', 'left', 'bottomLeft'],
+	['bottomLeft'],
+	['bottomCenter'],
+	['bottomRight'],
 ]
 
 
@@ -72,6 +85,16 @@ export default class {
 
 			var obj = false
 
+			var wall = wallMap[location[2]].map( el => {
+				var wallName = el
+
+				if(wallName !== false) {
+					return location[3] !== false ? Walls[wallName] : false
+				}
+
+				return false
+			})
+
 			if(occupied) {
 				obj = this.getThemeObject()
 				obj.setLocationData(location, [mazeX, mazeY], currentWall)
@@ -83,7 +106,7 @@ export default class {
 				loc: location,
 				mazeLoc: [mazeX, mazeY],
 				index: location[2],
-				wall: [location[3], occupied]
+				wall: [location[3], wall]
 			}
 
 			this.callback(subcell)
