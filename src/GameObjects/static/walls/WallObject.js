@@ -5,6 +5,8 @@ export default class {
 		this.height = this.wallHeight * size
 		this.x = x + (this.wallX * size)
 		this.y = y + (this.wallY * size)
+
+		return this
 	}
 
 	draw(ctx) {

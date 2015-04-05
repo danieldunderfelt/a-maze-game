@@ -93,7 +93,7 @@ class WorldController {
 			wall: subcell.wall
 		}
 
-		this.layout[subcell.mazeLoc[1]][subcell.mazeLoc[0]][subcell.loc[2]] = newSubcell
+		this.layout[subcell.mazeLoc[1]][subcell.mazeLoc[0]].subcells[subcell.loc[2]] = newSubcell
 		delete this.objects[objId]
 	}
 
@@ -113,7 +113,7 @@ class WorldController {
 		}
 
 		var moveCommitter = () => {
-			this.layout[y][x][moveTo.loc[2]] = newSubcell
+			this.layout[y][x].subcells[moveTo.loc[2]] = newSubcell
 			this.removeObject(obj.id)
 			this.objects[obj.id] = newSubcell
 
@@ -126,17 +126,15 @@ class WorldController {
 
 	checkWallCollision(obj, dir) {
 		var subcell = obj.controller.subcell
+		if(!subcell.wall.closed) return false
 
-		if(!subcell.wall[0] && !subcell.wall[1]) return false
-
-		var wallObj = new subcell.wall[1][0]()
-		if(wallObj.direction === dir) return true
+		if(subcell.wall.walls.some(el => el.direction === dir )) return true // some <3
 
 		return false
 	}
 
 	getSubcell(x, y, index) {
-		var cell = this.layout[y][x][index]
+		var cell = this.layout[y][x].subcells[index]
 		return typeof cell === "undefined" ? false : cell
 	}
 

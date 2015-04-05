@@ -15,19 +15,6 @@ var scLocationMap = [
 	[1, 1, 4, false], // center
 ]
 
-var wallMap = [
-	['topLeft', 3],
-	['topCenter', false],
-	['topRight', 1],
-	['left', false],
-	[false],
-	['right', false],
-	['bottomLeft', 3],
-	['bottomCenter', false],
-	['bottomRight', 1],
-]
-
-
 export default class {
 
 	constructor(theme, maze, width, height, callback) {
@@ -65,8 +52,59 @@ export default class {
 	}
 
 	makeSubcell(cell, mazeX, mazeY) {
-		var cellDef = this.defineSubcells(cell, mazeX, mazeY)
-		return cellDef
+		var subcellDef = this.defineSubcells(cell, mazeX, mazeY)
+		this.defineCell(cell, subcellDef, mazeX, mazeY)
+		return {cell: {}, subcells: subcellDef}
+	}
+
+	defineCell(cell, subcells, x, y) {
+		for(let w = 0; w < cell.length; w++) {
+			var wallIndex = w,
+				wallObj, axis, loc, pos
+
+			if(cell[w] === 1) continue
+
+			if(wallIndex === 0) {
+				axis = 1
+				loc = 0
+				pos = 'top'
+			}
+
+			if(wallIndex === 2) {
+				axis = 1
+				loc = 2
+				pos = 'bottom'
+			}
+
+			if(wallIndex === 1) {
+				axis = 0
+				loc = 2
+				pos = 'right'
+			}
+
+			if(wallIndex === 3) {
+				axis = 0
+				loc = 0
+				pos = 'left'
+			}
+
+			this.setWall(subcells, axis, loc, pos)
+		}
+	}
+
+	setWall(subcells, axis, loc, pos) {
+		var wallObj = Walls[pos]
+
+		for(let sc = 0; sc < subcells.length; sc++) {
+			var cell = subcells[sc]
+			if(cell.loc[axis] !== loc) continue
+
+			var wall = new wallObj()
+			wall.wallX = cell.loc[0]
+
+			cell.wall.closed = true
+			cell.wall.walls.push(wall)
+		}
 	}
 
 	defineSubcells(cell, mazeX, mazeY) {
@@ -77,24 +115,15 @@ export default class {
 			var wallClosed = false,
 				occupied = false
 
-			if(location[2] === 4) {
-				wallClosed = false
-			}
-			else {
-				var currentWall = location[3]
+			if(location[2] !== 4) {
+				var currentWall = location[3], wallIndex
+
 				wallClosed = cell[currentWall] === 0
 			}
 
 			var obj = false
-			var wall = false
 
 			if(wallClosed) {
-				var wallName = wallMap[location[2]][0]
-
-				if(wallName !== false) {
-					wall = location[3] !== false ? [ Walls[wallName], wallMap[ location[2] ][1] ] : false // What have I done...
-				}
-
 				obj = this.defineCellItem()
 
 				if(obj) {
@@ -109,7 +138,7 @@ export default class {
 				loc: location,
 				mazeLoc: [mazeX, mazeY],
 				index: location[2],
-				wall: [wallClosed, wall]
+				wall: { closed: false, walls: [] }
 			}
 
 			this.callback(subcell)

@@ -42,7 +42,7 @@ export default class {
 
 			for (var j = 0; j < col.length; j++) {
 				var currentCell = col[j]
-				this.drawMazeCell(currentCell, j, i, subcellSize)
+				this.drawMazeCell(currentCell.subcells, j, i, subcellSize)
 			}
 
 			i++
@@ -79,14 +79,14 @@ export default class {
 			let absX = (cellX) + (props.loc[0] * size)
 			let absY = ((cellY) + (props.loc[1] * size)) - this.vOffset
 
-			var wall = props.wall
+			var wallProps = props.wall
 			var walls = false
 
-			if(wall[1] !== false) {
-				walls = this.createWall(wall[1], cellX, cellY - this.vOffset, size)
+			if(wallProps.closed && wallProps.walls.length > 0) {
+				walls = wallProps.walls.map(el => el.setRenderProperties(cellX, cellY - this.vOffset, size) )
 			}
 
-			if(props.loc[1] < 1 && walls !== false) {
+			if(props.loc[1] < 1 && walls) {
 				this.drawWalls(walls)
 			}
 
@@ -96,23 +96,14 @@ export default class {
 				props.obj.draw()
 			}
 
-			if(props.loc[1] > 0 && walls !== false) {
+			if(props.loc[1] > 0 && walls) {
 				this.drawWalls(walls)
 			}
 		}
 	}
 
-	drawWalls(wall) {
-		wall.draw(this.ctx)
-	}
-
-	createWall(walls, x, y, size) {
-		if(walls[0] === false) return false
-
-		var wallObj = new walls[0]()
-		wallObj.setRenderProperties(x, y, size)
-
-		return wallObj
+	drawWalls(walls) {
+		walls.forEach(el => el.draw(this.ctx) )
 	}
 
 	drawFloor(x, y) {
