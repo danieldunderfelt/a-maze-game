@@ -20,8 +20,8 @@ class TopRightCorner extends WallObject {
 
 		this.direction = ["up", "right"]
 		this.sprite = assetRegistry.top_wall_right
-		this.wallHeight = 3
-		this.wallY = 0
+		this.wallHeight = 1.5
+		this.wallY = -1.5
 	}
 }
 
@@ -44,8 +44,8 @@ class BottomLeftCorner extends WallObject {
 
 		this.direction = ["down", "left"]
 		this.sprite = assetRegistry.bottom_wall_left
-		this.wallHeight = 3
-		this.wallY = 0
+		this.wallHeight = 1.5
+		this.wallY = 1.5
 	}
 }
 
