@@ -1,5 +1,6 @@
 import { GameData } from '../data/GameData'
 import Walls from './GameObjects/static/walls/Walls'
+import Corners from './GameObjects/static/walls/Corners'
 
 // Multiply the x, y coords of this subcell by this many subcell sizes when rendering
 // Parameters = x, y, real index
@@ -53,16 +54,21 @@ export default class {
 
 	makeSubcell(cell, mazeX, mazeY) {
 		var subcellDef = this.defineSubcells(cell, mazeX, mazeY)
-		this.defineCell(cell, subcellDef, mazeX, mazeY)
+		this.defineCell(cell, subcellDef)
 		return {cell: {}, subcells: subcellDef}
 	}
 
-	defineCell(cell, subcells, x, y) {
+	defineCell(cell, subcells) {
+		this.createWalls(cell, subcells)
+		this.createCorners(cell, subcells)
+	}
+
+	createWalls(cell, subcells) {
 		for(let w = 0; w < cell.length; w++) {
+			if(cell[w]) continue
+
 			var wallIndex = w,
 				wallObj, axis, loc, pos
-
-			if(cell[w] === 1) continue
 
 			if(wallIndex === 0) {
 				axis = 1
@@ -97,13 +103,37 @@ export default class {
 
 		for(let sc = 0; sc < subcells.length; sc++) {
 			var cell = subcells[sc]
+
 			if(cell.loc[axis] !== loc) continue
 
 			var wall = new wallObj()
+
 			wall.wallX = cell.loc[0]
 
 			cell.wall.closed = true
 			cell.wall.walls.push(wall)
+		}
+	}
+
+	createCorners(cell, subcells) {
+		var corners = [false, false, false, false]
+
+		if(!cell[3] && !cell[0]) corners.splice(3, 1, {name: 'topLeft', i: 0}) // top left
+		if(!cell[0] && !cell[1]) corners.splice(0, 1, {name: 'topRight', i: 2}) // top right
+		if(!cell[1] && !cell[2]) corners.splice(1, 1, {name: 'bottomRight', i: 8}) // bottom right
+		if(!cell[2] && !cell[3]) corners.splice(2, 1, {name: 'bottomLeft', i: 6}) // bottom left
+
+		for(let c = 0; c < corners.length; c++) {
+			if(!corners[c]) continue
+			var corner = corners[c]
+			var subcell = subcells[corner.i]
+
+			var cornerObj = Corners[corner.name]
+
+			var cornerInst = new cornerObj()
+			cornerInst.wallX = subcell.loc[0]
+
+			subcell.wall.corners.push(cornerInst)
 		}
 	}
 
@@ -138,7 +168,7 @@ export default class {
 				loc: location,
 				mazeLoc: [mazeX, mazeY],
 				index: location[2],
-				wall: { closed: false, walls: [] }
+				wall: { closed: false, walls: [], corners: [] }
 			}
 
 			this.callback(subcell)
@@ -193,7 +223,7 @@ export default class {
 		let availableObjects = this.theme.objects
 		let amount = availableObjects.length
 
-		if(amount > 0 && getRandomInt(1, 10) > 4) {
+		if(amount > 0 && getRandomInt(1, 10) > 7) {
 			let randomIndex = getRandomInt(0, amount - 1)
 			let pickedObject = new availableObjects[randomIndex](this.stack)
 

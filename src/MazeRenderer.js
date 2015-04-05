@@ -76,18 +76,31 @@ export default class {
 		for(var c = 0; c < cell.length; c++) {
 			var props = cell[c]
 
+			if(!props.obj && !props.wall.closed) continue
+
 			let absX = (cellX) + (props.loc[0] * size)
 			let absY = ((cellY) + (props.loc[1] * size)) - this.vOffset
 
 			var wallProps = props.wall
 			var walls = false
+			var corners = false
 
 			if(wallProps.closed && wallProps.walls.length > 0) {
 				walls = wallProps.walls.map(el => el.setRenderProperties(cellX, cellY - this.vOffset, size) )
 			}
 
-			if(props.loc[1] < 1 && walls) {
+			if(wallProps.corners.length > 0) {
+				corners = wallProps.corners.map(el => el.setRenderProperties(cellX, cellY - this.vOffset, size) )
+			}
+
+			if(props.loc[2] === 0 && walls) {
 				this.drawWalls(walls)
+				if(corners) this.drawWalls(corners)
+			}
+
+			if(props.loc[2] !== 2 && walls) {
+				this.drawWalls(walls)
+				if(corners) this.drawWalls(corners)
 			}
 
 			if(props.obj !== false) {
@@ -96,8 +109,9 @@ export default class {
 				props.obj.draw()
 			}
 
-			if(props.loc[1] > 0 && walls) {
+			if(props.loc[1] === 2 && walls) {
 				this.drawWalls(walls)
+				if(corners) this.drawWalls(corners)
 			}
 		}
 	}
