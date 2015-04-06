@@ -55,7 +55,7 @@ export default class {
 		var cellY = y * this.cellWidth
 
 		this.drawFloor(cellX, cellY)
-		this.drawDebug(cellX, cellY, x, y)
+		//this.drawDebug(cellX, cellY, x, y)
 		this.drawMazeObjects(cell, cellX, cellY, subcellSize)
 	}
 
@@ -93,26 +93,21 @@ export default class {
 				corners = wallProps.corners.map(el => el.setRenderProperties(cellX, cellY - this.vOffset, size) )
 			}
 
-			if(props.loc[2] === 0 && walls) {
-				this.drawWalls(walls)
-				if(corners) this.drawWalls(corners)
-			}
-
 			if(props.loc[2] !== 2 && walls) {
 				this.drawWalls(walls)
-				if(corners) this.drawWalls(corners)
 			}
 
 			if(props.obj !== false) {
 				if(props.obj.context === false) props.obj.setContext(this.ctx)
-				props.obj.setRenderProperties(absX + (size * 0.1), absY - (size * 0.1), size - (size * 0.05), size + (size * 0.05))
+				props.obj.setRenderProperties(absX + (size * 0.1), absY - (size * 0.1), size - (size * 0.1), size - (size * 0.1))
 				props.obj.draw()
 			}
 
 			if(props.loc[1] === 2 && walls) {
 				this.drawWalls(walls)
-				if(corners) this.drawWalls(corners)
 			}
+
+			//if(corners) this.drawWalls(corners)
 		}
 	}
 

@@ -8,8 +8,8 @@ class TopWall extends WallObject {
 
 		this.direction = "up"
 		this.sprite = assetRegistry.horz_wall_closed
-		this.wallHeight = 1.5
-		this.wallY = -1.5
+		this.wallHeight = 1
+		this.wallY = -1
 	}
 }
 
@@ -21,7 +21,8 @@ class RightWall extends WallObject {
 		this.direction = "right"
 		this.sprite = assetRegistry.right_wall_closed
 		this.wallHeight = 3
-		this.wallY = 0
+		this.wallX = 0.05
+		this.wallY = -1
 	}
 }
 
@@ -32,8 +33,8 @@ class BottomWall extends WallObject {
 
 		this.direction = "down"
 		this.sprite = assetRegistry.horz_wall_closed
-		this.wallHeight = 1.5
-		this.wallY = 1.5
+		this.wallHeight = 1
+		this.wallY = 2
 	}
 }
 
@@ -45,7 +46,7 @@ class LeftWall extends WallObject {
 		this.direction = "left"
 		this.sprite = assetRegistry.left_wall_closed
 		this.wallHeight = 3
-		this.wallY = 0
+		this.wallY = -1
 	}
 }
 

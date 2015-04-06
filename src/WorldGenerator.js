@@ -65,10 +65,10 @@ export default class {
 
 	createWalls(cell, subcells) {
 		for(let w = 0; w < cell.length; w++) {
-			if(cell[w]) continue
+			if(cell[w] === 1) continue
 
 			var wallIndex = w,
-				wallObj, axis, loc, pos
+				axis, loc, pos
 
 			if(wallIndex === 0) {
 				axis = 1
@@ -108,7 +108,8 @@ export default class {
 
 			var wall = new wallObj()
 
-			wall.wallX = cell.loc[0]
+			if(typeof wall.wallX !== "undefined") wall.wallX += cell.loc[0]
+			else wall.wallX = cell.loc[0]
 
 			cell.wall.closed = true
 			cell.wall.walls.push(wall)

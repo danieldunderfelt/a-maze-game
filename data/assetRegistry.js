@@ -5,7 +5,7 @@ var sprites = _root + 'sprites/'
 var assetUrls = {
 	'hardwood_grey': textures + 'floor/hardwood_grey.png',
 	'hardwood_white': textures + 'floor/hardwood_white.png',
-	'default_sprite': sprites + 'default.gif',
+	'default_sprite': sprites + 'mystery_box.png',
 	'anim_test': sprites + 'anim_test.png',
 	'high_object': sprites + 'hovering_tubes.png',
 	'hovering_anim': sprites + 'hovering_tubes_anim.png',
