@@ -19,9 +19,9 @@ class RightWall extends WallObject {
 		super()
 
 		this.direction = "right"
-		this.sprite = assetRegistry.right_wall_closed
-		this.wallHeight = 3
-		this.wallX = 0.05
+		this.sprite = assetRegistry.right_wall
+		this.wallHeight = 4
+		this.wallX = -0.01
 		this.wallY = -1
 	}
 }
@@ -44,8 +44,8 @@ class LeftWall extends WallObject {
 		super()
 
 		this.direction = "left"
-		this.sprite = assetRegistry.left_wall_closed
-		this.wallHeight = 3
+		this.sprite = assetRegistry.left_wall
+		this.wallHeight = 4
 		this.wallY = -1
 	}
 }

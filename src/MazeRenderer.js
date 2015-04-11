@@ -99,11 +99,11 @@ export default class {
 
 			if(props.obj !== false) {
 				if(props.obj.context === false) props.obj.setContext(this.ctx)
-				props.obj.setRenderProperties(absX + (size * 0.1), absY - (size * 0.1), size - (size * 0.1), size - (size * 0.1))
+				props.obj.setRenderProperties(absX + (size * 0.1), absY - (size * 0.1), size - (size * 0.2), size - (size * 0.2))
 				props.obj.draw()
 			}
 
-			if(props.loc[1] === 2 && walls) {
+			if(props.loc[2] === 2 && walls) {
 				this.drawWalls(walls)
 			}
 

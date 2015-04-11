@@ -10,15 +10,12 @@ var assetUrls = {
 	'high_object': sprites + 'hovering_tubes.png',
 	'hovering_anim': sprites + 'hovering_tubes_anim.png',
 	'horz_wall_closed': sprites + 'horz_wall_closed.png',
-	'horz_wall_open': sprites + 'horz_wall_open.png',
 	'top_wall_left': sprites + 'top_wall_left.png',
 	'top_wall_right': sprites + 'top_wall_right.png',
 	'bottom_wall_right': sprites + 'bottom_wall_right.png',
 	'bottom_wall_left': sprites + 'bottom_wall_left.png',
-	'left_wall_closed': sprites + 'left_wall_closed.png',
-	'left_wall_open': sprites + 'left_wall_open.png',
-	'right_wall_open': sprites + 'right_wall_open.png',
-	'right_wall_closed': sprites + 'right_wall_closed.png',
+	'left_wall': sprites + 'left_wall.png',
+	'right_wall': sprites + 'right_wall.png',
 }
 
 export var assetRegistry = {}

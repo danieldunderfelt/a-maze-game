@@ -9,8 +9,7 @@ gulp.task('browser-sync', function() {
     	server: {
     		baseDir: "./"
     	},
-        open: false,
-        online: false
+        open: false
     });
 });
 

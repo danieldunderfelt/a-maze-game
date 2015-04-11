@@ -60,7 +60,7 @@ export default class {
 
 	defineCell(cell, subcells) {
 		this.createWalls(cell, subcells)
-		this.createCorners(cell, subcells)
+		//this.createCorners(cell, subcells)
 	}
 
 	createWalls(cell, subcells) {
