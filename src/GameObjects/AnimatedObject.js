@@ -40,10 +40,9 @@ export default class extends BaseObject {
 		this.animationLoop = loopStatus
 	}
 
-	draw() {
-		if(this.context === false) return false
+	draw(ctx) {
 		this.update()
-		this.render()
+		this.render(ctx)
 	}
 
 	update() {
@@ -61,14 +60,14 @@ export default class extends BaseObject {
 		}
 	}
 
-	render() {
+	render(ctx) {
 		// What an absolute bitch this is to wrap ones head around
 		let sourceX = this.currentFrame * this.spriteWidth / this.totalFrames
 		let sourceWidth = this.spriteWidth / this.totalFrames
 		let destX = this.x - (this.width / this.totalFrames)
 		let destY = this.y
 
-		this.context.drawImage(
+		ctx.drawImage(
 			this.sprite,
 			sourceX,
 			0,

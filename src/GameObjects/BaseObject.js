@@ -45,14 +45,8 @@ export default class {
 		this.context = context
 	}
 
-	draw() {
-		if(this.context === false) return false
-		this.context.drawImage(this.sprite, this.x, this.y, this.width, this.height)
-	}
-
-	dispose() {
-		GameRenderer.removeRenderer(this.id)
-		delete this
+	draw(ctx) {
+		ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height)
 	}
 }
 

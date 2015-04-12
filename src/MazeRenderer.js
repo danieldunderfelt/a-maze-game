@@ -14,6 +14,8 @@ export default class {
 		this.theme = world.theme
 		this.layoutGenerator = layoutGenerator
 
+		this.renderQueue = []
+
 		this.mazePixelHeight = this.cellWidth * this.height
 		this.vOffset = 1
 
@@ -22,6 +24,7 @@ export default class {
 
 	draw() {
 		this.clearCanvas()
+		this.prepareMaze()
 		this.renderMaze()
 	}
 
@@ -31,32 +34,39 @@ export default class {
 		return true
 	}
 
-	renderMaze() {
+	prepareMaze() {
 		this.vOffset = ( this.mazePixelHeight - (this.size * this.cellWidth) ) - (this.verticalPosition * this.cellWidth)
 
 		var subcellSize = Math.round((this.canvas.width / this.size) / 3)
 
 		var i = 0
 
-		for (var col of this.layoutGenerator()) {
+		for(var col of this.layoutGenerator()) {
 
 			for (var j = 0; j < col.length; j++) {
 				var currentCell = col[j]
-				this.drawMazeCell(currentCell.subcells, j, i, subcellSize)
+				this.prepareMazeCell(currentCell.subcells, j, i, subcellSize)
 			}
 
 			i++
 		}
 	}
 
-	drawMazeCell(cell, x, y, subcellSize) {
+	renderMaze() {
+		// easy-peasy
+		for(var r = 0; r < this.renderQueue.length; r++) {
+			var obj = this.renderQueue[r]
+			if(obj) obj.draw(this.ctx)
+		}
+	}
 
+	prepareMazeCell(cell, x, y, subcellSize) {
 		var cellX = x * this.cellWidth
 		var cellY = y * this.cellWidth
 
 		this.drawFloor(cellX, cellY)
 		//this.drawDebug(cellX, cellY, x, y)
-		this.drawMazeObjects(cell, cellX, cellY, subcellSize)
+		this.prepareMazeObjects(cell, cellX, cellY, subcellSize)
 	}
 
 	drawDebug(cellX, cellY, x, y) {
@@ -71,7 +81,7 @@ export default class {
 		this.ctx.fillText(x + ', ' + y, cellX + (this.cellWidth / 3), (cellY - this.vOffset) + (this.cellWidth / 2))*/
 	}
 
-	drawMazeObjects(cell, cellX, cellY, size) {
+	prepareMazeObjects(cell, cellX, cellY, size) {
 
 		for(var c = 0; c < cell.length; c++) {
 			var props = cell[c]
@@ -86,33 +96,20 @@ export default class {
 			var corners = false
 
 			if(wallProps.closed && wallProps.walls.length > 0) {
-				walls = wallProps.walls.map(el => el.setRenderProperties(cellX, cellY - this.vOffset, size) )
-			}
-
-			if(wallProps.corners.length > 0) {
-				corners = wallProps.corners.map(el => el.setRenderProperties(cellX, cellY - this.vOffset, size) )
-			}
-
-			if(props.loc[2] !== 2 && walls) {
-				this.drawWalls(walls)
+				wallProps.walls.forEach(el => {
+					el.setRenderProperties(cellX, cellY - this.vOffset, size)
+					this.queueObject(el)
+				})
 			}
 
 			if(props.obj !== false) {
-				if(props.obj.context === false) props.obj.setContext(this.ctx)
 				props.obj.setRenderProperties(absX + (size * 0.1), absY - (size * 0.1), size - (size * 0.2), size - (size * 0.2))
-				props.obj.draw()
+				this.queueObject(props.obj)
 			}
-
-			if(props.loc[2] === 2 && walls) {
-				this.drawWalls(walls)
-			}
-
-			//if(corners) this.drawWalls(corners)
 		}
 	}
-
-	drawWalls(walls) {
-		walls.forEach(el => el.draw(this.ctx) )
+	queueObject(obj) {
+		this.renderQueue.push(obj)
 	}
 
 	drawFloor(x, y) {
@@ -140,6 +137,8 @@ export default class {
 		this.ctx.setTransform(1,0,0,1,0,0);
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.ctx.restore();
+
+		this.renderQueue = []
 	}
 
 	dispose() {
