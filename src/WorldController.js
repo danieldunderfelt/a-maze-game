@@ -35,16 +35,8 @@ class WorldController {
 		return this.currentWorld
 	}
 
-	getLayoutGenerator() {
-		var self = this
-
-		return function* () {
-			var i = 0
-			while(i < self.layout.length) {
-				yield self.layout[i]
-				i++
-			}
-		}
+	getLayout() {
+		return this.layout
 	}
 
 	saveWorld() {
@@ -125,6 +117,7 @@ class WorldController {
 	}
 
 	checkWallCollision(obj, dir) {
+		//return false
 		var subcell = obj.controller.subcell
 		if(!subcell.wall.closed) return false
 

@@ -2,7 +2,6 @@ import { GameData } from '../data/GameData'
 import Walls from './GameObjects/static/walls/Walls'
 import Corners from './GameObjects/static/walls/Corners'
 
-// Multiply the x, y coords of this subcell by this many subcell sizes when rendering
 // Parameters = x, y, real index
 var scLocationMap = [
 	[0, 0, 0, 0], // top left

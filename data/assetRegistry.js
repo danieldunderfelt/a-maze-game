@@ -10,6 +10,7 @@ var assetUrls = {
 	'high_object': sprites + 'hovering_tubes.png',
 	'hovering_anim': sprites + 'hovering_tubes_anim.png',
 	'horz_wall_closed': sprites + 'horz_wall_closed.png',
+	'horz_wall_closed_green': sprites + 'horz_wall_closed_green.png',
 	'top_wall_left': sprites + 'top_wall_left.png',
 	'top_wall_right': sprites + 'top_wall_right.png',
 	'bottom_wall_right': sprites + 'bottom_wall_right.png',

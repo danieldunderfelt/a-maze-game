@@ -23,7 +23,7 @@ export default class {
 		this.gridSize = world.width
 		this.mazeStep = world.width / 20
 
-		this.renderer = new MazeRenderer(world, WorldController.getLayoutGenerator())
+		this.renderer = new MazeRenderer(world)
 	}
 
 	move(direction) {
