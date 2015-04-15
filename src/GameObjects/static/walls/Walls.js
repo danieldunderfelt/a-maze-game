@@ -37,7 +37,7 @@ class BottomWall extends WallObject {
 		this.sprite = assetRegistry.horz_wall_closed_green
 		this.wallHeight = 1
 		this.wallY = 2
-		this.zIndex = 2
+		this.zIndex = 5
 	}
 }
 

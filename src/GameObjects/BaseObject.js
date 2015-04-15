@@ -15,7 +15,7 @@ export default class {
 		this.subcell = 0
 		this.mazeCell = [0, 0]
 		this.againstWall = 0
-		this.zIndex = 1
+		this.zIndex = 2
 
 		this.spriteWidth = 32
 		this.spriteHeight = 32

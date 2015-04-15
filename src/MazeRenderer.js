@@ -25,10 +25,7 @@ export default class {
 	}
 
 	createRenderQueue() {
-		var renderQueue = []
-		//_.fill(renderQueue, false, 0, (this.size * this.height) * 27)
-
-		return renderQueue
+		return []
 	}
 
 	draw() {
@@ -52,8 +49,11 @@ export default class {
 		var layout = _.flattenDeep(WorldController.getLayout())
 
 		for(var c = 0; c < layout.length; c++) {
+
+			this.renderQueue.push([])
+
 			var currentCell = layout[c]
-			this.prepareMazeCell(currentCell.subcells, subcellSize)
+			this.prepareMazeCell(currentCell, subcellSize, c)
 		}
 	}
 
@@ -63,63 +63,62 @@ export default class {
 		var renderQueue = _.compact(this.renderQueue)
 
 		for(var r = 0; r < renderQueue.length; r++) {
-			var obj = renderQueue[r]
+			var cell = renderQueue[r]
 
-			if(typeof obj.draw === "undefined") console.log(obj)
+			for(var c = 0; c < cell.length; c++) {
+				var obj = cell[c]
 
-			if(obj) {
-				obj.draw(this.ctx)
+				if(obj) {
+					obj.draw(this.ctx)
+				}
 			}
 		}
 	}
 
-	prepareMazeCell(cell, subcellSize) {
-		var cellX = cell[0].mazeLoc[0] * this.cellWidth
-		var cellY = cell[0].mazeLoc[1] * this.cellWidth
+	prepareMazeCell(cell, subcellSize, layoutIndex) {
+		var cellX = cell.mazeLoc[0] * this.cellWidth
+		var cellY = cell.mazeLoc[1] * this.cellWidth
 
 		this.drawFloor(cellX, cellY)
 		//this.drawDebug(cellX, cellY, x, y)
-		this.prepareMazeObjects(cell, subcellSize)
+		this.prepareMazeObjects(cell, subcellSize, layoutIndex)
 	}
 
-	prepareMazeObjects(cell, size) {
+	prepareMazeObjects(props, size, layoutIndex) {
+		var cellX = props.mazeLoc[0] * this.cellWidth
+		var cellY = props.mazeLoc[1] * this.cellWidth
 
-		for(var c = 0; c < cell.length; c++) {
-			var props = cell[c]
-			var cellX = props.mazeLoc[0] * this.cellWidth
-			var cellY = props.mazeLoc[1] * this.cellWidth
+		if(!props.obj && !props.wall.closed) return
 
-			if(!props.obj && !props.wall.closed) continue
+		let absX = (cellX) + (props.loc[0] * size)
+		let absY = ((cellY) + (props.loc[1] * size)) - this.vOffset
 
-			let absX = (cellX) + (props.loc[0] * size)
-			let absY = ((cellY) + (props.loc[1] * size)) - this.vOffset
+		var wallProps = props.wall
+		var walls = false
+		var corners = false
 
-			var wallProps = props.wall
-			var walls = false
-			var corners = false
+		if(props.obj !== false) {
+			props.obj.setRenderProperties(absX + (size * 0.1), absY - (size * 0.1), size - (size * 0.2), size - (size * 0.2))
+			this.queueObject(props.obj, props.loc[1], layoutIndex)
+		}
 
-			if(wallProps.closed && wallProps.walls.length > 0) {
-				wallProps.walls.forEach(el => {
-					el.setRenderProperties(cellX, cellY - this.vOffset, size)
-					this.queueObject(el, props.mazeLoc[1], props.loc[1])
-				})
-			}
-
-			if(props.obj !== false) {
-				props.obj.setRenderProperties(absX + (size * 0.1), absY - (size * 0.1), size - (size * 0.2), size - (size * 0.2))
-				this.queueObject(props.obj, props.mazeLoc[1], props.loc[1])
-			}
+		if(wallProps.closed && wallProps.walls.length > 0) {
+			wallProps.walls.forEach(el => {
+				el.setRenderProperties(cellX, cellY - this.vOffset, size)
+				this.queueObject(el, props.loc[1], layoutIndex)
+			})
 		}
 	}
-	queueObject(obj, verticalPos, subcellVertPosition) {
-		var pushIndex = verticalPos + subcellVertPosition + obj.zIndex
-		var removed = this.renderQueue.splice(pushIndex, 1, obj)
 
-		if(typeof removed[0] !== "undefined") {
+	queueObject(obj, cellIndex, layoutIndex) {
+		var pushIndex = cellIndex + obj.zIndex
+		var removed = this.renderQueue[layoutIndex].splice(pushIndex, 1, obj)
+
+		if(typeof removed[0] !== "undefined" && removed[0]) {
 			if(removed[0].zIndex > obj.zIndex) pushIndex++
 			else pushIndex--
 
-			this.renderQueue.splice(pushIndex, 0, removed[0])
+			this.renderQueue[layoutIndex].splice(pushIndex, 0, removed[0])
 		}
 	}
 
