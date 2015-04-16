@@ -33,8 +33,6 @@ export default class {
 		let populatedWorld = this.traverseWorld(this.setMazePadding(worldData), this.makeSubcell.bind(this))
 		let finalizedWorld = this.traverseWorld(populatedWorld, this.defineWorld.bind(this))
 
-		console.log(finalizedWorld)
-
 		return finalizedWorld
 	}
 

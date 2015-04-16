@@ -37,15 +37,15 @@ export default class {
 	}
 
 	moveMaze(increment) {
-		if(this.vOffset <= 0.1) return false
+		if(this.vOffset <= -(Math.round((this.canvas.width / this.size) / 3))) return false
 		this.verticalPosition += increment
 		return true
 	}
 
 	prepareMaze() {
-		this.vOffset = ( this.mazePixelHeight - (this.size * this.cellWidth) ) - (this.verticalPosition * this.cellWidth)
+		this.vOffset = ( this.mazePixelHeight - (this.size * this.cellWidth) ) - this.verticalPosition
 
-		var subcellSize = Math.round((this.canvas.width / this.size) / 3)
+		var subcellSize = this.cellWidth / 3
 		var layout = _.flattenDeep(WorldController.getLayout())
 
 		for(var c = 0; c < layout.length; c++) {
@@ -80,13 +80,14 @@ export default class {
 		var cellY = cell.mazeLoc[1] * this.cellWidth
 
 		this.drawFloor(cellX, cellY)
-		//this.drawDebug(cellX, cellY, x, y)
 		this.prepareMazeObjects(cell, subcellSize, layoutIndex)
 	}
 
 	prepareMazeObjects(props, size, layoutIndex) {
 		var cellX = props.mazeLoc[0] * this.cellWidth
 		var cellY = props.mazeLoc[1] * this.cellWidth
+
+		this.drawDebug(props.mazeLoc[0] * size, props.mazeLoc[1] * size)
 
 		if(!props.obj && !props.wall.closed) return
 
@@ -142,7 +143,7 @@ export default class {
 		}
 	}
 
-	drawDebug(cellX, cellY, x, y) {
+	drawDebug(cellX, cellY) {
 		this.ctx.beginPath()
 		this.ctx.moveTo(cellX, cellY - this.vOffset)
 		this.ctx.lineTo(cellX + this.cellWidth, cellY - this.vOffset)

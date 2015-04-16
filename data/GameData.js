@@ -1,7 +1,7 @@
 export var GameData = {
-	baseMazeSize: 5,
+	baseMazeSize: 10,
 	playerCanTeleportSides: true,
-	initialHeightMultiplier: 2,
+	initialHeightMultiplier: 3,
 	heightExpansion: 2,
 	cellPadding: 3
 }

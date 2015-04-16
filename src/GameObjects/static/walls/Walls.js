@@ -22,7 +22,7 @@ class RightWall extends WallObject {
 		this.direction = "right"
 		this.sprite = assetRegistry.right_wall
 		this.wallHeight = 4
-		this.wallX = -0.01
+		this.wallX = 0
 		this.wallY = -1
 		this.zIndex = 0
 	}
@@ -50,6 +50,7 @@ class LeftWall extends WallObject {
 		this.sprite = assetRegistry.left_wall
 		this.wallHeight = 4
 		this.wallY = -1
+		this.wallX = 0
 		this.zIndex = 0
 	}
 }
