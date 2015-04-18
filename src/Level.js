@@ -32,7 +32,7 @@ export default class {
 	setWorld() {
 		WorldController.newWorld()
 		WorldController.generateWorld(this.theme, this.gridSize, this.mazeHeight)
-		this.game.maze.initialize()
+		WorldController.startWorld()
 	}
 
 	setPlayer() {

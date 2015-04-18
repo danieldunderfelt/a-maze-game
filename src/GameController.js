@@ -1,5 +1,6 @@
 import Input from './Input'
 import { preload } from '../data/assetRegistry'
+import WorldController from './WorldController'
 import GameRenderer from './GameRenderer'
 
 class GameController {
@@ -30,7 +31,7 @@ class GameController {
 
 	playerMove(eventData) {
 		var playerMove = this.game.player.move(eventData.direction)
-		if(playerMove) this.game.maze.move(eventData.direction)
+		if(playerMove) WorldController.move(eventData.direction)
 	}
 }
 

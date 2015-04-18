@@ -2,13 +2,17 @@ import { GameData } from '../data/GameData'
 import { scDirectionMap } from '../data/subcellDirectionMap'
 import { generateMaze } from './MazeGenerator'
 import WorldGenerator from './WorldGenerator'
+import MainRenderer from './MainRenderer'
 
 class WorldController {
+
+	verticalStep = 0
 
 	constructor() {
 		this.currentWorld = {}
 		this.layout = []
 		this.objects = {}
+		this.renderer = false
 	}
 
 	newWorld() {
@@ -26,6 +30,17 @@ class WorldController {
 		this.currentWorld.width = width
 	}
 
+	startWorld() {
+		if(this.renderer !== false) this.renderer.dispose()
+
+		let world = this.currentWorld
+
+		var canvas = document.getElementById('mazeArea')
+		this.verticalStep = (Math.round(canvas.width / world.width) / 3) * 0.8
+
+		this.renderer = new MainRenderer(world)
+	}
+
 	cellCallback(subcell) {
 		var objId = subcell.obj.id
 		this.objects[objId] = subcell
@@ -41,6 +56,12 @@ class WorldController {
 
 	saveWorld() {
 
+	}
+
+	move(direction) {
+		if(direction === "up") {
+			this.renderer.moveMaze(this.verticalStep, direction)
+		}
 	}
 
 	getPosition(x, y, index, dir) {

@@ -6,6 +6,9 @@ import WorldController from './WorldController'
 
 export default class {
 
+	vOffset = 0
+	play = true
+
 	constructor(world) {
 		this.canvas = document.getElementById('mazeArea')
 		this.ctx = this.canvas.getContext('2d')
@@ -18,8 +21,6 @@ export default class {
 		this.renderQueue = this.createRenderQueue()
 
 		this.mazePixelHeight = this.cellWidth * this.height
-		this.vOffset = 1
-		this.play = true
 
 		GameRenderer.pushRenderer(this.draw, this, "maze", 0)
 	}
@@ -87,12 +88,10 @@ export default class {
 		var cellX = props.mazeLoc[0] * this.cellWidth
 		var cellY = props.mazeLoc[1] * this.cellWidth
 
-		this.drawDebug(props.mazeLoc[0] * size, props.mazeLoc[1] * size)
-
-		if(!props.obj && !props.wall.closed) return
-
 		let absX = (cellX) + (props.loc[0] * size)
 		let absY = ((cellY) + (props.loc[1] * size)) - this.vOffset
+
+		if(!props.obj && !props.wall.closed) return
 
 		var wallProps = props.wall
 		var walls = false
