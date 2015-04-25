@@ -36,7 +36,7 @@ class WorldController {
 		let world = this.currentWorld
 
 		var canvas = document.getElementById('mazeArea')
-		this.verticalStep = (Math.round(canvas.width / world.width) / 3) * 0.8
+		this.verticalStep = (Math.round(canvas.width / world.width) / 3)
 
 		this.renderer = new MainRenderer(world)
 	}
@@ -60,7 +60,10 @@ class WorldController {
 
 	move(direction) {
 		if(direction === "up") {
-			this.renderer.moveMaze(this.verticalStep, direction)
+			this.renderer.moveMaze(this.verticalStep * 0.8, direction)
+		}
+		if(direction === "down") {
+			this.renderer.moveMaze(~this.verticalStep * 0.4, direction)
 		}
 	}
 
@@ -75,8 +78,8 @@ class WorldController {
 		if(!nextSubcell) return false
 
 		return {
-			x: nextSubcell.mazeLoc[0],
-			y: nextSubcell.mazeLoc[1],
+			x: nextSubcell.worldLoc[0],
+			y: nextSubcell.worldLoc[1],
 			index: nextSubcell.loc[2]
 		}
 	}
@@ -101,12 +104,12 @@ class WorldController {
 			occupied: false,
 			obj: false,
 			loc: subcell.loc,
-			mazeLoc: subcell.mazeLoc,
+			worldLoc: subcell.worldLoc,
 			index: subcell.index,
 			wall: subcell.wall
 		}
 
-		this.layout[subcell.mazeLoc[1]][subcell.mazeLoc[0]][subcell.loc[2]] = newSubcell
+		this.layout[subcell.worldLoc[1]][subcell.worldLoc[0]][subcell.loc[2]] = newSubcell
 		delete this.objects[objId]
 	}
 
@@ -120,7 +123,7 @@ class WorldController {
 			occupied: true,
 			obj: obj,
 			loc: moveTo.loc,
-			mazeLoc: moveTo.mazeLoc,
+			worldLoc: moveTo.worldLoc,
 			index: moveTo.index,
 			wall: moveTo.wall
 		}

@@ -1,8 +1,9 @@
 import { GameData } from '../data/GameData'
 import Walls from './GameObjects/static/walls/Walls'
 import Corners from './GameObjects/static/walls/Corners'
+import Cell from './GameObjects/Cell'
 
-// Parameters = x, y, real index
+// Parameters = x, y, real index, wall index
 var scLocationMap = [
 	[0, 0, 0, 0], // top left
 	[1, 0, 1, 0], // top center
@@ -162,14 +163,17 @@ export default class {
 				}
 			}
 
-			var subcell = {
+			var cellProperties = {
 				occupied: occupied,
 				obj: obj,
 				loc: location,
-				mazeLoc: [mazeX, mazeY],
+				worldLoc: [mazeX, mazeY],
 				index: location[2],
 				wall: { closed: false, walls: [], corners: [] }
 			}
+
+			var subcell = new Cell()
+			subcell.setAll(cellProperties)
 
 			this.callback(subcell)
 

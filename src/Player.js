@@ -47,8 +47,8 @@ export default class {
 		var newSubcell = move()
 
 		this.subcell = newSubcell
-		this.x = newSubcell.mazeLoc[0],
-		this.y = newSubcell.mazeLoc[1],
+		this.x = newSubcell.worldLoc[0],
+		this.y = newSubcell.worldLoc[1],
 		this.subcellIndex = newSubcell.index
 
 		return true

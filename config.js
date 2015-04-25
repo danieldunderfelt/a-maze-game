@@ -1,6 +1,7 @@
 System.config({
   "transpiler": "babel",
   "babelOptions": {
+    "stage": 0,
     "optional": [
       "runtime"
     ]

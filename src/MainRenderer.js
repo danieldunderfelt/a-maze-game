@@ -38,14 +38,12 @@ export default class {
 	}
 
 	moveMaze(increment) {
-		if(this.vOffset <= -(Math.round((this.canvas.width / this.size) / 3))) return false
 		this.verticalPosition += increment
 		return true
 	}
 
 	prepareMaze() {
 		this.vOffset = ( this.mazePixelHeight - (this.size * this.cellWidth) ) - this.verticalPosition
-
 		var subcellSize = this.cellWidth / 3
 		var layout = _.flattenDeep(WorldController.getLayout())
 
@@ -77,16 +75,16 @@ export default class {
 	}
 
 	prepareMazeCell(cell, subcellSize, layoutIndex) {
-		var cellX = cell.mazeLoc[0] * this.cellWidth
-		var cellY = cell.mazeLoc[1] * this.cellWidth
+		var cellX = cell.worldLoc[0] * this.cellWidth
+		var cellY = cell.worldLoc[1] * this.cellWidth
 
 		this.drawFloor(cellX, cellY)
 		this.prepareMazeObjects(cell, subcellSize, layoutIndex)
 	}
 
 	prepareMazeObjects(props, size, layoutIndex) {
-		var cellX = props.mazeLoc[0] * this.cellWidth
-		var cellY = props.mazeLoc[1] * this.cellWidth
+		var cellX = props.worldLoc[0] * this.cellWidth
+		var cellY = props.worldLoc[1] * this.cellWidth
 
 		let absX = (cellX) + (props.loc[0] * size)
 		let absY = ((cellY) + (props.loc[1] * size)) - this.vOffset
