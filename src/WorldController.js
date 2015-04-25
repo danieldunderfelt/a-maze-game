@@ -2,7 +2,6 @@ import { GameData } from '../data/GameData'
 import { scDirectionMap } from '../data/subcellDirectionMap'
 import { generateMaze } from './MazeGenerator'
 import WorldGenerator from './WorldGenerator'
-import MainRenderer from './MainRenderer'
 
 class WorldController {
 

@@ -1,5 +1,4 @@
 import Level from './Level'
-import GameRenderer from './GameRenderer'
 import { GameData } from '../data/GameData'
 import { Themes } from '../data/Themes'
 
@@ -26,7 +25,6 @@ class LevelLoader {
 		this.levelData = this.currentLevel.getLevelData()
 		this.levelData.level = level
 		this.currentTheme = this.getTheme()
-		console.log(this.currentTheme)
 	}
 
 	load() {

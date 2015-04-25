@@ -1,37 +1,27 @@
-import Input from './Input'
-import { preload } from '../data/assetRegistry'
-import WorldController from './WorldController'
-import GameRenderer from './GameRenderer'
-
 class GameController {
 
 	constructor() {
-		this.input = new Input()
+		this.canvas = document.getElementById('mazeArea')
 	}
 
 	initialize() {
-		var preloadPromise = new Promise(preload)
-			.then( () => System.import('./src/Game'))
-			.then(this.setupGame.bind(this))
+		this.game = new Phaser.Game(
+			this.canvas.width,
+			this.canvas.height,
+			Phaser.AUTO,
+			this.canvas,
+			null,
+			true,
+			false,
+			null
+		)
+
+		this.boot()
 	}
 
-	setupGame(game) {
-		this.game = new game.Game()
-
-		this.input.registerCallback(this.inputEvent.bind(this))
-		this.game.startLevel()
-		this.input.start()
-
-		GameRenderer.start()
-	}
-
-	inputEvent(eventData) {
-		if(eventData.type === 'move') this.playerMove(eventData)
-	}
-
-	playerMove(eventData) {
-		var playerMove = this.game.player.move(eventData.direction)
-		if(playerMove) WorldController.move(eventData.direction)
+	boot() {
+		this.game.plugins.add(new Phaser.Plugin.Isometric(this.game))
+		game.iso.anchor.setTo(0.5, 0.2);
 	}
 }
 

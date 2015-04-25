@@ -1,6 +1,5 @@
 import Player from './Player'
 import LevelLoader from './LevelLoader'
-import GameRenderer from './GameRenderer'
 
 export class Game {
 
