@@ -1,55 +1,45 @@
-import PlayerObject from './GameObjects/static/HighObject'
-import WorldController from './WorldController'
+import BaseObject from './GameObjects/BaseObject'
+import GlobalState from './GlobalState'
 
-export default class {
+class Player extends BaseObject {
 
-	constructor() {
-		this.avatar = {}
-		this.x = 0
-		this.y = 0
-		this.subcell = null
-		this.subcellIndex = null
-		this.worldData = {}
+	constructor(game) {
+		super(game)
+		this.spriteName = 'hovering_anim'
 	}
 
-	initLevel() {
-		this.avatar = new PlayerObject({controller: this})
-		this.worldData = WorldController.getCurrentWorldData()
-		this.setInitialPosition()
-	}
+	add(x, y) {
+		super.add(x, y)
+		this.object.anchor.set(0.5)
+		this.game.physics.isoArcade.enable(this.object)
+		this.object.body.collideWorldBounds = true
 
-	setInitialPosition() {
-		this.x = Math.round((this.worldData.width - 1) / 2)
-		this.y = Math.round(this.worldData.height - 1)
-		this.subcellIndex = 4
-
-		this.subcell = WorldController.insert(this.avatar, this.x, this.y, this.subcellIndex)
-	}
-
-	getPosition() {
-		return {
-			x: this.x,
-			y: this.y,
-			subcell: this.subcell
-		}
+		this.object.animations.add('hover')
+		this.object.animations.play('hover', 10, true)
 	}
 
 	move(dir) {
-		var nextPos = WorldController.getPosition(this.x, this.y, this.subcellIndex, dir)
 
-		if(!nextPos) return false
+		if (dir === "up") {
+			this.object.body.velocity.y = -GlobalState.playerState.speed
+		}
+		else if (dir === "down") {
+			this.object.body.velocity.y = GlobalState.playerState.speed
+		}
+		else {
+			this.object.body.velocity.y = 0;
+		}
 
-		var move = WorldController.moveObject(this.avatar, nextPos.x, nextPos.y, nextPos.index, dir)
-
-		if(!move) return false
-
-		var newSubcell = move()
-
-		this.subcell = newSubcell
-		this.x = newSubcell.worldLoc[0],
-		this.y = newSubcell.worldLoc[1],
-		this.subcellIndex = newSubcell.index
-
-		return true
+		if (dir === "left") {
+			this.object.body.velocity.x = -GlobalState.playerState.speed
+		}
+		else if (dir === "right") {
+			this.object.body.velocity.x = GlobalState.playerState.speed
+		}
+		else {
+			this.object.body.velocity.x = 0;
+		}
 	}
 }
+
+export default Player

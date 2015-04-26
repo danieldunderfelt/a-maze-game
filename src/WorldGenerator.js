@@ -1,4 +1,4 @@
-import { GameData } from '../data/GameData'
+import { GameData } from './data/GameData'
 import Walls from './GameObjects/static/walls/Walls'
 import Corners from './GameObjects/static/walls/Corners'
 import Cell from './GameObjects/Cell'

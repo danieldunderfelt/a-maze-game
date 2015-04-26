@@ -1,5 +1,5 @@
-import { GameData } from '../data/GameData'
-import { scDirectionMap } from '../data/subcellDirectionMap'
+import { GameData } from './data/GameData'
+import { scDirectionMap } from './data/subcellDirectionMap'
 import { generateMaze } from './MazeGenerator'
 import WorldGenerator from './WorldGenerator'
 
@@ -36,8 +36,6 @@ class WorldController {
 
 		var canvas = document.getElementById('mazeArea')
 		this.verticalStep = (Math.round(canvas.width / world.width) / 3)
-
-		this.renderer = new MainRenderer(world)
 	}
 
 	cellCallback(subcell) {

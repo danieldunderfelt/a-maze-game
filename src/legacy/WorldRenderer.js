@@ -1,6 +1,5 @@
-import { GameData} from '../data/GameData'
+import { GameData} from './data/GameData'
 import GameRenderer from './GameRenderer'
-import utils from './utils'
 import _ from 'lodash'
 import WorldController from './WorldController'
 

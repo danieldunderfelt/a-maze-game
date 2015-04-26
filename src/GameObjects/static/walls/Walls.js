@@ -1,5 +1,4 @@
 import WallObject from './WallObject'
-import { assetRegistry } from '../../../../data/assetRegistry'
 
 class TopWall extends WallObject {
 

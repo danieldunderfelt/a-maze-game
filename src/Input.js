@@ -1,47 +1,46 @@
-import $ from 'jquery'
-
 export default class {
 
-	constructor() {
-		this.callback = function() {}
-		this.enabled = false
-	}
-
-	registerCallback(callback) {
-		this.callback = callback
-	}
-
-	start() {
-		this.enable()
-		$(window).on('keydown', this.handleKeyboardInput.bind(this))
-	}
-
-	enable() {
+	constructor(game) {
+		this.game = game
 		this.enabled = true
+		this.callbacks = []
+		this.directions = this.game.input.keyboard.createCursorKeys();
+
+		this.game.input.keyboard.addKeyCapture([
+			Phaser.Keyboard.LEFT,
+			Phaser.Keyboard.RIGHT,
+			Phaser.Keyboard.UP,
+			Phaser.Keyboard.DOWN
+		])
 	}
 
-	disable() {
-		this.enabled = false
+	getDirections() {
+		return this.directions
 	}
 
-	handleKeyboardInput(e) {
+	addCallback(callback) {
+		this.callbacks.push(callback)
+	}
 
-		var dir = false
+	fireCallbacks(action) {
+		if(!this.enabled) return false
 
-		if(e.keyCode === 40) dir = 'down'
-		if(e.keyCode === 38) dir = 'up'
-		if(e.keyCode === 37) dir = 'left'
-		if(e.keyCode === 39) dir = 'right'
-
-		var eventData = {
-			type: "move",
-			direction: dir
+		if(this.callbacks.length > 0) {
+			this.callbacks.forEach((e) => e(action))
 		}
 
-		if(dir !== false) {
-			this.callback(eventData)
-		}
+		else return false
 	}
 
+	registerInput() {
+		if(this.directions.up.isDown) this.fireCallbacks('up')
+		else if(this.directions.down.isDown) this.fireCallbacks('down')
+		else if(this.directions.left.isDown) this.fireCallbacks('left')
+		else if(this.directions.right.isDown) this.fireCallbacks('right')
+		else this.fireCallbacks(null)
+	}
 
+	destroy() {
+		this.game.input.keyboard.clearCaptures()
+	}
 }

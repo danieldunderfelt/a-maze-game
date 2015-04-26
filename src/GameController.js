@@ -1,27 +1,25 @@
+import Boot from './Boot'
+
 class GameController {
 
 	constructor() {
-		this.canvas = document.getElementById('mazeArea')
+		this.width = 1000
+		this.height = 1000
 	}
 
 	initialize() {
 		this.game = new Phaser.Game(
-			this.canvas.width,
-			this.canvas.height,
+			this.width,
+			this.height,
 			Phaser.AUTO,
-			this.canvas,
+			'mazeArea',
 			null,
 			true,
-			false,
-			null
+			false
 		)
 
-		this.boot()
-	}
-
-	boot() {
-		this.game.plugins.add(new Phaser.Plugin.Isometric(this.game))
-		game.iso.anchor.setTo(0.5, 0.2);
+		this.game.state.add('boot', Boot)
+		this.game.state.start('boot')
 	}
 }
 

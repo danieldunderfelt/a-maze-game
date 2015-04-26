@@ -1,34 +1,35 @@
 import Level from './Level'
-import { GameData } from '../data/GameData'
-import { Themes } from '../data/Themes'
+import { Themes } from './data/Themes'
+import GlobalState from './GlobalState'
 
 class LevelLoader {
 
-	constructor() {
-		this.levelData = {
-			size: GameData.baseMazeSize,
-			height: GameData.baseMazeSize * GameData.initialHeightMultiplier,
-			level: 0
-		}
-
-		this.currentTheme = Themes.firstLevel
-		this.controller = {}
-		this.currentLevel = false
-
+	constructor(game) {
+		this.game = game
+		this.currentTheme = null
 	}
 
-	setController(controller) {
-		this.controller = controller
-	}
-
-	setupLevel(level) {
-		this.levelData = this.currentLevel.getLevelData()
-		this.levelData.level = level
+	init() {
 		this.currentTheme = this.getTheme()
 	}
 
-	load() {
-		this.currentLevel = new Level(this.controller, this.levelData, this.currentTheme)
+	preload() {
+		for(let asset in this.currentTheme.assets.static) {
+			this.game.load.image(asset, this.currentTheme.assets.static[asset])
+		}
+
+		for(let asset in this.currentTheme.assets.animated) {
+			var assetData = this.currentTheme.assets.animated[asset]
+			this.game.load.spritesheet(asset, assetData[0], assetData[1], assetData[2], assetData[3])
+		}
+
+		GlobalState.levelState.level++
+	}
+
+	create() {
+		var stateKey = 'level' + GlobalState.levelState.level
+		this.game.state.add(stateKey, Level)
+		this.game.state.start(stateKey, true, false, this.currentTheme)
 	}
 
 	getTheme() {
@@ -39,4 +40,4 @@ class LevelLoader {
 
 }
 
-export default new LevelLoader()
+export default LevelLoader

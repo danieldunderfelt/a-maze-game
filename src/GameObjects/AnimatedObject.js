@@ -1,5 +1,4 @@
 import BaseObject from './BaseObject'
-import GameRenderer from '../GameRenderer'
 
 export default class extends BaseObject {
 

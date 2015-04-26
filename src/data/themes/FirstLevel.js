@@ -1,5 +1,5 @@
-import DefaultObject from '../../src/GameObjects/static/DefaultObject'
-import { meta } from './meta'
+import DefaultObject from '../../GameObjects/static/DefaultObject'
+import { paths } from '../paths'
 
 export var FirstLevel = {
 	textures: {
@@ -9,19 +9,23 @@ export var FirstLevel = {
 		DefaultObject
 	],
 	assets: {
-		'hardwood_grey': textures + 'floor/hardwood_grey.png',
-		'hardwood_white': textures + 'floor/hardwood_white.png',
-		'default_sprite': sprites + 'mystery_box.png',
-		'anim_test': sprites + 'anim_test.png',
-		'high_object': sprites + 'hovering_tubes.png',
-		'hovering_anim': sprites + 'hovering_tubes_anim.png',
-		'horz_wall_closed': sprites + 'horz_wall_closed.png',
-		'horz_wall_closed_green': sprites + 'horz_wall_closed_green.png',
-		'top_wall_left': sprites + 'top_wall_left.png',
-		'top_wall_right': sprites + 'top_wall_right.png',
-		'bottom_wall_right': sprites + 'bottom_wall_right.png',
-		'bottom_wall_left': sprites + 'bottom_wall_left.png',
-		'left_wall': sprites + 'left_wall.png',
-		'right_wall': sprites + 'right_wall.png',
+		static: {
+			'hardwood_grey': paths.textures + 'floor/hardwood_grey.png',
+			'hardwood_white': paths.textures + 'floor/hardwood_white.png',
+			'default_sprite': paths.sprites + 'mystery_box.png',
+			'high_object': paths.sprites + 'hovering_tubes.png',
+			'horz_wall_closed': paths.sprites + 'horz_wall_closed.png',
+			'horz_wall_closed_green': paths.sprites + 'horz_wall_closed_green.png',
+			'top_wall_left': paths.sprites + 'top_wall_left.png',
+			'top_wall_right': paths.sprites + 'top_wall_right.png',
+			'bottom_wall_right': paths.sprites + 'bottom_wall_right.png',
+			'bottom_wall_left': paths.sprites + 'bottom_wall_left.png',
+			'left_wall': paths.sprites + 'left_wall.png',
+			'right_wall': paths.sprites + 'right_wall.png',
+		},
+		animated: {
+			'anim_test': [paths.sprites + 'anim_test.png', 32, 32, 16],
+			'hovering_anim': [paths.sprites + 'hovering_tubes_anim.png', 32, 64, 5],
+		}
 	}
 }
