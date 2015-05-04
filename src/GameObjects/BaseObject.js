@@ -12,7 +12,7 @@ export default class {
 	}
 
 	add(x, y) {
-		this.object = this.game.add.isoSprite(x, y, 0, this.spriteName, 0)
+		this.object = this.game.add.sprite(x, y, this.spriteName)
 	}
 
 	setLocationData(subcellPosition, mazeLocation, mazeCellWall) {

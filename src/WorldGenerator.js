@@ -1,6 +1,4 @@
 import { GameData } from './data/GameData'
-import Walls from './GameObjects/static/walls/Walls'
-import Corners from './GameObjects/static/walls/Corners'
 import Cell from './GameObjects/Cell'
 
 // Parameters = x, y, real index, wall index
@@ -24,9 +22,6 @@ export default class {
 		this.width = width
 		this.height = height
 		this.callback = callback
-		this.world = this.generate()
-
-		return this.world
 	}
 
 	generate() {
@@ -59,7 +54,7 @@ export default class {
 	}
 
 	defineCell(cell, subcells) {
-		this.createWalls(cell, subcells)
+		//this.createWalls(cell, subcells)
 		//this.createCorners(cell, subcells)
 	}
 

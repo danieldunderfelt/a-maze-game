@@ -14,7 +14,8 @@ class WorldController {
 		this.renderer = false
 	}
 
-	newWorld() {
+	newWorld(game) {
+		this.game = game
 		this.saveWorld()
 		this.currentWorld = {}
 		this.objects = {}
@@ -24,18 +25,15 @@ class WorldController {
 		let generatedMaze = generateMaze(width, height)
 
 		this.currentWorld.theme = theme
-		this.layout = new WorldGenerator(theme, generatedMaze, width, height, this.cellCallback.bind(this))
+		var worldGenerator = new WorldGenerator(theme, generatedMaze, width, height, this.cellCallback.bind(this))
+		this.layout = worldGenerator.generate()
 		this.currentWorld.height = this.layout.length
 		this.currentWorld.width = width
 	}
 
 	startWorld() {
-		if(this.renderer !== false) this.renderer.dispose()
-
 		let world = this.currentWorld
-
-		var canvas = document.getElementById('mazeArea')
-		this.verticalStep = (Math.round(canvas.width / world.width) / 3)
+		this.verticalStep = (Math.round(this.game.width / world.width) / 3)
 	}
 
 	cellCallback(subcell) {

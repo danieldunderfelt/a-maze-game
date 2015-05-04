@@ -10,9 +10,6 @@ class Player extends BaseObject {
 
 	add(x, y) {
 		super.add(x, y)
-		this.object.anchor.set(0.5)
-		this.game.physics.isoArcade.enable(this.object)
-		this.object.body.collideWorldBounds = true
 
 		this.object.animations.add('hover')
 		this.object.animations.play('hover', 10, true)
@@ -21,23 +18,19 @@ class Player extends BaseObject {
 	move(dir) {
 
 		if (dir === "up") {
-			this.object.body.velocity.y = -GlobalState.playerState.speed
+			this.object.y += -GlobalState.playerState.speed
 		}
-		else if (dir === "down") {
-			this.object.body.velocity.y = GlobalState.playerState.speed
-		}
-		else {
-			this.object.body.velocity.y = 0;
+
+		if (dir === "down") {
+			this.object.y += GlobalState.playerState.speed
 		}
 
 		if (dir === "left") {
-			this.object.body.velocity.x = -GlobalState.playerState.speed
+			this.object.x += -GlobalState.playerState.speed
 		}
-		else if (dir === "right") {
-			this.object.body.velocity.x = GlobalState.playerState.speed
-		}
-		else {
-			this.object.body.velocity.x = 0;
+
+		if (dir === "right") {
+			this.object.x += GlobalState.playerState.speed
 		}
 	}
 }

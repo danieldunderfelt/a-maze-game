@@ -1,6 +1,14 @@
+import WorldController from './WorldController'
+
 class WorldRenderer {
 
-	constructor() {
+	constructor(game) {
+		this.game = game
+	}
+
+	initialize() {
 
 	}
 }
+
+export default WorldRenderer

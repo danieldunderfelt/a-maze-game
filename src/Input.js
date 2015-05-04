@@ -34,10 +34,9 @@ export default class {
 
 	registerInput() {
 		if(this.directions.up.isDown) this.fireCallbacks('up')
-		else if(this.directions.down.isDown) this.fireCallbacks('down')
-		else if(this.directions.left.isDown) this.fireCallbacks('left')
-		else if(this.directions.right.isDown) this.fireCallbacks('right')
-		else this.fireCallbacks(null)
+		if(this.directions.down.isDown) this.fireCallbacks('down')
+		if(this.directions.left.isDown) this.fireCallbacks('left')
+		if(this.directions.right.isDown) this.fireCallbacks('right')
 	}
 
 	destroy() {

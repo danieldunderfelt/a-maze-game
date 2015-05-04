@@ -12,7 +12,7 @@ class GlobalState {
 		}
 
 		this.playerState = {
-			speed: 500
+			speed: 10
 		}
 
 		this.game = {}

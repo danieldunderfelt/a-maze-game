@@ -22,14 +22,18 @@ class LevelLoader {
 			var assetData = this.currentTheme.assets.animated[asset]
 			this.game.load.spritesheet(asset, assetData[0], assetData[1], assetData[2], assetData[3])
 		}
-
-		GlobalState.levelState.level++
 	}
 
 	create() {
+		this.setLevel()
+
 		var stateKey = 'level' + GlobalState.levelState.level
 		this.game.state.add(stateKey, Level)
 		this.game.state.start(stateKey, true, false, this.currentTheme)
+	}
+
+	setLevel() {
+		GlobalState.levelState.level++
 	}
 
 	getTheme() {

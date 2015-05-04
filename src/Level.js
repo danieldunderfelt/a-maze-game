@@ -16,9 +16,8 @@ export default class {
 	}
 
 	create() {
-		//this.setWorld()
+		this.setWorld()
 		this.setPlayer()
-		this.connectInput()
 	}
 
 	update() {
@@ -34,11 +33,8 @@ export default class {
 	setPlayer() {
 		this.player = GlobalState.getPlayer()
 		this.player.add(0, 0)
-	}
 
-	connectInput() {
-		var input = GlobalState.input
-		input.addCallback(this.player.move.bind(this.player))
+		GlobalState.input.addCallback(this.player.move.bind(this.player))
 		this.game.camera.follow(this.player.object)
 	}
 }
