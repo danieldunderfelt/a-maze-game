@@ -1,11 +1,9 @@
-import GameRenderer from './GameRenderer'
-import PlayerObject from './GameObjects/static/HighObject'
 import WorldController from './WorldController'
 
 export default class {
 
 	constructor() {
-		this.avatar = {}
+		this.avatar = this.createPlayerAvatar()
 		this.x = 0
 		this.y = 0
 		this.subcell = null
@@ -33,6 +31,10 @@ export default class {
 			y: this.y,
 			subcell: this.subcell
 		}
+	}
+
+	createPlayerAvatar() {
+
 	}
 
 	move(dir) {

@@ -1,5 +1,3 @@
-import { GameData } from '../data/GameData'
-import { scDirectionMap } from '../data/subcellDirectionMap'
 import { generateMaze } from './MazeGenerator'
 import WorldGenerator from './WorldGenerator'
 import MainRenderer from './MainRenderer'
@@ -16,17 +14,14 @@ class WorldController {
 	}
 
 	newWorld() {
-		this.saveWorld()
 		this.currentWorld = {}
 		this.objects = {}
 	}
 
-	generateWorld(theme, width, height) {
+	generateWorld(width, height) {
 		let generatedMaze = generateMaze(width, height)
-
-		this.currentWorld.theme = theme
-		this.layout = new WorldGenerator(theme, generatedMaze, width, height, this.cellCallback.bind(this))
-		this.currentWorld.height = this.layout.length
+		this.layout = new WorldGenerator(generatedMaze, width, height, this.cellCallback.bind(this))
+		this.currentWorld.height = height
 		this.currentWorld.width = width
 	}
 
@@ -52,10 +47,6 @@ class WorldController {
 
 	getLayout() {
 		return this.layout
-	}
-
-	saveWorld() {
-
 	}
 
 	move(direction) {

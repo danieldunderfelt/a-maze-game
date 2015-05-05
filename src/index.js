@@ -1,6 +1,6 @@
-import $ from 'jquery'
 import GameController from './GameController'
 
-$(() => {
-	GameController.initialize()
-})
+(() => {
+	let game = new GameController()
+	game.initialize()
+})()

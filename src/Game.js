@@ -1,23 +1,26 @@
 import Player from './Player'
-import LevelLoader from './LevelLoader'
-import GameRenderer from './GameRenderer'
+import WorldController from './WorldController'
+import MainRenderer from './MainRenderer'
 
-export class Game {
+class Game {
+
+	baseSize = 10
+	initialHeightMultiplier = 1
+	heightExpansion = 2
 
 	constructor() {
 		this.player = new Player()
 		this.level = 0
-
-		LevelLoader.setController(this)
+		this.renderer = new MainRenderer()
 	}
 
-	startLevel() {
-		this.currentLevel = LevelLoader.load(this.level)
+	initialize() {
+
 	}
 
-	nextLevel() {
-		this.level++
-		LevelLoader.setupLevel(this.level)
-		this.startLevel()
+	createWorld() {
+
 	}
 }
+
+export default Game
