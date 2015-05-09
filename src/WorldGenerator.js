@@ -13,22 +13,23 @@ export default class {
 	}
 
 	generate() {
+		console.log(this.maze)
 		let definedCells = this.defineWorld()
-		let interactiveCells = this.setInteractions(definedCells)
+		let interactiveWorld = this.setInteractions(definedCells)
 
-		return populatedWorld
+		return interactiveWorld
 	}
 
 	defineWorld() {
-		var mazeData = this.maze
 		var traversedCells = []
 		var index = 0
 
-		for(var my = 0; my < mazeData.length; my++) {
-			var curRow = mazeData[my]
+		for(let my = 0; my < this.maze.length; my++) {
+			let curRow = this.maze[my]
 
-			for(var mx = 0; mx < curRow.length; mx++) {
-				traversedCells.push(this.defineCell(curRow[mx], mx, my, index))
+			for(let mx = 0; mx < curRow.length; mx++) {
+				let loc = {x: mx, y: my}
+				traversedCells.push(this.defineCell(curRow[mx], loc, index))
 				index++
 			}
 		}
@@ -36,11 +37,9 @@ export default class {
 		return traversedCells
 	}
 
-	defineCell(walls, mazeX, mazeY, index) {
-		var wallClosed = false
-
+	defineCell(walls, loc, index) {
 		var cellProperties = {
-			loc: {x: mazeX, y: mazeY},
+			loc: loc,
 			index: index,
 			walls: walls,
 			actions: []
@@ -53,9 +52,9 @@ export default class {
 	}
 
 	setInteractions(cells) {
-		for(let c = 0; c < cells.length; c++) {
+		/*for(let c = 0; c < cells.length; c++) {
 			var cell = cells[c]
-		}
+		}*/
 
 		return cells
 	}

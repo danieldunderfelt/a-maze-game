@@ -5,8 +5,7 @@ import MainRenderer from './MainRenderer'
 class Game {
 
 	baseSize = 10
-	initialHeightMultiplier = 1
-	heightExpansion = 2
+	heightMultiplier = 1
 
 	constructor() {
 		this.player = new Player()
@@ -15,11 +14,13 @@ class Game {
 	}
 
 	initialize() {
-
+		this.createWorld()
 	}
 
 	createWorld() {
-
+		WorldController.newWorld()
+		WorldController.generateWorld(this.baseSize, this.baseSize * this.heightMultiplier)
+		this.renderer.addWorld(WorldController.getCurrentWorldData(), WorldController.getLayout())
 	}
 }
 

@@ -25,20 +25,8 @@ class WorldController {
 		this.currentWorld.width = width
 	}
 
-	startWorld() {
-		if(this.renderer !== false) this.renderer.dispose()
-
-		let world = this.currentWorld
-
-		var canvas = document.getElementById('mazeArea')
-		this.verticalStep = (Math.round(canvas.width / world.width) / 3)
-
-		this.renderer = new MainRenderer(world)
-	}
-
-	cellCallback(subcell) {
-		var objId = subcell.obj.id
-		this.objects[objId] = subcell
+	cellCallback(cell) {
+		//
 	}
 
 	getCurrentWorldData() {
