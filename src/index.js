@@ -1,6 +1,10 @@
-import GameController from './GameController'
+import WorldController from './WorldController'
+import MainRenderer from './MainRenderer'
+import DemoState from './DemoState'
 
 (() => {
-	let game = new GameController()
-	game.initialize()
+	let renderer = new MainRenderer()
+	WorldController.newWorld()
+	WorldController.generateWorld(DemoState.size, DemoState.size)
+	renderer.addWorld(WorldController.getCurrentWorldData(), WorldController.getLayout())
 })()

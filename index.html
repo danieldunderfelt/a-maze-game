@@ -5,12 +5,62 @@
 	<meta charset="UTF-8">
 	<title>Something</title>
 
+	<link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,200,600,900' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/style.css">
 
 </head>
 <body>
 	<div class="container">
 		<div class="game-area" id="gameArea"></div>
+		<nav class="effects-nav">
+			<ul>
+				<li>
+					Overall color
+					<ul>
+						<li>
+							<input type="range" min="0" max="255"><span id="colorDisplay"></span>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Procedural drawing
+					<ul>
+						<li>
+							Easing:
+							<select id="easing-select" class="effect-select">
+								<option value="off">Off</option>
+								<option value="linear" selected>Linear</option>
+								<option value="bounce">Bounce</option>
+								<option value="swing">Swing</option>
+							</select>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Mirroring
+					<ul>
+						<li>
+							<label>
+								<input type="radio" value="false" name="mirroring" checked>
+								Off
+							</label>
+							<label>
+								<input type="radio" value="vertical" name="mirroring">
+								Vertical
+							</label>
+							<label>
+								<input type="radio" value="horizontal" name="mirroring">
+								Horizontal
+							</label>
+							<label>
+								<input type="radio" value="diagonal" name="mirroring">
+								Diagonal
+							</label>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
 	</div>
 
 	<script src="jspm_packages/system.js"></script>

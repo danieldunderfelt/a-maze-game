@@ -28,7 +28,7 @@ class Cell {
 		this.graphic.clear()
 
 		this.graphic.beginFill(0x000000, 0)
-		this.graphic.lineStyle(1.5, 0xffffff, 1)
+		this.graphic.lineStyle(1.5, 0x16435f, 1)
 
 		this.graphic.moveTo(this.renderLoc.x, this.renderLoc.y)
 		if(this.walls[0] === 0) this.graphic.lineTo(this.renderLoc.x + cs, this.renderLoc.y)

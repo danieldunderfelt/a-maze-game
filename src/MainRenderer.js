@@ -1,15 +1,14 @@
-import utils from './utils'
-import _ from 'lodash'
+//import _ from 'lodash'
 import PIXI from 'pixi.js'
 
-export default class {
+class MainRenderer {
 
 	vOffset = 0
 	play = true
 
 	constructor() {
 		var canvasContainer = document.getElementById('gameArea')
-		this.screenSize = canvasContainer.offsetHeight
+		this.screenSize = canvasContainer.offsetWidth
 
 		this.renderer = new PIXI.WebGLRenderer(this.screenSize + 1, this.screenSize, {
 			autoResize: true,
@@ -17,7 +16,13 @@ export default class {
 			resolution: window.devicePixelRatio || 1
 		})
 
-		this.renderer.backgroundColor = 0x050505
+		window.addEventListener("resize", (e) => {
+			this.screenSize = canvasContainer.offsetWidth
+			this.renderer.resize(this.screenSize + 1, this.screenSize)
+			this.setCellSize()
+		})
+
+		this.renderer.backgroundColor = 0x030305
 		canvasContainer.appendChild(this.renderer.view)
 
 		this.stage = new PIXI.Container()
@@ -34,9 +39,13 @@ export default class {
 
 	}
 
+	setCellSize() {
+		this.cellSize = this.screenSize / this.world.width
+	}
+
 	addWorld(worldData, worldLayout) {
 		this.world = worldData
-		this.cellSize = this.screenSize / worldData.width
+		this.setCellSize()
 
 		let container = new PIXI.Container()
 		this.worldObject = this.preprocessWorld(container, worldLayout)
@@ -55,7 +64,7 @@ export default class {
 	}
 
 	updateWorld() {
-		//this.worldObject.y += this.renderVOffset
+		this.worldObject.y += 0 //this.renderVOffset
 
 		for(let c = 0; c < this.cells.length; c++) {
 			this.cells[c].draw(this.cellSize)
@@ -73,3 +82,5 @@ export default class {
 		requestAnimationFrame(this.draw.bind(this))
 	}
 }
+
+export default MainRenderer

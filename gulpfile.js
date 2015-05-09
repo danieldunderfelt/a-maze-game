@@ -9,7 +9,8 @@ gulp.task('browser-sync', function() {
     	server: {
     		baseDir: "./"
     	},
-        open: false
+        open: false,
+        notify: false
     });
 });
 
@@ -19,9 +20,7 @@ gulp.task('bs-reload', function () {
 
 gulp.task('sass', function() {
 	return gulp.src('scss/style.scss')
-		.pipe(sass({
-			errLogToConsole: true
-		}))
+		.pipe(sass().on("error", sass.logError))
 		.pipe(autoprefixer())
 		.pipe(gulp.dest('css'))
 		.pipe(reload({stream: true}))

@@ -13,7 +13,6 @@ export default class {
 	}
 
 	generate() {
-		console.log(this.maze)
 		let definedCells = this.defineWorld()
 		let interactiveWorld = this.setInteractions(definedCells)
 
