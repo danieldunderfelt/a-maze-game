@@ -18,11 +18,13 @@ class WorldController {
 		this.objects = {}
 	}
 
-	generateWorld(width, height) {
+	generateWorld(width, height, callback) {
 		let generatedMaze = generateMaze(width, height)
 		this.layout = new WorldGenerator(generatedMaze, width, height, this.cellCallback.bind(this))
 		this.currentWorld.height = height
 		this.currentWorld.width = width
+
+		callback()
 	}
 
 	cellCallback(cell) {

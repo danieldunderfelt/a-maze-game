@@ -43,6 +43,14 @@ class Cell {
 		if(this.walls[3] === 0) this.graphic.lineTo(this.renderLoc.x, (this.renderLoc.y + cs) - cs)
 
 		this.graphic.endFill()
+
+		/*
+		var debug = new PIXI.Text(this.index, {font: '14px Arial', fill: '#ffffff'})
+		debug.x = this.renderLoc.x + (cs / 2)
+		debug.y = this.renderLoc.y + (cs / 2)
+
+		this.graphic.addChild(debug)
+		*/
 	}
 
 	getDrawlength(fullLength) {

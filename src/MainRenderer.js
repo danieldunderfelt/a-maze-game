@@ -10,10 +10,11 @@ class MainRenderer {
 		var canvasContainer = document.getElementById('gameArea')
 		this.screenSize = canvasContainer.offsetWidth
 
-		this.renderer = new PIXI.WebGLRenderer(this.screenSize + 1, this.screenSize, {
+		this.renderer = new PIXI.WebGLRenderer(this.screenSize + 1, this.screenSize + 1, {
 			autoResize: true,
 			antialias: true,
-			resolution: window.devicePixelRatio || 1
+			resolution: window.devicePixelRatio || 1,
+			transparent: true
 		})
 
 		window.addEventListener("resize", (e) => {
@@ -22,7 +23,6 @@ class MainRenderer {
 			this.setCellSize()
 		})
 
-		this.renderer.backgroundColor = 0x030305
 		canvasContainer.appendChild(this.renderer.view)
 
 		this.stage = new PIXI.Container()
@@ -31,6 +31,9 @@ class MainRenderer {
 		this.worldObject = {}
 		this.renderOffset = {x: 0, y: 0}
 		this.cells = []
+		this.walkerPath = []
+		this.pathContainer = new PIXI.Container()
+		this.stage.addChild(this.pathContainer)
 
 		this.draw()
 	}
@@ -46,11 +49,41 @@ class MainRenderer {
 	addWorld(worldData, worldLayout) {
 		this.world = worldData
 		this.setCellSize()
+		this.walkerPath = []
+		this.pathContainer.removeChildren()
 
 		let container = new PIXI.Container()
-		this.worldObject = this.preprocessWorld(container, worldLayout)
 
+		this.stage.removeChild(this.worldObject)
+		this.worldObject = this.preprocessWorld(container, worldLayout)
 		this.stage.addChild(this.worldObject)
+	}
+
+	setWalkerPath(pathObj) {
+		var renderPathObj = {
+			graphic: new PIXI.Graphics(),
+			path: pathObj
+		}
+
+		this.pathContainer.addChild(renderPathObj.graphic)
+		this.walkerPath.push(renderPathObj)
+	}
+
+	renderPath() {
+
+		for(let wp = 0; wp < this.walkerPath.length; wp++) {
+			let pathObj = this.walkerPath[wp]
+			pathObj.graphic.clear()
+
+			let color = wp === 0 ? 0x5599ee : 0xdd3322
+			pathObj.graphic.beginFill(color, 1)
+			pathObj.graphic.lineStyle(0, 0x000000, 0)
+
+			let x = (pathObj.path.loc.x * this.cellSize) + (this.cellSize / 3)
+			let y = (pathObj.path.loc.y * this.cellSize) + (this.cellSize / 3)
+
+			pathObj.graphic.drawRect(x, y, this.cellSize / 3, this.cellSize / 3)
+		}
 	}
 
 	preprocessWorld(container, worldData) {
@@ -64,20 +97,15 @@ class MainRenderer {
 	}
 
 	updateWorld() {
-		this.worldObject.y += 0 //this.renderVOffset
+		this.renderPath()
 
 		for(let c = 0; c < this.cells.length; c++) {
 			this.cells[c].draw(this.cellSize)
 		}
 	}
 
-	updatePlayer() {
-
-	}
-
 	draw() {
 		this.updateWorld()
-		this.updatePlayer()
 		this.renderer.render(this.stage)
 		requestAnimationFrame(this.draw.bind(this))
 	}
