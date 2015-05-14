@@ -79,8 +79,8 @@ class MainRenderer {
 			pathObj.graphic.beginFill(color, 1)
 			pathObj.graphic.lineStyle(0, 0x000000, 0)
 
-			let x = (pathObj.path.loc.x * this.cellSize) + (this.cellSize / 3)
-			let y = (pathObj.path.loc.y * this.cellSize) + (this.cellSize / 3)
+			let x = (pathObj.path.x * this.cellSize) + (this.cellSize / 3)
+			let y = (pathObj.path.y * this.cellSize) + (this.cellSize / 3)
 
 			pathObj.graphic.drawRect(x, y, this.cellSize / 3, this.cellSize / 3)
 		}
